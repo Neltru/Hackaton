@@ -1,0 +1,103 @@
+<div class="page-container">
+  <div class="page-header">
+    <a routerLink="/company/vacantes" class="back-link">&larr; Volver a Vacantes</a>
+    <h1 class="page-title">{{ isEditMode ? 'Editar Vacante' : 'Publicar Nueva Vacante' }}</h1>
+    <p class="page-subtitle">Llena los detalles para tu oferta laboral.</p>
+  </div>
+
+  <div class="card-container">
+    <form [formGroup]="vacanteForm" (ngSubmit)="onSubmit()" class="job-form">
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="title">Título del puesto *</label>
+          <input type="text" id="title" formControlName="title" placeholder="Ej. Desarrollador Web">
+        </div>
+        
+        <div class="form-group">
+          <label for="area">Área / Departamento *</label>
+          <input type="text" id="area" formControlName="area" placeholder="Ej. Tecnología">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="salary">Rango Salarial *</label>
+        <input type="text" id="salary" formControlName="salary" placeholder="Ej. $20,000 - $30,000 MXN">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción del puesto *</label>
+        <textarea id="description" formControlName="description" rows="4" placeholder="Describe las responsabilidades..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="requirements">Requisitos *</label>
+        <textarea id="requirements" formControlName="requirements" rows="4" placeholder="Experiencia, habilidades, etc."></textarea>
+      </div>
+
+      <!-- Sección de Perfil Idóneo (Benchmark) -->
+      <div class="benchmark-section" formGroupName="benchmark">
+        <h3 class="section-subtitle">Perfil Idóneo (Benchmark)</h3>
+        <p class="section-desc">Establece el puntaje mínimo aceptable (0-100%) para cada dimensión. Esto servirá como eje de comparación con los postulantes.</p>
+        
+        <div class="benchmark-grid">
+          <!-- Deslizadores -->
+          <div class="sliders-container">
+            
+            <div class="slider-group">
+              <div class="slider-header">
+                <label for="psicometrico">Psicométrico</label>
+                <span class="slider-value">{{ vacanteForm.get('benchmark.psicometrico')?.value }}%</span>
+              </div>
+              <input type="range" id="psicometrico" formControlName="psicometrico" min="0" max="100" class="styled-slider psicometrico-slider">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <label for="cognitivo">Cognitivo</label>
+                <span class="slider-value">{{ vacanteForm.get('benchmark.cognitivo')?.value }}%</span>
+              </div>
+              <input type="range" id="cognitivo" formControlName="cognitivo" min="0" max="100" class="styled-slider cognitivo-slider">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <label for="tecnico">Técnico</label>
+                <span class="slider-value">{{ vacanteForm.get('benchmark.tecnico')?.value }}%</span>
+              </div>
+              <input type="range" id="tecnico" formControlName="tecnico" min="0" max="100" class="styled-slider tecnico-slider">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <label for="proyectivo">Proyectivo</label>
+                <span class="slider-value">{{ vacanteForm.get('benchmark.proyectivo')?.value }}%</span>
+              </div>
+              <input type="range" id="proyectivo" formControlName="proyectivo" min="0" max="100" class="styled-slider proyectivo-slider">
+            </div>
+
+          </div>
+
+          <!-- Resumen Visual (Mini Radar Simulator) -->
+          <div class="visual-summary">
+            <h4>Balance del Perfil</h4>
+            <div class="radar-placeholder">
+              <div class="bar bar-psi" [style.height.%]="vacanteForm.get('benchmark.psicometrico')?.value"><span>Psi</span></div>
+              <div class="bar bar-cog" [style.height.%]="vacanteForm.get('benchmark.cognitivo')?.value"><span>Cog</span></div>
+              <div class="bar bar-tec" [style.height.%]="vacanteForm.get('benchmark.tecnico')?.value"><span>Tec</span></div>
+              <div class="bar bar-pro" [style.height.%]="vacanteForm.get('benchmark.proyectivo')?.value"><span>Pro</span></div>
+            </div>
+            <p class="radar-note">Visualización base para Spider Chart</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-outline" routerLink="/company/vacantes">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="vacanteForm.invalid">
+          {{ isEditMode ? 'Guardar Cambios' : 'Publicar Vacante' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

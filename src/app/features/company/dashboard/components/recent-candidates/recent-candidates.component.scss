@@ -1,0 +1,131 @@
+.card-container {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  .card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+.btn-outline-small {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--text-muted);
+  }
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.candidates-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  
+  th {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 0.85rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  td {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.col-id {
+  color: var(--text-muted);
+  width: 5%;
+}
+
+.col-candidate {
+  width: 25%;
+}
+
+.avatar-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e2e8f0; /* light gray for initials background */
+  color: #1e293b; /* dark text for initials */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.candidate-name {
+  font-weight: 500;
+}
+
+.col-job {
+  width: 25%;
+}
+
+.col-stage {
+  width: 20%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+
+  &.success { background-color: var(--success); }
+  &.warning { background-color: var(--warning); }
+  &.info { background-color: var(--info); }
+  &.neutral { background-color: var(--text-muted); }
+}
+
+.col-date {
+  width: 15%;
+  color: var(--text-muted);
+}
+
+.col-action {
+  width: 10%;
+  text-align: right;
+}

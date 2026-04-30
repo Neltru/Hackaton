@@ -1,0 +1,120 @@
+.card-container {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  .card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+.btn-outline-small {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--text-muted);
+  }
+}
+
+.jobs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.job-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.job-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.job-icon-inner {
+  font-size: 1.2rem;
+}
+
+.job-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .job-title {
+    font-weight: 500;
+    color: var(--text-main);
+    font-size: 1rem;
+  }
+
+  .job-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+}
+
+.job-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+
+  .badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    &.success {
+      background-color: var(--badge-bg-success);
+      color: var(--badge-text-success);
+    }
+    &.warning {
+      background-color: var(--badge-bg-warning);
+      color: var(--badge-text-warning);
+    }
+    &.info {
+      background-color: var(--badge-bg-info);
+      color: var(--badge-text-info);
+    }
+  }
+
+  .applications-count {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+}

@@ -1,0 +1,94 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CompanyReportesService, MetricasVacantes, EmpleadoUT } from '../services/company-reportes.service';
+import { ExportService } from '../../../core/services/export.service';
+
+@Component({
+  selector: 'app-reportes',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './reportes.component.html',
+  styleUrl: './reportes.component.scss'
+})
+export class ReportesComponent implements OnInit {
+  metricas!: MetricasVacantes;
+  plantilla: EmpleadoUT[] = [];
+
+  // Modal State
+  isModalOpen = false;
+  selectedEmpleado: EmpleadoUT | null = null;
+  evaluacionForm = {
+    estrellas: 5,
+    comentarios: ''
+  };
+
+  constructor(
+    private reportesService: CompanyReportesService,
+    private exportService: ExportService
+  ) {}
+
+  ngOnInit(): void {
+    this.reportesService.getMetricas().subscribe(m => this.metricas = m);
+    this.reportesService.getPlantillaUT().subscribe(p => this.plantilla = p);
+  }
+
+  // --- Export Actions ---
+  exportPDF(): void {
+    this.exportService.exportToPdfViaPrint('Reporte_Analitica_y_Plantilla_UT');
+  }
+
+  exportExcel(): void {
+    // Formatear datos para exportación limpia
+    const exportData = this.plantilla.map(e => ({
+      'ID Empleado': e.id,
+      'Nombre': e.nombre,
+      'Puesto': e.puesto,
+      'Fecha de Contratación': new Date(e.fechaContratacion).toLocaleDateString(),
+      'Calificación (Estrellas)': e.evaluacion?.estrellas || 'Pendiente',
+      'Comentarios de Desempeño': e.evaluacion?.comentarios || 'N/A'
+    }));
+
+    this.exportService.exportToCsv(exportData, 'Plantilla_UT', ['ID Empleado', 'Nombre', 'Puesto', 'Fecha de Contratación', 'Calificación (Estrellas)', 'Comentarios de Desempeño']);
+  }
+
+  // --- Modal Logic ---
+  openEvaluarModal(empleado: EmpleadoUT): void {
+    this.selectedEmpleado = empleado;
+    this.evaluacionForm = {
+      estrellas: empleado.evaluacion?.estrellas || 5,
+      comentarios: empleado.evaluacion?.comentarios || ''
+    };
+    this.isModalOpen = true;
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    this.selectedEmpleado = null;
+  }
+
+  setStars(stars: number): void {
+    this.evaluacionForm.estrellas = stars;
+  }
+
+  saveEvaluacion(): void {
+    if (this.selectedEmpleado && this.evaluacionForm.comentarios.trim()) {
+      this.reportesService.evaluarEmpleado(
+        this.selectedEmpleado.id,
+        this.evaluacionForm.estrellas,
+        this.evaluacionForm.comentarios
+      );
+      this.closeModal();
+    }
+  }
+
+  // --- Chart Helpers ---
+  getMaxPostulaciones(): number {
+    if (!this.metricas) return 100;
+    return Math.max(...this.metricas.postulacionesPorPuesto.map(p => p.postulaciones));
+  }
+
+  getStars(rating: number): string {
+    return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+  }
+}

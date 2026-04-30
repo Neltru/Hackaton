@@ -45,3 +45,48 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* Print Styles for PDF Export */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  .sidebar, .topbar, .filters-panel, .btn-primary, .btn-outline, button {
+    display: none !important;
+  }
+  
+  .page-container, .main-content, .layout-grid, .results-panel {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    grid-template-columns: 1fr !important;
+    border: none !important;
+    background: white !important;
+  }
+  
+  .card, .candidate-card, .kpi-card {
+    border: 1px solid #ccc !important;
+    background: white !important;
+    page-break-inside: avoid;
+    color: black !important;
+  }
+
+  .text-muted, .dim-label, .career {
+    color: #555 !important;
+  }
+
+  /* Add Institutional Logo Header via pseudo-element */
+  body::before {
+    content: 'Universidad Tecnológica (UT) - Reporte Institucional';
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #333;
+  }
+}

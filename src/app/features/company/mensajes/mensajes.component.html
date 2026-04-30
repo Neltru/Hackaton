@@ -1,0 +1,76 @@
+<div class="chat-layout">
+  
+  <!-- Inbox Column -->
+  <aside class="inbox-panel">
+    <div class="inbox-header">
+      <h2>Mensajes</h2>
+      <div class="search-box">
+        <input type="text" placeholder="Buscar conversación...">
+      </div>
+    </div>
+
+    <div class="conversation-list">
+      <div *ngIf="conversations.length === 0" class="empty-inbox">
+        <p>No tienes mensajes activos.</p>
+      </div>
+
+      <div class="conv-item" *ngFor="let conv of conversations" 
+           [class.active]="activeConversation?.id === conv.id"
+           (click)="selectConversation(conv)">
+        <div class="avatar-box">{{ conv.candidato?.nombre?.charAt(0) || '?' }}</div>
+        <div class="conv-info">
+          <div class="conv-header">
+            <h4>{{ conv.candidato?.nombre }}</h4>
+            <span class="time">{{ conv.lastMessageAt | date:'shortTime' }}</span>
+          </div>
+          <p class="vacante-name">Vacante: {{ conv.vacante?.title }}</p>
+          <p class="preview-text">{{ conv.messages[conv.messages.length - 1]?.text }}</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Chat Column -->
+  <main class="chat-panel" *ngIf="activeConversation; else noChatSelected">
+    <div class="chat-header">
+      <div class="chat-title">
+        <div class="avatar-box small">{{ activeConversation.candidato?.nombre?.charAt(0) }}</div>
+        <div>
+          <h3>{{ activeConversation.candidato?.nombre }}</h3>
+          <span class="status">Postulante - {{ activeConversation.vacante?.title }}</span>
+        </div>
+      </div>
+      <div class="chat-actions">
+        <button class="btn-outline">Ver Perfil</button>
+      </div>
+    </div>
+
+    <div class="chat-messages" #chatScroll>
+      <div class="message-wrapper" *ngFor="let msg of activeConversation.messages" 
+           [ngClass]="{'sent': msg.sender === 'company', 'received': msg.sender === 'egresado'}">
+        <div class="message-bubble">
+          <p>{{ msg.text }}</p>
+          <span class="msg-time">{{ msg.timestamp | date:'shortTime' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" [(ngModel)]="newMessageText" (keyup.enter)="sendMessage()" placeholder="Escribe un mensaje aquí...">
+      <button class="btn-send" (click)="sendMessage()" [disabled]="!newMessageText.trim()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </main>
+
+  <ng-template #noChatSelected>
+    <main class="chat-panel empty-chat">
+      <div class="empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="empty-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <h3>Tus Mensajes</h3>
+        <p>Selecciona una conversación del panel izquierdo para comenzar a chatear.</p>
+      </div>
+    </main>
+  </ng-template>
+
+</div>

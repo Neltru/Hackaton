@@ -1,0 +1,50 @@
+<div class="layout-container">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-box">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+      </div>
+      <div class="company-info">
+        <h1 class="company-name">TechnoVerde S.A. de C.V.</h1>
+        <span class="subtitle">Panel de empresa &middot; Bolsa de Trabajo</span>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <nav class="nav-links">
+        <a routerLink="/company/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+        <a routerLink="/company/vacantes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Vacantes</a>
+        <a routerLink="/company/mensajes" routerLinkActive="active">Mensajes</a>
+        <a routerLink="/company/reportes" routerLinkActive="active">Analítica</a>
+      </nav>
+
+      <div class="badges-container">
+        <!-- Badge de Estado de Convenio -->
+        <div class="agreement-badge" [ngClass]="hasAgreement ? 'agreement-active' : 'agreement-inactive'">
+          <span class="dot"></span>
+          {{ hasAgreement ? 'Con convenio' : 'Sin convenio' }}
+        </div>
+        
+        <div class="rfc-badge">
+          RFC: <strong>TEC980301A82</strong>
+        </div>
+      </div>
+      <button class="btn-new-job" 
+              [disabled]="!hasAgreement" 
+              [attr.title]="!hasAgreement ? 'Requiere convenio activo para publicar' : ''"
+              routerLink="/company/vacantes/new">
+        + Nueva vacante
+      </button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

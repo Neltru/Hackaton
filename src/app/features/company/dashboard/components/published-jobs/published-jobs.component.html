@@ -1,0 +1,24 @@
+<div class="card-container">
+  <div class="card-header">
+    <h3 class="card-title">Vacantes publicadas</h3>
+    <button class="btn-outline-small">Ver todas</button>
+  </div>
+
+  <div class="jobs-list">
+    <div class="job-item" *ngFor="let job of jobs">
+      <div class="job-icon-container" [style.background]="job.iconBg">
+        <div class="job-icon-inner">{{ job.iconInitials }}</div>
+      </div>
+      
+      <div class="job-info">
+        <div class="job-title">{{ job.title }}</div>
+        <div class="job-meta">{{ job.location }} &middot; {{ job.salary }}</div>
+      </div>
+      
+      <div class="job-stats">
+        <span class="badge" [ngClass]="job.statusClass">{{ job.status }}</span>
+        <span class="applications-count">{{ job.applicationsCount }} postulaciones</span>
+      </div>
+    </div>
+  </div>
+</div>
