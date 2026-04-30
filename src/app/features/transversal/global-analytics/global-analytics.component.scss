@@ -99,23 +99,9 @@
   .card-body { padding: 1.5rem; }
 }
 
-.chart-container {
-  height: 180px;
-  display: flex;
-  flex-direction: column;
-  
-  .line-chart {
-    flex: 1;
-    width: 100%;
-    overflow: visible;
-  }
-
-  .x-axis {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-    span { font-size: 0.7rem; color: #555; }
-  }
+.apex-chart-container {
+  min-height: 350px;
+  width: 100%;
 }
 
 .distribution-list {

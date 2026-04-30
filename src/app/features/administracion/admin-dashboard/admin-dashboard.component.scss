@@ -179,6 +179,74 @@
   }
 }
 
+// ─── Charts Grid (RF-34) ────────────────────────────────────────────────────────
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+
+  .chart-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: border-color 0.3s;
+
+    &:hover {
+      border-color: #3a3a3a;
+    }
+
+    .chart-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      .header-icon {
+        font-size: 1.4rem;
+        background: rgba(255, 255, 255, 0.03);
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #eee;
+      }
+
+      p {
+        margin: 0.2rem 0 0;
+        font-size: 0.8rem;
+        color: #666;
+      }
+    }
+
+    .chart-body {
+      flex: 1;
+      min-height: 250px;
+      position: relative;
+    }
+
+    &.side-chart {
+      .chart-body {
+        height: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+}
+
 // ─── Main Grid ──────────────────────────────────────────────────────────────────
 .main-grid {
   display: grid;

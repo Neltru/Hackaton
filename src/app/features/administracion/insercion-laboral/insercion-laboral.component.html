@@ -53,37 +53,13 @@
 
     <!-- Chart Section -->
     <div class="chart-section">
-      <h2 class="section-title">% inserción por carrera</h2>
-      
-      <div class="chart-container">
-        <!-- Target Line (Meta 70%) -->
-        <div class="target-line" [style.left.%]="metaInsercion"></div>
+      <h2 class="section-title">Análisis de inserción por carrera (ApexCharts)</h2>
 
-        <div class="bar-row" *ngFor="let item of carreras; let i = index" [style.--delay]="i * 0.05 + 's'">
-          <div class="bar-label">{{ item.carrera }}</div>
-          <div class="bar-track-wrapper">
-            <div class="bar-track">
-              <!-- Actual progress bar -->
-              <div 
-                class="bar-fill" 
-                [style.width.%]="item.porcentaje"
-              ></div>
-            </div>
-            <div class="bar-value">{{ item.porcentaje }}</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Legend -->
-      <div class="chart-legend">
-        <div class="legend-item">
-          <span class="legend-color fill-color"></span>
-          <span class="legend-text">% contratados</span>
-        </div>
-        <div class="legend-item">
-          <span class="legend-color meta-color"></span>
-          <span class="legend-text">Meta ({{ metaInsercion }}%)</span>
-        </div>
+      <div class="chart-container-apex">
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+          [plotOptions]="chartOptions.plotOptions" [colors]="chartOptions.colors" [dataLabels]="chartOptions.dataLabels"
+          [grid]="chartOptions.grid" [tooltip]="chartOptions.tooltip" [annotations]="chartOptions.annotations">
+        </apx-chart>
       </div>
     </div>
   </ng-container>

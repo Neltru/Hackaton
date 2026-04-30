@@ -5,8 +5,6 @@
   
   --border-color: #333;
   --bg-card: #222;
-  --blue-color: #8bb8f8; // Light blue for histogram bars
-  --green-color: #10b981; // Green for Gauss curve
 }
 
 // ─── Page Header ───────────────────────────────────────────────────────────────
@@ -54,14 +52,8 @@
   background-position: right 1rem center;
   background-size: 1.2em;
 
-  &:hover {
-    border-color: #777;
-  }
-
-  option {
-    background: #222;
-    color: #fff;
-  }
+  &:hover { border-color: #777; }
+  option { background: #222; color: #fff; }
 }
 
 // ─── Stats Row ──────────────────────────────────────────────────────────────────
@@ -101,92 +93,24 @@
   }
 }
 
-// ─── Chart Section (Histogram + Gauss) ──────────────────────────────────────────
-.chart-section {
-  margin-bottom: 3rem;
+// ─── Chart Section (Apex) ──────────────────────────────────────────────────────
+.chart-section-apex {
+  background: #1a1a1a;
+  border: 1px solid #2e2e2e;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
 
   .section-title {
-    font-size: 1rem;
+    margin: 0 0 2rem 0;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin: 0 0 1.5rem 0;
-    color: #ccc;
+    color: #eee;
   }
 }
 
-.histogram-container {
-  background: var(--bg-card);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  height: 280px;
-  position: relative;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.gauss-curve {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  right: 2rem;
-  bottom: 3rem; // Keep space for x-axis labels
-  width: calc(100% - 4rem);
-  height: calc(100% - 5rem);
-  z-index: 2;
-  pointer-events: none;
-  
-  path {
-    animation: drawLine 2s ease-out forwards;
-    stroke-dasharray: 1500;
-    stroke-dashoffset: 1500;
-  }
-  
-  text {
-    opacity: 0;
-    animation: fadeIn 0.5s ease 1.5s forwards;
-  }
-}
-
-.bars-container {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  width: 100%;
-  height: calc(100% - 1.5rem); // Leave space for labels
-  gap: 2px;
-  z-index: 1;
-}
-
-.histogram-bar {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  .bar-fill {
-    width: 100%;
-    background-color: var(--blue-color);
-    border: 1px solid rgba(0,0,0,0.2);
-    border-bottom: none;
-    transform-origin: bottom;
-    animation: growUp 1s ease-out both;
-  }
-}
-
-.x-axis-labels {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 0.5rem;
-  
-  span {
-    flex: 1;
-    text-align: center;
-    font-size: 0.7rem;
-    color: #666;
-  }
+.mixed-chart-container {
+  min-height: 400px;
 }
 
 // ─── Data Table Section ─────────────────────────────────────────────────────────
@@ -227,21 +151,10 @@
     vertical-align: middle;
   }
 
-  tr:last-child td {
-    border-bottom: none;
-  }
-
-  tr:hover td {
-    background: rgba(255, 255, 255, 0.02);
-  }
-
-  .font-bold {
-    font-weight: 700;
-  }
-
-  .text-white {
-    color: #fff;
-  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255, 255, 255, 0.02); }
+  .font-bold { font-weight: 700; }
+  .text-white { color: #fff; }
 }
 
 // ─── Loading ────────────────────────────────────────────────────────────────────
@@ -264,42 +177,18 @@
   }
 }
 
-// ─── Animations ─────────────────────────────────────────────────────────────────
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes growUp {
-  from { transform: scaleY(0); }
-  to   { transform: scaleY(1); }
-}
-
-@keyframes drawLine {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 900px) {
-  .stats-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .header-right.filters {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .header-right.filters { flex-direction: column; gap: 0.5rem; }
 }
 
 @media (max-width: 500px) {
-  .stats-row {
-    grid-template-columns: 1fr;
-  }
+  .stats-row { grid-template-columns: 1fr; }
 }

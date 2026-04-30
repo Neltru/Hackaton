@@ -34,57 +34,21 @@
       </div>
     </div>
 
-    <!-- Map Visualization -->
-    <div class="map-visualization">
-      
-      <!-- Legend Left -->
-      <div class="map-legend-left">
-        <div class="legend-scale">
-          <div class="color-box alta"></div>
-          <div class="color-box media-alta"></div>
-          <div class="color-box media"></div>
-          <div class="color-box baja"></div>
-        </div>
-        <div class="legend-labels">
-          <span>Alta</span>
-          <span>Baja</span>
-        </div>
+    <!-- Map Visualization (ApexCharts Treemap) -->
+    <div class="map-visualization-apex">
+      <div class="chart-header">
+        <h2 class="section-title">Concentración Geográfica (Treemap)</h2>
+        <p class="section-desc">Visualización de convenios por región y volumen de actividad</p>
       </div>
-
-      <!-- Map Area -->
-      <div class="map-area">
-        <div class="map-container">
-          
-          <!-- Nayarit (Large, automatico) -->
-          <div class="region region-large region-automatico">
-            <div class="region-content">
-              <strong>Nayarit</strong>
-              <span>31 convenios</span>
-            </div>
-          </div>
-
-          <!-- JAL (Medium, contratacion) -->
-          <div class="region region-medium region-contratacion-30">
-            <div class="region-content">
-              <strong>JAL · 5</strong>
-            </div>
-          </div>
-
-          <!-- CDMX (Medium, contratacion) -->
-          <div class="region region-medium region-contratacion-40 offset-top">
-            <div class="region-content">
-              <strong>CDMX · 7</strong>
-            </div>
-          </div>
-
-          <!-- NL (Small, contratacion) -->
-          <div class="region region-small region-contratacion-10 offset-bottom">
-            <div class="region-content">
-              <strong>NL · 5</strong>
-            </div>
-          </div>
-
-        </div>
+      <div class="treemap-container">
+        <apx-chart
+          [series]="treemapOptions.series"
+          [chart]="treemapOptions.chart"
+          [title]="treemapOptions.title"
+          [colors]="treemapOptions.colors"
+          [plotOptions]="treemapOptions.plotOptions"
+          [tooltip]="treemapOptions.tooltip">
+        </apx-chart>
       </div>
     </div>
 

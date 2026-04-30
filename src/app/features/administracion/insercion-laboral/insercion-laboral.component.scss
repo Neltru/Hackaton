@@ -97,6 +97,11 @@
 
 // ─── Chart Section ──────────────────────────────────────────────────────────────
 .chart-section {
+  background: #1a1a1a;
+  border: 1px solid #2e2e2e;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  
   .section-title {
     font-size: 1.1rem;
     font-weight: 700;
@@ -105,12 +110,25 @@
   }
 }
 
-.chart-container {
+.chart-container-apex {
+  margin-bottom: 3rem;
+  min-height: 350px;
+}
+
+.section-subtitle {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.details-list {
+  border-top: 1px solid #2e2e2e;
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  position: relative;
-  padding-right: 2rem; // space for the value number
 }
 
 // Target line spanning all bars

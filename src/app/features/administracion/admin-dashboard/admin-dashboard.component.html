@@ -33,6 +33,46 @@
     </div>
   </div>
 
+  <!-- Charts Row (RF-34) -->
+  <div class="charts-grid">
+    <div class="chart-card main-chart">
+      <div class="chart-header">
+        <div class="header-icon">📈</div>
+        <div class="header-info">
+          <h3>Tendencia de Formalización</h3>
+          <p>Convenios firmados en los últimos 9 meses (ApexCharts)</p>
+        </div>
+      </div>
+      <div class="chart-body">
+        <apx-chart
+          [series]="apexChartOptions.series"
+          [chart]="apexChartOptions.chart"
+          [xaxis]="apexChartOptions.xaxis"
+          [yaxis]="apexChartOptions.yaxis"
+          [stroke]="apexChartOptions.stroke"
+          [colors]="apexChartOptions.colors"
+          [fill]="apexChartOptions.fill"
+          [dataLabels]="apexChartOptions.dataLabels"
+          [grid]="apexChartOptions.grid"
+          [tooltip]="apexChartOptions.tooltip">
+        </apx-chart>
+      </div>
+    </div>
+
+    <div class="chart-card side-chart">
+      <div class="chart-header">
+        <div class="header-icon">🍩</div>
+        <div class="header-info">
+          <h3>Distribución por Área</h3>
+          <p>Egresados por carrera (Chart.js)</p>
+        </div>
+      </div>
+      <div class="chart-body doughnut-container">
+        <canvas id="distributionChart"></canvas>
+      </div>
+    </div>
+  </div>
+
   <!-- Main Grid: Quick Links + Activity -->
   <div class="main-grid">
 

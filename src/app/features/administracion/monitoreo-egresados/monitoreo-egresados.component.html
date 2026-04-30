@@ -51,29 +51,22 @@
     </div>
 
     <!-- Chart Section (Histogram + Gauss) -->
-    <div class="chart-section">
-      <h2 class="section-title">Distribución de puntajes combinados (4 pruebas)</h2>
-      
-      <div class="histogram-container">
-        <!-- SVG for the Gauss Curve Overlay -->
-        <svg class="gauss-curve" viewBox="0 0 800 200" preserveAspectRatio="none">
-          <path [attr.d]="getGaussPath()" fill="none" stroke="#10b981" stroke-width="3"></path>
-          <!-- Meta tag label (approximate center for the mockup visual) -->
-          <text x="50%" y="15%" fill="#3b82f6" font-size="12" text-anchor="middle" font-weight="bold">µ = {{ stats.promedioGlobal }}</text>
-        </svg>
-
-        <!-- CSS Bars for the Histogram -->
-        <div class="bars-container">
-          <div class="histogram-bar" *ngFor="let point of histograma; let i = index">
-            <!-- Normalized height based on max height 100 for visual mockup -->
-            <div class="bar-fill" [style.height.%]="point.frecuencia" [style.animation-delay]="i * 0.05 + 's'"></div>
-          </div>
-        </div>
-        
-        <!-- X Axis labels placeholder -->
-        <div class="x-axis-labels">
-          <span *ngFor="let point of histograma">{{ point.rango }}</span>
-        </div>
+    <div class="chart-section-apex">
+      <h2 class="section-title">Distribución de puntajes y Campana de Gauss (ApexCharts)</h2>
+      <div class="mixed-chart-container">
+        <apx-chart
+          [series]="mixedChartOptions.series"
+          [chart]="mixedChartOptions.chart"
+          [xaxis]="mixedChartOptions.xaxis"
+          [yaxis]="mixedChartOptions.yaxis"
+          [labels]="mixedChartOptions.labels"
+          [stroke]="mixedChartOptions.stroke"
+          [plotOptions]="mixedChartOptions.plotOptions"
+          [fill]="mixedChartOptions.fill"
+          [colors]="mixedChartOptions.colors"
+          [grid]="mixedChartOptions.grid"
+          [tooltip]="mixedChartOptions.tooltip">
+        </apx-chart>
       </div>
     </div>
 

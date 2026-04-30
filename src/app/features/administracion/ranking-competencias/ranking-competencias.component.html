@@ -25,6 +25,25 @@
 
   <ng-container *ngIf="!isLoading && ranking">
     
+    <!-- Radar Overview Section -->
+    <div class="chart-radar-section">
+      <h2 class="section-title">Mapa de Competencias — Vista Holística (ApexCharts Radar)</h2>
+      <div class="radar-container">
+        <apx-chart
+          [series]="radarOptions.series"
+          [chart]="radarOptions.chart"
+          [xaxis]="radarOptions.xaxis"
+          [yaxis]="radarOptions.yaxis"
+          [stroke]="radarOptions.stroke"
+          [colors]="radarOptions.colors"
+          [fill]="radarOptions.fill"
+          [markers]="radarOptions.markers"
+          [grid]="radarOptions.grid"
+          [tooltip]="radarOptions.tooltip">
+        </apx-chart>
+      </div>
+    </div>
+
     <!-- Parallel Columns Section -->
     <div class="parallel-columns">
       
@@ -66,25 +85,19 @@
 
     <!-- Tendencia mensual -->
     <div class="tendencia-section">
-      <h2 class="section-title">Tendencia mensual — top 3 habilidades</h2>
-      
-      <div class="tendencia-chart-placeholder">
-        <!-- A CSS-based mock of a line chart just to look good -->
-        <svg viewBox="0 0 800 200" class="mock-line-chart">
-          <!-- Grid lines -->
-          <line x1="0" y1="50" x2="800" y2="50" stroke="#333" stroke-width="1" stroke-dasharray="4" />
-          <line x1="0" y1="100" x2="800" y2="100" stroke="#333" stroke-width="1" stroke-dasharray="4" />
-          <line x1="0" y1="150" x2="800" y2="150" stroke="#333" stroke-width="1" stroke-dasharray="4" />
-          
-          <!-- Line 1 (Blue) -->
-          <path d="M0,150 Q100,140 200,100 T400,60 T600,40 T800,20" fill="none" stroke="#3b82f6" stroke-width="3" />
-          <!-- Line 2 (Green) -->
-          <path d="M0,180 Q100,160 200,120 T400,100 T600,80 T800,50" fill="none" stroke="#10b981" stroke-width="3" />
-          <!-- Line 3 (Purple) -->
-          <path d="M0,190 Q100,180 200,170 T400,140 T600,120 T800,90" fill="none" stroke="#8b5cf6" stroke-width="3" />
-        </svg>
-        
-        <div class="placeholder-text">Gráfica de líneas · datos por mes</div>
+      <h2 class="section-title">Tendencia mensual — top habilidades demandadas (ApexCharts)</h2>
+      <div class="line-chart-container">
+        <apx-chart
+          [series]="lineOptions.series"
+          [chart]="lineOptions.chart"
+          [xaxis]="lineOptions.xaxis"
+          [stroke]="lineOptions.stroke"
+          [colors]="lineOptions.colors"
+          [markers]="lineOptions.markers"
+          [grid]="lineOptions.grid"
+          [tooltip]="lineOptions.tooltip"
+          [legend]="lineOptions.legend">
+        </apx-chart>
       </div>
     </div>
 
