@@ -7,7 +7,6 @@ import { AlumniLayoutComponent } from './core/layout/alumni-layout/alumni-layout
 import { DashboardComponent as AlumniDashboardComponent } from './features/alumni/dashboard/dashboard.component';
 import { VacantesComponent } from './features/alumni/vacantes/vacantes.component';
 import { CompanyLayoutComponent } from './core/layout/company-layout/company-layout.component';
-import { DashboardComponent as CompanyDashboardComponent } from './features/company/dashboard/dashboard.component';
 import { PerfilComponent } from './features/alumni/perfil/perfil.component';
 import { PruebasComponent } from './features/alumni/pruebas/pruebas.component';
 
@@ -30,6 +29,10 @@ import { GlobalAnalyticsComponent } from './features/transversal/global-analytic
 import { PruebasSotComponent } from './features/transversal/pruebas-sot/pruebas-sot.component';
 import { MatchingMotorComponent } from './features/transversal/matching-motor/matching-motor.component';
 
+// --- Company ---
+import { DashboardComponent as CompanyDashboardComponent } from './features/company/dashboard/dashboard.component';
+
+
 export const routes: Routes = [
   // ── Auth ────────────────────────────────────────────────────────────────────
   { path: 'login', component: LoginComponent },
@@ -38,7 +41,6 @@ export const routes: Routes = [
     path: 'alumni',
     component: AlumniLayoutComponent,
     children: [
-develop-Neltru
       { path: 'dashboard', component: AlumniDashboardComponent },
       { path: 'vacantes', component: VacantesComponent },
       { path: 'perfil', component: PerfilComponent },
@@ -57,7 +59,7 @@ develop-Neltru
       { path: 'vacantes/:id/candidatos', loadComponent: () => import('./features/company/vacantes/vacante-candidatos/vacante-candidatos.component').then(m => m.VacanteCandidatosComponent) },
       { path: 'mensajes', loadComponent: () => import('./features/company/mensajes/mensajes.component').then(m => m.MensajesComponent) },
       { path: 'reportes', loadComponent: () => import('./features/company/reportes/reportes.component').then(m => m.ReportesComponent) },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' 
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
 
@@ -81,7 +83,7 @@ develop-Neltru
       { path: 'sistema/pruebas-sot', component: PruebasSotComponent },
       { path: 'sistema/matching', component: MatchingMotorComponent },
       // próximamente: postulaciones, alumnos, vacantes
-      { path: '',             redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
 

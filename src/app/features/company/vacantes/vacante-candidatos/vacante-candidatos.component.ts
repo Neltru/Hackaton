@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CompanyVacantesService, CompanyVacante } from '../../../../core/services/company-vacantes.service';
-import { CompanyCandidatosService, CandidatoIdoneo } from '../../services/company-candidatos.service';
-import { CompanyMensajesService } from '../../services/company-mensajes.service';
+import { CompanyCandidatosService, CandidatoIdoneo } from '../../../../core/services/company-candidatos.service';
+import { CompanyMensajesService } from '../../../../core/services/company-mensajes.service';
 import { ExportService } from '../../../../core/services/export.service';
 
 @Component({

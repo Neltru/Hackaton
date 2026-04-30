@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CompanyReportesService, MetricasVacantes, EmpleadoUT } from '../services/company-reportes.service';
+import { CompanyReportesService, MetricasVacantes, EmpleadoUT } from '../../../core/services/company-reportes.service';
 import { ExportService } from '../../../core/services/export.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ReportesComponent implements OnInit {
   constructor(
     private reportesService: CompanyReportesService,
     private exportService: ExportService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.reportesService.getMetricas().subscribe(m => this.metricas = m);

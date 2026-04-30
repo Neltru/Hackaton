@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@ang
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CompanyMensajesService, Conversation } from '../services/company-mensajes.service';
+import { CompanyMensajesService, Conversation } from '../../../core/services/company-mensajes.service';
 
 @Component({
   selector: 'app-mensajes',
@@ -21,7 +21,7 @@ export class MensajesComponent implements OnInit, AfterViewChecked {
   constructor(
     private mensajesService: CompanyMensajesService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Suscribirse a los cambios en las conversaciones
@@ -70,6 +70,6 @@ export class MensajesComponent implements OnInit, AfterViewChecked {
       if (this.chatScrollContainer) {
         this.chatScrollContainer.nativeElement.scrollTop = this.chatScrollContainer.nativeElement.scrollHeight;
       }
-    } catch(err) { }
+    } catch (err) { }
   }
 }
