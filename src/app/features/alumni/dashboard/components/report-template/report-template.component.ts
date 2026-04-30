@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TestResult } from '../../../../../core/services/tests.service';
+import { AlumniProfile } from '../../../../../core/models/alumni-profile.models';
 
 @Component({
   selector: 'app-report-template',
@@ -10,7 +11,6 @@ import { TestResult } from '../../../../../core/services/tests.service';
     <div id="report-content" class="report-wrapper">
       <header class="pdf-header">
         <div class="logo-area">
-          <!-- Placeholder para el logo UT de la Costa -->
           <div class="ut-logo">UT <span>DE LA COSTA</span></div>
         </div>
         <div class="title-area">
@@ -22,11 +22,11 @@ import { TestResult } from '../../../../../core/services/tests.service';
       <section class="user-info">
         <div class="info-group">
           <label>Nombre del Egresado:</label>
-          <p>{{ profile?.fullName }}</p>
+          <p>{{ getFullName() }}</p>
         </div>
         <div class="info-group">
           <label>Carrera:</label>
-          <p>Técnico Superior Universitario / Ingeniería</p>
+          <p>{{ profile?.carrera_nombre || 'Técnico Superior Universitario / Ingeniería' }}</p>
         </div>
         <div class="info-group">
           <label>Fecha de Emisión:</label>
@@ -149,7 +149,12 @@ import { TestResult } from '../../../../../core/services/tests.service';
   `]
 })
 export class ReportTemplateComponent {
-  @Input() profile: any;
+  @Input() profile: AlumniProfile | null = null;
   @Input() tests: TestResult[] = [];
   date = new Date();
+
+  getFullName(): string {
+    if (!this.profile) return '';
+    return `${this.profile.nombre} ${this.profile.apellido_paterno} ${this.profile.apellido_materno || ''}`;
+  }
 }

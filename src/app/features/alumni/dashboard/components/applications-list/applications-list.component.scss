@@ -1,6 +1,7 @@
 .applications-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 74, 67, 0.05);
   border-radius: 1.5rem;
   padding: 1.5rem;
   height: 100%;
@@ -11,8 +12,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
-  h3 { margin: 0; font-size: 1.1rem; }
-  .btn-text { background: none; border: none; color: var(--primary); font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+  h3 { margin: 0; font-size: 1.1rem; color: var(--primary); font-weight: 700; }
+  .btn-text { background: none; border: none; color: var(--accent); font-size: 0.85rem; font-weight: 600; cursor: pointer; }
 }
 
 .app-item {
@@ -24,7 +25,7 @@
   &:last-child { border-bottom: none; }
 
   .job-info {
-    h4 { margin: 0; font-size: 0.95rem; font-weight: 600; }
+    h4 { margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--text-main); }
     p { margin: 0.25rem 0 0; font-size: 0.8rem; color: var(--text-muted); }
   }
 }
@@ -36,16 +37,30 @@
 }
 
 .btn-hired {
-  padding: 0.4rem 0.8rem;
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--badge-bg-success);
+  color: var(--badge-text-success);
   border: 1px solid rgba(34, 197, 94, 0.2);
   border-radius: 0.5rem;
   font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
-  &:hover { background: #22c55e; color: white; }
+  
+  .hired-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+  }
+
+  &:hover { 
+    background: var(--success); 
+    color: white;
+    .hired-icon { filter: brightness(0) invert(1); }
+  }
 }
 
 .status-badge {
@@ -54,17 +69,17 @@
   font-size: 0.75rem;
   font-weight: 700;
   
-  &.status-review { background: rgba(79, 140, 246, 0.1); color: #4f8cf6; }
-  &.status-interview { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
-  &.status-closed { background: rgba(255, 255, 255, 0.05); color: var(--text-muted); }
+  &.status-review { background: var(--badge-bg-info); color: var(--badge-text-info); }
+  &.status-interview { background: var(--badge-bg-success); color: var(--badge-text-success); }
+  &.status-closed { background: var(--badge-bg-neutral); color: var(--badge-text-neutral); }
 }
 
 // Modal Styles
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 74, 67, 0.4);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,14 +87,15 @@
 }
 
 .modal-content {
-  width: 90%;
+  width: 95%;
   max-width: 500px;
   padding: 2.5rem;
   border-radius: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   text-align: left;
+  color: var(--text-main);
 
-  h3 { margin: 0 0 1rem; font-size: 1.5rem; }
+  h3 { margin: 0 0 1rem; font-size: 1.5rem; color: var(--primary); }
   p { color: var(--text-muted); line-height: 1.5; margin-bottom: 2rem; }
 
   .form-group {
@@ -88,25 +104,25 @@
     input {
       width: 100%;
       padding: 1rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: #f1f5f4;
       border: 1px solid var(--border-color);
       border-radius: 0.75rem;
-      color: white;
-      &:focus { border-color: var(--primary); outline: none; }
+      color: var(--text-main);
+      &:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(0, 74, 67, 0.1); }
     }
-    small { display: block; margin-top: 0.5rem; color: #cc9900; font-size: 0.75rem; font-weight: 500; }
+    small { display: block; margin-top: 0.5rem; color: var(--secondary); font-size: 0.75rem; font-weight: 600; }
   }
 }
 
 .modal-actions {
   display: flex;
   gap: 1rem;
-  button { flex: 1; padding: 1rem; border-radius: 1rem; font-weight: 700; cursor: pointer; }
-  .btn-secondary { background: rgba(255, 255, 255, 0.05); color: white; border: 1px solid var(--border-color); }
-  .btn-primary { background: var(--primary); color: white; border: none; }
+  button { flex: 1; padding: 1rem; border-radius: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .btn-secondary { background: white; color: var(--text-muted); border: 1px solid var(--border-color); &:hover { background: #fafafa; } }
+  .btn-primary { background: var(--primary); color: white; border: none; &:hover { background: var(--primary-hover); transform: translateY(-2px); } }
 }
 
 .glass-effect {
-  background: rgba(26, 32, 44, 0.9);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 25px 50px -12px rgba(0, 74, 67, 0.25);
 }

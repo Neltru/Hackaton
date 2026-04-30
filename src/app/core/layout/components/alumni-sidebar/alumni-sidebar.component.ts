@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
           <span class="logo-box">UT</span>
           <div class="logo-text">
             <span class="main">ALUMNO</span>
-            <span class="sub">DE LA COSTA</span>
+            <span class="sub"><span class="highlight">DE LA</span> COSTA</span>
           </div>
         </div>
       </div>
@@ -70,30 +70,38 @@ import { RouterModule } from '@angular/router';
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 4px 0 24px rgba(0, 74, 67, 0.03);
     }
 
     .sidebar-header {
-      padding: 2rem 1.5rem;
+      padding: 2.5rem 1.5rem;
       .logo {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.85rem;
         
         .logo-box {
-          background: var(--primary);
+          background: var(--primary-gradient);
           color: white;
-          padding: 0.5rem;
-          border-radius: 0.5rem;
+          padding: 0.6rem;
+          border-radius: 0.75rem;
           font-weight: 800;
-          font-size: 1.2rem;
+          font-size: 1.3rem;
+          box-shadow: 0 4px 12px rgba(0, 74, 67, 0.2);
         }
 
         .logo-text {
           display: flex;
           flex-direction: column;
           line-height: 1.1;
-          .main { font-weight: 700; font-size: 1.1rem; color: var(--text-main); letter-spacing: 1px; }
-          .sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
+          .main { font-weight: 800; font-size: 1.2rem; color: var(--primary); letter-spacing: 0.5px; }
+          .sub { 
+            font-size: 0.7rem; 
+            color: var(--text-muted); 
+            font-weight: 700; 
+            text-transform: uppercase;
+            .highlight { color: var(--secondary); }
+          }
         }
       }
     }
@@ -104,44 +112,52 @@ import { RouterModule } from '@angular/router';
       overflow-y: auto;
 
       .nav-section {
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
         label {
           display: block;
-          padding: 0 1.5rem;
-          font-size: 0.7rem;
-          font-weight: 700;
+          padding: 0 1.75rem;
+          font-size: 0.75rem;
+          font-weight: 800;
           color: var(--text-muted);
-          letter-spacing: 1.5px;
-          margin-bottom: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          margin-bottom: 1rem;
+          opacity: 0.6;
         }
       }
 
       .nav-item {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding: 0.85rem 1.5rem;
+        gap: 1rem;
+        padding: 0.85rem 1.75rem;
         color: var(--text-muted);
         text-decoration: none;
         font-size: 0.95rem;
-        font-weight: 500;
-        transition: all 0.2s;
-        border-left: 3px solid transparent;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 4px solid transparent;
 
         &:hover {
           background: var(--sidebar-hover);
-          color: var(--text-main);
+          color: var(--primary);
+          padding-left: 2rem;
         }
 
         &.active {
           color: var(--primary);
-          background: rgba(79, 140, 246, 0.05);
-          border-left-color: var(--primary);
-          font-weight: 600;
+          background: #f0f7f4;
+          border-left: 4px solid var(--primary);
+          font-weight: 700;
+          svg { stroke: var(--primary); }
         }
 
-        svg { opacity: 0.7; }
-        &.active svg { opacity: 1; }
+        svg { 
+          opacity: 0.8; 
+          transition: all 0.3s;
+          stroke: currentColor;
+        }
+        &:hover svg { transform: translateX(2px); }
       }
     }
 
@@ -152,29 +168,37 @@ import { RouterModule } from '@angular/router';
       .user-pill {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 1rem;
+        gap: 0.85rem;
+        padding: 1rem;
+        background: #f0f7f4;
+        border-radius: 1.25rem;
+        transition: all 0.2s;
+        cursor: pointer;
+
+        &:hover {
+          background: #e9f5ee;
+          transform: translateY(-2px);
+        }
 
         .avatar {
-          width: 36px;
-          height: 36px;
-          background: var(--primary);
+          width: 40px;
+          height: 40px;
+          background: var(--primary-gradient);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 700;
-          font-size: 0.8rem;
+          font-size: 0.9rem;
           color: white;
+          box-shadow: 0 4px 8px rgba(45, 106, 79, 0.15);
         }
 
         .user-info {
           display: flex;
           flex-direction: column;
-          .name { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
-          .role { font-size: 0.7rem; color: var(--text-muted); }
+          .name { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
+          .role { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
         }
       }
     }

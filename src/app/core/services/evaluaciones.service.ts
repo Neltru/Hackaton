@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ResultadoPrueba } from '../models/evaluaciones.models';
+import { API_CONFIG } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EvaluacionesService {
-  private apiUrl = 'https://api.hackaton-project.com';
+  private apiUrl = API_CONFIG.baseUrl;
 
   constructor(private http: HttpClient) {}
 

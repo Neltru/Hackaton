@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { AuthResponse, LoginRequest, RecoverPasswordRequest, StandardResponse } from '../models/auth.models';
+import { API_CONFIG } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://api.hackaton-project.com/auth';
+  private apiUrl = `${API_CONFIG.baseUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 

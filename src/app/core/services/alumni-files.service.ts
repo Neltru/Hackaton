@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DriveFileRef } from '../models/alumni-profile.models';
+import { API_CONFIG } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumniFilesService {
-  private readonly baseUrl = 'https://api.hackaton-project.com/alumni/profile';
+  private readonly baseUrl = `${API_CONFIG.baseUrl}/alumni/profile`;
 
   constructor(private readonly http: HttpClient) {}
 
