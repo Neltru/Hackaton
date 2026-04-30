@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, map, tap, catchError, of } from 'rxjs';
+import { API_CONFIG } from '../constants/api.constants';
+import { MOCK_TESTS } from '../mocks/alumni-mock.data';
 
 export interface TestResult {
   id: string;
@@ -15,45 +18,15 @@ export interface TestResult {
   providedIn: 'root'
 })
 export class TestsService {
-  // Estado inicial simulando que ya hizo 3 de 4 pruebas tras registrarse
-  private readonly tests$ = new BehaviorSubject<TestResult[]>([
-    {
-      id: 'psico',
-      name: 'Evaluación Psicométrica',
-      category: 'Psicométrica',
-      completed: true,
-      score: 88,
-      completedAt: new Date('2024-04-20'),
-      description: 'Rasgos de personalidad y trabajo en equipo.'
-    },
-    {
-      id: 'cogni',
-      name: 'Prueba Cognitiva',
-      category: 'Cognitiva',
-      completed: true,
-      score: 91,
-      completedAt: new Date('2024-04-20'),
-      description: 'Potencial de aprendizaje y razonamiento lógico.'
-    },
-    {
-      id: 'tech',
-      name: 'Examen Técnico de Carrera',
-      category: 'Técnica',
-      completed: true,
-      score: 85,
-      completedAt: new Date('2024-04-21'),
-      description: 'Conocimientos específicos de tu área profesional.'
-    },
-    {
-      id: 'proy',
-      name: 'Prueba Proyectiva',
-      category: 'Proyectiva',
-      completed: false,
-      description: 'Estabilidad emocional y rasgos profundos de personalidad.'
-    }
-  ]);
+  private readonly apiUrl = `${API_CONFIG.baseUrl}/alumni/pruebas/resultados`;
+
+  // Estado inicial con datos simulados (mock)
+  private readonly tests$ = new BehaviorSubject<TestResult[]>(MOCK_TESTS);
+
+  constructor(private readonly http: HttpClient) { }
 
   getTests(): Observable<TestResult[]> {
+    this.refreshTests().subscribe();
     return this.tests$.asObservable();
   }
 
@@ -84,10 +57,14 @@ export class TestsService {
         ? { ...t, completed: true, score, completedAt: new Date() }
         : t
     );
-    this.tests$.next(updatedTests);
+    this.tests$.next(updatedTests); // Optimistic UI
 
-    // Aquí persistiríamos en localStorage o API real
-    localStorage.setItem('alumni_tests_results', JSON.stringify(updatedTests));
+    this.http.post(this.apiUrl, {
+      id,
+      score
+    }).pipe(
+      catchError(() => of(null))
+    ).subscribe(() => this.refreshTests().subscribe());
   }
 
   getCompletionStats(): Observable<{ completed: number, total: number }> {
@@ -101,5 +78,108 @@ export class TestsService {
 
   completeProyectiva(): void {
     this.saveTestResult('proy', 85);
+  }
+
+  private refreshTests(): Observable<TestResult[]> {
+    return this.http.get<any>(this.apiUrl).pipe(
+      map((response) => {
+        const rows = response?.data || response?.resultados || response || [];
+        if (!Array.isArray(rows)) return this.getDefaultTests();
+
+        const mapped = rows.map((item: any) => this.toTestResult(item));
+        return this.mergeWithDefaults(mapped);
+      }),
+      tap((tests) => this.tests$.next(tests)),
+      catchError(() => of(MOCK_TESTS))
+    );
+  }
+
+  private toTestResult(item: any): TestResult {
+    const id = this.normalizeTestId(item.id || item.test_id || item.tipo || item.category);
+    return {
+      id,
+      name: item.name || item.nombre || this.getDefaultName(id),
+      category: this.toCategory(item.category || item.categoria || id),
+      completed: Boolean(item.completed ?? item.completada ?? item.score != null),
+      score: item.score != null ? Number(item.score) : undefined,
+      completedAt: item.completedAt || item.completed_at || item.fecha ? new Date(item.completedAt || item.completed_at || item.fecha) : undefined,
+      description: item.description || item.descripcion || this.getDefaultDescription(id)
+    };
+  }
+
+  private mergeWithDefaults(incoming: TestResult[]): TestResult[] {
+    const defaults = this.getDefaultTests();
+    const byId = new Map(incoming.map((t) => [t.id, t]));
+    return defaults.map((base) => byId.get(base.id) ? { ...base, ...byId.get(base.id)! } : base);
+  }
+
+  private getDefaultTests(): TestResult[] {
+    return [
+      {
+        id: 'psico',
+        name: 'Evaluación Psicométrica',
+        category: 'Psicométrica',
+        completed: false,
+        description: 'Rasgos de personalidad y trabajo en equipo.'
+      },
+      {
+        id: 'cogni',
+        name: 'Prueba Cognitiva',
+        category: 'Cognitiva',
+        completed: false,
+        description: 'Potencial de aprendizaje y razonamiento lógico.'
+      },
+      {
+        id: 'tech',
+        name: 'Examen Técnico de Carrera',
+        category: 'Técnica',
+        completed: false,
+        description: 'Conocimientos específicos de tu área profesional.'
+      },
+      {
+        id: 'proy',
+        name: 'Prueba Proyectiva',
+        category: 'Proyectiva',
+        completed: false,
+        description: 'Estabilidad emocional y rasgos profundos de personalidad.'
+      }
+    ];
+  }
+
+  private normalizeTestId(raw: string): string {
+    const value = String(raw || '').toLowerCase();
+    if (value.includes('psico')) return 'psico';
+    if (value.includes('cog')) return 'cogni';
+    if (value.includes('tec')) return 'tech';
+    if (value.includes('proy')) return 'proy';
+    return value || 'psico';
+  }
+
+  private toCategory(raw: string): TestResult['category'] {
+    const value = String(raw || '').toLowerCase();
+    if (value.includes('psico')) return 'Psicométrica';
+    if (value.includes('cog')) return 'Cognitiva';
+    if (value.includes('tec')) return 'Técnica';
+    return 'Proyectiva';
+  }
+
+  private getDefaultName(id: string): string {
+    const names: Record<string, string> = {
+      psico: 'Evaluación Psicométrica',
+      cogni: 'Prueba Cognitiva',
+      tech: 'Examen Técnico de Carrera',
+      proy: 'Prueba Proyectiva'
+    };
+    return names[id] || 'Prueba';
+  }
+
+  private getDefaultDescription(id: string): string {
+    const descriptions: Record<string, string> = {
+      psico: 'Rasgos de personalidad y trabajo en equipo.',
+      cogni: 'Potencial de aprendizaje y razonamiento lógico.',
+      tech: 'Conocimientos específicos de tu área profesional.',
+      proy: 'Estabilidad emocional y rasgos profundos de personalidad.'
+    };
+    return descriptions[id] || 'Prueba profesional.';
   }
 }

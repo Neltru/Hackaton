@@ -1,0 +1,33 @@
+<div class="postulaciones-page">
+  <header class="page-header">
+    <div>
+      <h1>Mis Postulaciones</h1>
+      <p>Seguimiento de tus aplicaciones a vacantes.</p>
+    </div>
+    <a routerLink="/alumni/vacantes" class="btn-link">Explorar vacantes</a>
+  </header>
+
+  @if (isLoading) {
+  <div class="card">Cargando postulaciones...</div>
+  } @else if (postulaciones.length === 0) {
+  <div class="card">
+    <h3>Aun no tienes postulaciones</h3>
+    <p>Cuando apliques a una vacante aparecera aqui.</p>
+  </div>
+  } @else {
+  <div class="list">
+    @for (item of postulaciones; track item.id) {
+    <article class="card row">
+      <div>
+        <h3>{{ item.vacanteTitulo }}</h3>
+        <p>{{ item.empresaNombre }}</p>
+      </div>
+      <div class="meta">
+        <span class="status" [ngClass]="statusClass(item.estado)">{{ item.estado }}</span>
+        <small *ngIf="item.fechaPostulacion">{{ item.fechaPostulacion | date:'mediumDate' }}</small>
+      </div>
+    </article>
+    }
+  </div>
+  }
+</div>

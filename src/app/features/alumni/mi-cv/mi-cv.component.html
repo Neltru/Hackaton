@@ -35,13 +35,16 @@
 
   <div class="alert success" *ngIf="successMessage">✅ {{ successMessage }}</div>
   <div class="alert error" *ngIf="errorMessage">⚠️ {{ errorMessage }}</div>
+  <div class="alert success" *ngIf="fileMessage">✅ {{ fileMessage }}</div>
+  <div class="alert error" *ngIf="fileError">⚠️ {{ fileError }}</div>
 
   <!-- TAB: VISTA PREVIA -->
   <div class="tab-content" *ngIf="activeTab === 'preview'">
     <div class="cv-preview-card">
       <div class="cv-header">
         <div class="cv-avatar">
-          <span class="avatar-initials">{{ (profile?.nombre || 'N')[0] }}{{ (profile?.apellido_paterno || 'R')[0] }}</span>
+          <img *ngIf="profile?.foto_url" [src]="profile?.foto_url" alt="Foto de perfil" class="avatar-photo">
+          <span *ngIf="!profile?.foto_url" class="avatar-initials">{{ (profile?.nombre || 'N')[0] }}{{ (profile?.apellido_paterno || 'R')[0] }}</span>
         </div>
         <div class="cv-identity">
           <h2>{{ profile?.nombre }} {{ profile?.apellido_paterno }} {{ profile?.apellido_materno }}</h2>
@@ -58,10 +61,16 @@
             <span *ngIf="profile?.telefono">📞 {{ profile?.telefono }}</span>
           </div>
         </div>
+        <div class="preview-actions">
         <button class="btn-outline-sm" (click)="openCvLink()" *ngIf="profile?.cv_drive_url">
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           Ver CV
         </button>
+        <label class="btn-outline-sm upload-btn">
+          Subir foto
+          <input type="file" accept="image/*" (change)="onPhotoSelected($event)">
+        </label>
+        </div>
       </div>
 
       <div class="cv-section" *ngIf="profile?.resumen_profesional">
@@ -213,6 +222,10 @@
           </div>
         </div>
         <button id="btn-save-cert" class="btn-save" (click)="addCertificado()" [disabled]="certForm.invalid">Guardar Certificado</button>
+        <label class="btn-save upload-inline">
+          Subir archivo de certificado
+          <input type="file" accept=".pdf,.jpg,.jpeg,.png" (change)="onCertificateSelected($event)">
+        </label>
       </div>
 
       <div class="cert-grid">
@@ -227,6 +240,7 @@
           <button class="btn-delete" (click)="removeCertificado(cert.id)">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
           </button>
+          <button class="btn-delete" *ngIf="cert.file?.fileId" (click)="removeCertificateFile(cert)">🗑 Archivo</button>
         </div>
         <div class="empty-card" *ngIf="certificados.length === 0"><p>Sin certificaciones registradas.</p></div>
       </div>
@@ -275,6 +289,10 @@
           <button id="btn-save-cv-link" type="submit" class="btn-save" [disabled]="cvLinkForm.invalid || isSaving">
             {{ isSaving ? 'Guardando...' : 'Actualizar enlace del CV' }}
           </button>
+          <label class="btn-save upload-inline">
+            Subir CV directamente
+            <input type="file" accept=".pdf,.doc,.docx" (change)="onCvSelected($event)">
+          </label>
         </form>
       </div>
     </div>

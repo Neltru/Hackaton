@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VacantesService } from '../../../../../core/services/vacantes.service';
+import { Router } from '@angular/router';
+import { VacantesService, AlumniPostulacion } from '../../../../../core/services/vacantes.service';
 import { HiringService } from '../../../../../core/services/hiring.service';
 import { FormsModule } from '@angular/forms';
 
@@ -12,7 +13,14 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './applications-list.component.scss'
 })
 export class ApplicationsListComponent implements OnInit {
-  applications: any[] = [];
+  applications: Array<{
+    id: string;
+    vacanteId: string;
+    jobTitle: string;
+    company: string;
+    status: string;
+    statusClass: string;
+  }> = [];
   isLoading = true;
   showHiringModal = false;
   selectedApp: any = null;
@@ -23,35 +31,29 @@ export class ApplicationsListComponent implements OnInit {
 
   constructor(
     private vacantesService: VacantesService,
-    private hiringService: HiringService
+    private hiringService: HiringService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.vacantesService.getVacantes().subscribe(result => {
-      this.applications = result.vacantes.slice(2, 5).map(v => ({
-        id: v.id,
-        jobTitle: v.title,
-        company: v.company,
-        appliedDate: 'Hace 3 días',
-        status: this.getRandomStatus(),
-        statusClass: this.getStatusClass(this.getRandomStatus())
+    this.vacantesService.getAlumniPostulaciones().subscribe((items: AlumniPostulacion[]) => {
+      this.applications = items.slice(0, 5).map((item) => ({
+        id: item.id,
+        vacanteId: item.vacanteId,
+        jobTitle: item.vacanteTitulo,
+        company: item.empresaNombre,
+        status: item.estado,
+        statusClass: this.getStatusClass(item.estado)
       }));
       this.isLoading = false;
     });
   }
 
-  private getRandomStatus(): string {
-    const statuses = ['En revisión', 'Entrevista', 'Finalizado'];
-    return statuses[Math.floor(Math.random() * statuses.length)];
-  }
-
   private getStatusClass(status: string): string {
-    const classes: Record<string, string> = {
-      'En revisión': 'status-review',
-      'Entrevista': 'status-interview',
-      'Finalizado': 'status-closed'
-    };
-    return classes[status] || '';
+    const normalized = (status || '').toLowerCase();
+    if (normalized.includes('entrevista') || normalized.includes('contrat')) return 'status-interview';
+    if (normalized.includes('rechaz') || normalized.includes('cerr') || normalized.includes('final')) return 'status-closed';
+    return 'status-review';
   }
 
   openHiringModal(app: any): void {
@@ -75,5 +77,9 @@ export class ApplicationsListComponent implements OnInit {
     // Opcional: Marcar la aplicación como contratada visualmente
     this.selectedApp.status = 'Contratado';
     this.selectedApp.statusClass = 'status-interview'; // Usamos verde
+  }
+
+  goToAllApplications(): void {
+    this.router.navigate(['/alumni/postulaciones']);
   }
 }

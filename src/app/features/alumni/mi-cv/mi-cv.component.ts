@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AlumniProfile, WorkExperience, Certificate } from '../../../core/models/alumni-profile.models';
 import { AlumniProfileService } from '../../../core/services/alumni-profile.service';
+import { AlumniFilesService } from '../../../core/services/alumni-files.service';
+import { HttpEventType } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 
 @Component({
@@ -27,33 +29,18 @@ export class MiCvComponent implements OnInit {
   showExpForm = false;
   certForm: FormGroup;
   showCertForm = false;
+  fileMessage = '';
+  fileError = '';
 
-  experiencias: WorkExperience[] = [
-    {
-      id: '1',
-      company: 'Tech Solutions MX',
-      role: 'Desarrollador Full Stack',
-      startDate: '2023-01-15',
-      currentlyWorking: true,
-      description: 'Desarrollo de aplicaciones web con Angular y Node.js. Integración de APIs REST y optimización de bases de datos PostgreSQL.'
-    },
-    {
-      id: '2',
-      company: 'StartupLab',
-      role: 'Desarrollador Frontend (Prácticas)',
-      startDate: '2022-07-01',
-      endDate: '2022-12-31',
-      currentlyWorking: false,
-      description: 'Diseño e implementación de interfaces con React. Colaboración en equipo ágil con metodología Scrum.'
-    }
-  ];
+  experiencias: WorkExperience[] = [];
 
-  certificados: Certificate[] = [
-    { id: '1', title: 'AWS Cloud Practitioner', institution: 'Amazon Web Services', issueDate: '2024-03-10', credentialId: 'AWS-CPE-2024-001' },
-    { id: '2', title: 'Angular Developer Certification', institution: 'Google Developers', issueDate: '2023-09-22', credentialId: 'GD-ANG-2023-512' }
-  ];
+  certificados: Certificate[] = [];
 
-  constructor(private profileService: AlumniProfileService, private fb: FormBuilder) {
+  constructor(
+    private profileService: AlumniProfileService,
+    private filesService: AlumniFilesService,
+    private fb: FormBuilder
+  ) {
     this.cvLinkForm = this.fb.group({
       cv_drive_url: ['', [Validators.required, Validators.pattern('^https?://.+')]]
     });
@@ -145,6 +132,83 @@ export class MiCvComponent implements OnInit {
     }
   }
 
+  onPhotoSelected(event: Event): void {
+    const file = this.getInputFile(event);
+    if (!file) return;
+
+    this.fileMessage = '';
+    this.fileError = '';
+    this.filesService.uploadPhoto(file).subscribe({
+      next: (evt) => {
+        if (evt.type === HttpEventType.Response) {
+          this.profile = {
+            ...(this.profile as AlumniProfile),
+            foto_url: evt.body?.viewUrl || this.profile?.foto_url
+          };
+          this.fileMessage = 'Foto de perfil actualizada.';
+        }
+      },
+      error: () => this.fileError = 'No se pudo subir la foto.'
+    });
+  }
+
+  onCvSelected(event: Event): void {
+    const file = this.getInputFile(event);
+    if (!file) return;
+
+    this.fileMessage = '';
+    this.fileError = '';
+    this.filesService.uploadCv(file).subscribe({
+      next: (evt) => {
+        if (evt.type === HttpEventType.Response) {
+          const url = evt.body?.viewUrl || '';
+          this.cvLinkForm.patchValue({ cv_drive_url: url });
+          if (this.profile) this.profile.cv_drive_url = url;
+          this.fileMessage = 'CV subido correctamente.';
+        }
+      },
+      error: () => this.fileError = 'No se pudo subir el CV.'
+    });
+  }
+
+  onCertificateSelected(event: Event): void {
+    const file = this.getInputFile(event);
+    if (!file) return;
+
+    this.fileMessage = '';
+    this.fileError = '';
+    this.filesService.uploadCertificate(file).subscribe({
+      next: (evt) => {
+        if (evt.type === HttpEventType.Response) {
+          this.certificados = [{
+            id: evt.body?.fileId || Date.now().toString(),
+            title: file.name,
+            institution: 'Documento subido',
+            issueDate: new Date().toISOString(),
+            file: evt.body || undefined
+          }, ...this.certificados];
+          this.fileMessage = 'Certificado subido correctamente.';
+        }
+      },
+      error: () => this.fileError = 'No se pudo subir el certificado.'
+    });
+  }
+
+  removeCertificateFile(cert: Certificate): void {
+    const fileId = cert.file?.fileId || cert.id;
+    if (!fileId) return;
+
+    this.filesService.deleteFile(fileId).subscribe({
+      next: () => {
+        this.certificados = this.certificados.filter(c => c.id !== cert.id);
+        this.fileMessage = 'Archivo eliminado correctamente.';
+      },
+      error: () => {
+        this.fileError = 'No se pudo eliminar el archivo.';
+      }
+    });
+  }
+
   removeCertificado(id: string | undefined): void {
     if (id) this.certificados = this.certificados.filter(c => c.id !== id);
   }
@@ -168,5 +232,10 @@ export class MiCvComponent implements OnInit {
   getAvailabilityClass(disp?: string): string {
     const map: Record<string, string> = { activo: 'available', no_disponible: 'unavailable', contratado: 'hired' };
     return map[disp || 'activo'] || 'available';
+  }
+
+  private getInputFile(event: Event): File | null {
+    const input = event.target as HTMLInputElement;
+    return input.files && input.files.length > 0 ? input.files[0] : null;
   }
 }

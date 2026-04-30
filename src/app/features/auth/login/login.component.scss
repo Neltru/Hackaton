@@ -323,7 +323,11 @@
 }
 
 .btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  min-height: 56px;
   padding: 1.1rem;
   background: var(--primary-gradient);
   color: white;
@@ -335,6 +339,13 @@
   transition: all 0.3s;
   margin-bottom: 2.5rem;
   box-shadow: 0 8px 20px rgba(45, 106, 79, 0.2);
+  line-height: 1.2;
+  text-align: center;
+
+  span {
+    display: inline-block;
+    color: inherit;
+  }
 
   &:hover:not(:disabled) {
     transform: translateY(-3px);

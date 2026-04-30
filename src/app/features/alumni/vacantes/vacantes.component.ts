@@ -187,12 +187,15 @@ export class VacantesComponent implements OnInit {
     this.vacantesService.postular(this.selectedVacante.id, this.postulacionMessage).subscribe({
       next: (res) => {
         this.isSubmitting = false;
-        this.postulacionSuccess = true;
-        // Marcar como postulada localmente
-        if (this.selectedVacante) {
-          this.selectedVacante.status = 'postulada';
+        if (res.success) {
+          this.postulacionSuccess = true;
+          if (this.selectedVacante) {
+            this.selectedVacante.status = 'postulada';
+          }
+          setTimeout(() => this.closeApplyModal(), 2000);
+        } else {
+          this.postulacionError = res.message;
         }
-        setTimeout(() => this.closeApplyModal(), 2000);
       },
       error: () => {
         this.isSubmitting = false;

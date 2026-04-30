@@ -140,7 +140,7 @@
         </div>
 
         <button type="submit" class="btn-submit" [disabled]="loginForm.invalid || isLoading">
-          {{ isLoading ? 'Entrando...' : 'Iniciar Sesión →' }}
+          <span>{{ isLoading ? 'Entrando...' : 'Inicio de sesión' }}</span>
         </button>
       </form>
       } @else {

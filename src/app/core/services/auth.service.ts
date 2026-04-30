@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of, tap } from 'rxjs';
-import { 
-  AuthResponse, 
-  LoginRequest, 
-  RecoverPasswordRequest, 
+import {
+  AuthResponse,
+  LoginRequest,
+  RecoverPasswordRequest,
   StandardResponse,
   Verify2faRequest,
   RegisterEgresadoRequest,
@@ -19,7 +19,7 @@ import { API_CONFIG } from '../constants/api.constants';
 export class AuthService {
   private apiUrl = `${API_CONFIG.baseUrl}/auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials).pipe(
@@ -56,7 +56,7 @@ export class AuthService {
 
   private saveSession(response: AuthResponse): void {
     if (response.token) localStorage.setItem('auth_token', response.token);
-    
+
     // El rol viene dentro del objeto user como rol_id
     const role = response.user?.rol_id;
     if (role) {

@@ -9,6 +9,7 @@ import { VacantesComponent } from './features/alumni/vacantes/vacantes.component
 import { CompanyLayoutComponent } from './core/layout/company-layout/company-layout.component';
 import { PerfilComponent } from './features/alumni/perfil/perfil.component';
 import { PruebasComponent } from './features/alumni/pruebas/pruebas.component';
+import { PostulacionesComponent } from './features/alumni/postulaciones/postulaciones.component';
 
 
 // ─── Administración ──────────────────────────────────────────────────────────────
@@ -47,6 +48,7 @@ export const routes: Routes = [
       { path: 'vacantes', component: VacantesComponent },
       { path: 'perfil', component: PerfilComponent },
       { path: 'pruebas', component: PruebasComponent },
+      { path: 'postulaciones', component: PostulacionesComponent },
       { path: 'mi-cv', loadComponent: () => import('./features/alumni/mi-cv/mi-cv.component').then(m => m.MiCvComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]

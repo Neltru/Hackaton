@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { InsercionGlobalStats, InsercionCarrera } from '../models/insercion.models';
 import { API_CONFIG } from '../constants/api.constants';
+import { MOCK_INSERCION_STATS, MOCK_INSERCION_POR_CARRERA } from '../mocks/alumni-mock.data';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,9 @@ export class InsercionService {
   getGlobalStats(anio: string, carrera: string): Observable<InsercionGlobalStats> {
     return this.http.get<any[]>(this.apiUrl).pipe(
       map(data => {
-        // Sumamos los datos de todas las carreras si la API devuelve un array
         let totalEgresados = 0;
         let contratados = 0;
-        
+
         if (Array.isArray(data)) {
            data.forEach(item => {
              totalEgresados += parseInt(item.total_registrados || '0');
@@ -31,13 +31,10 @@ export class InsercionService {
         }
 
         const porcentajeInsercion = totalEgresados > 0 ? Math.round((contratados / totalEgresados) * 100) : 0;
-        
-        return {
-          totalEgresados,
-          contratados,
-          porcentajeInsercion
-        };
-      })
+
+        return { totalEgresados, contratados, porcentajeInsercion };
+      }),
+      catchError(() => of(MOCK_INSERCION_STATS))
     );
   }
 
@@ -53,7 +50,9 @@ export class InsercionService {
            return (data as any).carreras;
         }
         return [];
-      })
+      }),
+      catchError(() => of(MOCK_INSERCION_POR_CARRERA))
     );
   }
 }
+
