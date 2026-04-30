@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CompanyVacantesService, CompanyVacante } from '../../services/company-vacantes.service';
+import { CompanyVacantesService, CompanyVacante } from '../../../../core/services/company-vacantes.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -14,14 +14,14 @@ import { Observable } from 'rxjs';
 export class VacantesListComponent implements OnInit {
   vacantes$!: Observable<CompanyVacante[]>;
 
-  constructor(private vacantesService: CompanyVacantesService) {}
+  constructor(private vacantesService: CompanyVacantesService) { }
 
   ngOnInit(): void {
     this.vacantes$ = this.vacantesService.getVacantes();
   }
 
   darDeBaja(id: string): void {
-    if(confirm('¿Estás seguro de que quieres dar de baja esta vacante?')) {
+    if (confirm('¿Estás seguro de que quieres dar de baja esta vacante?')) {
       this.vacantesService.updateVacante(id, { status: 'Cerrada' });
     }
   }

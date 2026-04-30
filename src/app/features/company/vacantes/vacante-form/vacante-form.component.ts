@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CompanyVacantesService } from '../../services/company-vacantes.service';
+import { CompanyVacantesService } from '../../../../core/services/company-vacantes.service';
 
 @Component({
   selector: 'app-company-vacante-form',

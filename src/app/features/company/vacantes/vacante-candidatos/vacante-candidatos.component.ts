@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { CompanyVacantesService, CompanyVacante } from '../../services/company-vacantes.service';
+import { CompanyVacantesService, CompanyVacante } from '../../../../core/services/company-vacantes.service';
 import { CompanyCandidatosService, CandidatoIdoneo } from '../../services/company-candidatos.service';
 import { CompanyMensajesService } from '../../services/company-mensajes.service';
 import { ExportService } from '../../../../core/services/export.service';
@@ -17,7 +17,7 @@ import { ExportService } from '../../../../core/services/export.service';
 export class VacanteCandidatosComponent implements OnInit {
   vacante: CompanyVacante | undefined;
   candidatos: CandidatoIdoneo[] = [];
-  
+
   // Opciones de filtro
   carrerasDisponibles: string[] = [];
   zonasDisponibles: string[] = [];
@@ -34,13 +34,13 @@ export class VacanteCandidatosComponent implements OnInit {
     private candidatosService: CompanyCandidatosService,
     private mensajesService: CompanyMensajesService,
     private exportService: ExportService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.vacante = this.vacantesService.getVacanteById(id);
-      
+
       this.carrerasDisponibles = ['Todas', ...this.candidatosService.getCarrerasDisponibles()];
       this.zonasDisponibles = ['Todas', ...this.candidatosService.getZonasDisponibles()];
 
@@ -78,7 +78,7 @@ export class VacanteCandidatosComponent implements OnInit {
 
   exportExcel(): void {
     if (!this.vacante) return;
-    
+
     const exportData = this.candidatos.map(c => ({
       'Nombre': c.nombre,
       'Carrera': c.carrera,
@@ -90,7 +90,7 @@ export class VacanteCandidatosComponent implements OnInit {
       'Match Proyectivo': c.resultados.proyectivo + ' (Req: ' + this.vacante!.benchmark.proyectivo + ')'
     }));
 
-    this.exportService.exportToCsv(exportData, `Candidatos_${this.vacante.title.replace(/\s+/g, '_')}`, 
+    this.exportService.exportToCsv(exportData, `Candidatos_${this.vacante.title.replace(/\s+/g, '_')}`,
       ['Nombre', 'Carrera', 'Zona', 'Match Global (%)', 'Match Psicométrico', 'Match Cognitivo', 'Match Técnico', 'Match Proyectivo']);
   }
 }

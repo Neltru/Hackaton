@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CompanyCandidatosService, CandidatoIdoneo } from './company-candidatos.service';
-import { CompanyVacantesService, CompanyVacante } from './company-vacantes.service';
+import { CompanyCandidatosService, CandidatoIdoneo } from '../services/company-candidatos.service';
+import { CompanyVacantesService, CompanyVacante } from '../services/company-vacantes.service';
 
 export interface ChatMessage {
   id: string;
@@ -47,18 +47,18 @@ export class CompanyMensajesService {
   startConversation(vacanteId: string, egresadoId: string): string {
     const convId = `${vacanteId}_${egresadoId}`;
     const existing = this.mockConversations.find(c => c.id === convId);
-    
+
     if (existing) {
       return convId;
     }
 
     // Resolve details for UI
     let candidatoInfo: CandidatoIdoneo | undefined;
-    this.candidatosService.getCandidatosIdoneos({ psicometrico:0, cognitivo:0, tecnico:0, proyectivo:0 }, undefined, undefined, 0)
+    this.candidatosService.getCandidatosIdoneos({ psicometrico: 0, cognitivo: 0, tecnico: 0, proyectivo: 0 }, undefined, undefined, 0)
       .subscribe(cands => {
         candidatoInfo = cands.find(c => c.id === egresadoId);
       });
-    
+
     const vacanteInfo = this.vacantesService.getVacanteById(vacanteId);
 
     const initialMessage: ChatMessage = {
@@ -80,7 +80,7 @@ export class CompanyMensajesService {
 
     this.mockConversations = [newConv, ...this.mockConversations];
     this.conversationsSubject.next(this.mockConversations);
-    
+
     // Simular respuesta del egresado después de 3 segundos
     setTimeout(() => {
       this.simulateReply(convId);
@@ -126,7 +126,7 @@ export class CompanyMensajesService {
         timestamp: new Date()
       });
       conv.lastMessageAt = new Date();
-      
+
       // Mover la conversación al inicio
       this.mockConversations = [
         conv,
