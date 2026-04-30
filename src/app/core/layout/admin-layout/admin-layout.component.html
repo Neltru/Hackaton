@@ -1,0 +1,50 @@
+<div class="layout-container">
+  <header class="topbar">
+    <div class="topbar-top">
+      <div class="logo">
+        <span class="dot"></span>
+        <span class="title">Administración — <span class="highlight">iTech Nayarit</span></span>
+      </div>
+      <div class="user-actions">
+        <div class="user-profile">
+          <div class="avatar">AD</div>
+          <div class="user-info">
+            <span class="name">Administrador</span> - <span class="role">Panel de control</span>
+          </div>
+        </div>
+        <a routerLink="/login" class="btn-logout">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Salir
+        </a>
+      </div>
+    </div>
+    <nav class="topbar-nav">
+      <a routerLink="/administracion/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/administracion/convenios" routerLinkActive="active">Convenios</a>
+      <a routerLink="/administracion/evaluaciones" routerLinkActive="active">Evaluaciones</a>
+      <a href="#" routerLinkActive="active">Postulaciones</a>
+      <a href="#" routerLinkActive="active">Alumnos</a>
+      <a href="#" routerLinkActive="active">Vacantes</a>
+      <a routerLink="/administracion/reportes/convenios" routerLinkActive="active">Reportes</a>
+      <a routerLink="/administracion/indicador-insercion" routerLinkActive="active">Inserción</a>
+      <a routerLink="/administracion/mapa-convenios" routerLinkActive="active">Mapa</a>
+      <a routerLink="/administracion/ranking-competencias" routerLinkActive="active">Ranking</a>
+      <a routerLink="/administracion/monitoreo-egresados" routerLinkActive="active">Monitoreo</a>
+      <a routerLink="/administracion/sistema/siest-2.0" routerLinkActive="active">SIEst</a>
+      <a routerLink="/administracion/sistema/vacantes-nacionales" routerLinkActive="active">Vacantes Ext.</a>
+      <a routerLink="/administracion/sistema/drive-docs" routerLinkActive="active">Cloud Docs</a>
+      <a routerLink="/administracion/sistema/analiticas" routerLinkActive="active">Analíticas</a>
+      <a routerLink="/administracion/sistema/pruebas-sot" routerLinkActive="active">SoT Pruebas</a>
+      <a routerLink="/administracion/sistema/matching" routerLinkActive="active">Matching</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

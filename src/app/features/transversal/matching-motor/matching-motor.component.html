@@ -1,0 +1,91 @@
+<section class="matching-container">
+  <div class="header">
+    <div class="title-area">
+      <h1>Motor de Coincidencia (Matching)</h1>
+      <p class="subtitle">RF-36 · Cálculo Automático Candidato-Vacante con Umbral de Relevancia</p>
+    </div>
+    <div class="threshold-badge">
+      Umbral: {{umbral}}%
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <!-- Config Card: Formula and Weights -->
+    <div class="card config-card">
+      <div class="card-header">
+        <h2>Configuración del Benchmark</h2>
+        <span class="info">{{selectedBenchmark.nombre}} · {{selectedBenchmark.puesto}}</span>
+      </div>
+      <div class="card-body">
+        <div class="config-section">
+          <h3>Ponderación por Dimensión (%)</h3>
+          <p class="help-text">Ajusta la importancia de cada batería para esta vacante específica.</p>
+          
+          <div class="weight-item">
+            <label>Psicométrica</label>
+            <input type="range" [(ngModel)]="selectedBenchmark.pesos.psicometrica" (change)="updateWeights()" min="0" max="100">
+            <span class="val">{{selectedBenchmark.pesos.psicometrica}}%</span>
+          </div>
+          <div class="weight-item">
+            <label>Cognitiva</label>
+            <input type="range" [(ngModel)]="selectedBenchmark.pesos.cognitiva" (change)="updateWeights()" min="0" max="100">
+            <span class="val">{{selectedBenchmark.pesos.cognitiva}}%</span>
+          </div>
+          <div class="weight-item">
+            <label>Técnica</label>
+            <input type="range" [(ngModel)]="selectedBenchmark.pesos.tecnica" (change)="updateWeights()" min="0" max="100">
+            <span class="val">{{selectedBenchmark.pesos.tecnica}}%</span>
+          </div>
+          <div class="weight-item">
+            <label>Proyectiva</label>
+            <input type="range" [(ngModel)]="selectedBenchmark.pesos.proyectiva" (change)="updateWeights()" min="0" max="100">
+            <span class="val">{{selectedBenchmark.pesos.proyectiva}}%</span>
+          </div>
+        </div>
+
+        <div class="config-section requirements">
+          <h3>Requerimientos Mínimos</h3>
+          <div class="req-grid">
+            <div class="req-box"><span>Psi</span><strong>{{selectedBenchmark.requerimientos.psicometrica}}</strong></div>
+            <div class="req-box"><span>Cog</span><strong>{{selectedBenchmark.requerimientos.cognitiva}}</strong></div>
+            <div class="req-box"><span>Tec</span><strong>{{selectedBenchmark.requerimientos.tecnica}}</strong></div>
+            <div class="req-box"><span>Pro</span><strong>{{selectedBenchmark.requerimientos.proyectiva}}</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Card: Candidate List -->
+    <div class="card results-card">
+      <div class="card-header">
+        <h2>Ranking de Candidatos Coincidentes</h2>
+        <span class="count">{{matchingResults.length}} alumnos evaluados</span>
+      </div>
+      <div class="card-body">
+        <div class="results-list">
+          <div *ngFor="let res of matchingResults" class="match-item" [class.relevant]="res.score >= umbral">
+            <div class="match-left">
+              <div class="match-circle" [style.--pct]="res.score">
+                <span class="val">{{res.score}}%</span>
+              </div>
+              <div class="match-info">
+                <h3>{{res.alumno.nombre}}</h3>
+                <p>{{res.alumno.carrera}}</p>
+              </div>
+            </div>
+            
+            <div class="match-right">
+              <div class="status-indicator" *ngIf="res.score >= umbral">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                Perfil Relevante
+              </div>
+              <div class="status-indicator low" *ngIf="res.score < umbral">
+                Bajo el umbral
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

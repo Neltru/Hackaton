@@ -1,0 +1,114 @@
+<section class="sot-container">
+  <div class="header">
+    <div class="title-area">
+      <h1>Fuente de Verdad: Puntajes Numéricos</h1>
+      <p class="subtitle">RF-35 · Batería de Pruebas Única y Comparativa de Benchmarks</p>
+    </div>
+    <div class="sot-status">
+      <span class="lock-icon">🔒</span> Única Aplicación Permitida
+    </div>
+  </div>
+
+  <div class="main-grid" *ngIf="alumno">
+    <!-- Student Status Card -->
+    <div class="card status-card">
+      <div class="card-header">
+        <h2>Mi Perfil de Puntajes</h2>
+        <span class="tag" [class.untested]="!alumno.puntajes">{{alumno.puntajes ? 'Completado' : 'Pendiente'}}</span>
+      </div>
+      <div class="card-body">
+        <div class="alumno-meta">
+          <div class="avatar">{{alumno.nombre[0]}}</div>
+          <div class="info">
+            <h3>{{alumno.nombre}}</h3>
+            <p>{{alumno.carrera}}</p>
+          </div>
+        </div>
+
+        <!-- Scores visualization if available -->
+        <div *ngIf="alumno.puntajes" class="scores-display">
+          <div class="score-item" style="--color: #3b82f6">
+            <label>Psicométrica</label>
+            <div class="track"><div class="fill" [style.width.%]="alumno.puntajes.psicometrica"></div></div>
+            <span class="val">{{alumno.puntajes.psicometrica}}</span>
+          </div>
+          <div class="score-item" style="--color: #10b981">
+            <label>Cognitiva</label>
+            <div class="track"><div class="fill" [style.width.%]="alumno.puntajes.cognitiva"></div></div>
+            <span class="val">{{alumno.puntajes.cognitiva}}</span>
+          </div>
+          <div class="score-item" style="--color: #f59e0b">
+            <label>Técnica</label>
+            <div class="track"><div class="fill" [style.width.%]="alumno.puntajes.tecnica"></div></div>
+            <span class="val">{{alumno.puntajes.tecnica}}</span>
+          </div>
+          <div class="score-item" style="--color: #8b5cf6">
+            <label>Proyectiva</label>
+            <div class="track"><div class="fill" [style.width.%]="alumno.puntajes.proyectiva"></div></div>
+            <span class="val">{{alumno.puntajes.proyectiva}}</span>
+          </div>
+          <div class="total-avg">
+            <span>Promedio General</span>
+            <strong>{{alumno.puntajes.promedioGral | number:'1.1-1'}} pts</strong>
+          </div>
+          <p class="sot-note">Estos valores son inmutables y sirven como la única fuente de verdad para todos los reportes institucionales.</p>
+        </div>
+
+        <!-- If not tested yet -->
+        <div *ngIf="!alumno.puntajes && !realizandoPrueba" class="untested-state">
+          <p>Aún no has realizado tu batería de pruebas de idoneidad académica.</p>
+          <button class="btn-primary" (click)='iniciarPrueba()'>Iniciar Batería de Pruebas</button>
+          <span class="warning">⚠️ Esta prueba solo se puede realizar UNA VEZ.</span>
+        </div>
+
+        <!-- Simulated test in progress -->
+        <div *ngIf="realizandoPrueba" class="testing-state">
+          <div class="loader-circle"></div>
+          <p>Procesando batería de pruebas (Psicométrica, Cognitiva, Técnica, Proyectiva)...</p>
+          <button class="btn-success" (click)="finalizarPrueba()">Finalizar y Generar Puntajes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benchmarks Comparison Card -->
+    <div class="card bench-card">
+      <div class="card-header">
+        <h2>Comparativa de Benchmarks</h2>
+        <span class="info">Las empresas comparan sus perfiles con tus puntajes SoT</span>
+      </div>
+      <div class="card-body">
+        <div class="bench-list">
+          <div *ngFor="let b of benchmarks" class="bench-item">
+            <div class="bench-header">
+              <div class="b-info">
+                <h3>{{b.nombre}}</h3>
+                <p>{{b.puesto}}</p>
+              </div>
+              <div class="match-score" *ngIf="alumno.puntajes">
+                <span class="pct">{{getCompatibilidad(b) | number:'1.0-0'}}%</span>
+                <span class="lbl">Compatibilidad</span>
+              </div>
+            </div>
+            <div class="bench-requirements">
+              <div class="req" *ngFor="let r of [
+                {l:'Psi', v:b.requerimientos.psicometrica, c:'#3b82f6'},
+                {l:'Cog', v:b.requerimientos.cognitiva, c:'#10b981'},
+                {l:'Tec', v:b.requerimientos.tecnica, c:'#f59e0b'},
+                {l:'Pro', v:b.requerimientos.proyectiva, c:'#8b5cf6'}
+              ]">
+                <span class="r-label">{{r.l}}</span>
+                <span class="r-val" [style.color]="r.c">{{r.v}}</span>
+              </div>
+            </div>
+            <div class="bench-footer" *ngIf="alumno.puntajes">
+              <p>Tu perfil cumple con el {{getCompatibilidad(b) > 80 ? 'perfil de excelencia' : 'perfil base'}} de la empresa.</p>
+            </div>
+            <div class="bench-footer empty" *ngIf="!alumno.puntajes">
+              <p>Realiza tus pruebas para ver tu compatibilidad con esta empresa.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

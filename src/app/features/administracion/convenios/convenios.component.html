@@ -1,0 +1,101 @@
+<section class="convenios-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Gestión de convenios institucionales</h1>
+      <p class="page-subtitle">RF-24 · Admin UT</p>
+    </div>
+    <div class="header-right">
+      <button class="btn-primary">
+        + Nuevo convenio
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Cargando datos...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <!-- Stats Row -->
+    <div class="stats-row" *ngIf="stats">
+      <div class="stat-card">
+        <span class="stat-label">Activos</span>
+        <span class="stat-value">{{ stats.activos }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Pendientes</span>
+        <span class="stat-value">{{ stats.pendientes }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Por vencer</span>
+        <span class="stat-value">{{ stats.porVencer }}</span>
+      </div>
+    </div>
+
+    <!-- Filters Row -->
+    <div class="filters-row">
+      <div class="filter-group search-group">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Buscar empresa..." 
+          [(ngModel)]="searchQuery" 
+          (ngModelChange)="applyFilters()"
+        >
+      </div>
+      <div class="filter-group">
+        <select class="form-select" [(ngModel)]="selectedEstado" (ngModelChange)="applyFilters()">
+          <option>Todos los estados</option>
+          <option>Activos</option>
+          <option>Pendientes</option>
+          <option>Por vencer</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <select class="form-select" [(ngModel)]="selectedZona" (ngModelChange)="applyFilters()">
+          <option>Zona norte (auto)</option>
+          <option>Nacional</option>
+          <option>Todas las zonas</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Empresa</th>
+            <th>Zona</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th>Vence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let convenio of filteredConvenios">
+            <td class="font-medium text-white">{{ convenio.empresa }}</td>
+            <td>{{ convenio.zona }}</td>
+            <td>{{ convenio.tipo }}</td>
+            <td>
+              <span class="badge" [ngClass]="getBadgeClass(convenio.estado)">
+                {{ convenio.estado }}
+              </span>
+            </td>
+            <td>{{ convenio.fechaVencimiento || '—' }}</td>
+          </tr>
+          <tr *ngIf="filteredConvenios.length === 0">
+            <td colspan="5" class="text-center no-data">
+              No se encontraron convenios que coincidan con la búsqueda.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+
+</section>

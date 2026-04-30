@@ -1,0 +1,119 @@
+<section class="siest-container">
+  <div class="header">
+    <div class="title-area">
+      <h1>Integración SIEst 2.0</h1>
+      <p class="subtitle">RF-31 · Módulo Transversal · Sincronización de Datos Académicos</p>
+    </div>
+    <div class="status-badge" [class.online]="true">
+      <span class="dot"></span> SIEst 2.0 Endpoint Online
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <!-- Search Card -->
+    <div class="card search-card">
+      <div class="card-header">
+        <h2>Consulta de Alumno</h2>
+        <span class="info">Usa <code>cve_alumno</code> como identificador</span>
+      </div>
+      <div class="card-body">
+        <div class="input-group">
+          <input type="text" [(ngModel)]="cveAlumnoInput" placeholder="Ej. CVE001, CVE002..." (keyup.enter)="consultar()">
+          <button (click)="consultar()" [disabled]="loading">
+            <span *ngIf="!loading">Consultar SIEst</span>
+            <span *ngIf="loading" class="spinner"></span>
+          </button>
+        </div>
+        <p class="help-text">Los datos obtenidos se almacenan localmente en la base de datos institucional para optimizar el rendimiento y evitar sobrecarga en los servidores del SIEst.</p>
+      </div>
+    </div>
+
+    <!-- Result Card -->
+    <div class="card result-card" *ngIf="response || loading">
+      <div class="card-header">
+        <h2>Respuesta del Servidor</h2>
+        <span class="latency" *ngIf="response">Latencia: {{response.latencia_ms}}ms</span>
+      </div>
+      <div class="card-body">
+        <div *ngIf="loading" class="loading-state">
+          <div class="pulse"></div>
+          <p>Consultando SIEst 2.0...</p>
+        </div>
+
+        <div *ngIf="!loading && response">
+          <div *ngIf="response.ok && response.alumno" class="alumno-data">
+            <div class="alumno-header">
+              <img [src]="response.alumno.foto" alt="Foto alumno" class="avatar">
+              <div class="info-main">
+                <h3>{{response.alumno.nombre}} {{response.alumno.apellidos}}</h3>
+                <span class="matricula">Matrícula: {{response.alumno.matricula}}</span>
+              </div>
+            </div>
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Clave (cve_alumno)</label>
+                <span>{{response.alumno.cve_alumno}}</span>
+              </div>
+              <div class="info-item">
+                <label>Carrera</label>
+                <span>{{response.alumno.carrera_nombre}}</span>
+              </div>
+              <div class="info-item">
+                <label>Periodo de Egreso</label>
+                <span>{{response.alumno.periodo_egreso}}</span>
+              </div>
+              <div class="info-item">
+                <label>Estado Sincronización</label>
+                <span class="sync-tag">Almacenado localmente</span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!response.ok" class="error-state">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <p>{{response.error}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logs Card -->
+    <div class="card logs-card">
+      <div class="card-header">
+        <h2>Historial de Consultas</h2>
+        <span class="count">{{logs.length}} registros</span>
+      </div>
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th>Fecha/Hora</th>
+                <th>Clave</th>
+                <th>Resultado</th>
+                <th>Latencia</th>
+                <th>Fuente</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let log of logs">
+                <td>{{log.timestamp | date:'short'}}</td>
+                <td><code>{{log.cve_alumno}}</code></td>
+                <td>
+                  <span class="status-badge" [ngClass]="getStatusClass(log.resultado)">
+                    {{log.resultado === 'encontrado' ? 'Encontrado' : 'Fallido'}}
+                  </span>
+                </td>
+                <td>{{log.latencia_ms}}ms</td>
+                <td>{{log.cacheado ? 'Caché' : 'API'}}</td>
+              </tr>
+              <tr *ngIf="logs.length === 0">
+                <td colspan="5" class="empty">No hay consultas registradas</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
