@@ -23,11 +23,12 @@ export class RegisterCompanyComponent {
     private router: Router
   ) {
     this.registerForm = this.fb.group({
-      nombre_empresa: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
+      nombre: ['', [Validators.required, Validators.minLength(3)]],
+      correo: ['', [Validators.required, Validators.email]],
+      rfc: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      sector: ['', [Validators.required]],
-      contacto: ['', [Validators.required]]
+      estado: ['', [Validators.required]],
+      municipio: ['', [Validators.required]]
     });
   }
 

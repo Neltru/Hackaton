@@ -42,7 +42,12 @@ export class LoginComponent {
       this.isLoading = true;
       this.errorMessage = null;
 
-      this.authService.login(this.loginForm.value).subscribe({
+      const loginPayload = {
+        nombre_usuario: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value
+      };
+
+      this.authService.login(loginPayload).subscribe({
         next: (response) => {
           this.isLoading = false;
           
@@ -50,7 +55,7 @@ export class LoginComponent {
           // O si el backend envía un flag específico (ej. response.requires2fa)
           if (!response.token) {
             this.show2FA = true;
-            this.pendingEmail = response.user?.email || this.loginForm.get('email')?.value;
+            this.pendingEmail = response.user?.nombre_usuario || this.loginForm.get('email')?.value;
           } else {
             this.handleNavigation(response.role);
           }
@@ -70,8 +75,8 @@ export class LoginComponent {
       this.errorMessage = null;
 
       this.authService.verify2fa({
-        email: this.pendingEmail,
-        code: this.twoFactorForm.get('code')?.value
+        nombre_usuario: this.pendingEmail,
+        codigo: this.twoFactorForm.get('code')?.value
       }).subscribe({
         next: (response) => {
           this.isLoading = false;

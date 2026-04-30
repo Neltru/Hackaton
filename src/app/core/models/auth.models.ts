@@ -1,5 +1,5 @@
 export interface LoginRequest {
-  email: string;
+  nombre_usuario: string;
   password: string;
 }
 
@@ -8,19 +8,19 @@ export interface AuthResponse {
   role: string | number;
   user: {
     id: string | number;
-    email: string;
+    nombre_usuario: string;
     name?: string;
     role?: string | number;
   };
 }
 
 export interface RecoverPasswordRequest {
-  email: string;
+  nombre_usuario: string;
 }
 
 export interface Verify2faRequest {
-  email: string;
-  code: string;
+  nombre_usuario: string;
+  codigo: string;
 }
 
 export interface RegisterEgresadoRequest {
@@ -32,17 +32,18 @@ export interface RegisterEgresadoRequest {
 }
 
 export interface RegisterEmpresaRequest {
-  nombre_empresa: string;
-  email: string;
+  nombre: string;
+  correo: string;
+  rfc: string;
   password: string;
-  sector: string;
-  contacto: string;
+  estado: string;
+  municipio: string;
 }
 
 export interface ResetPasswordRequest {
-  email: string;
+  nombre_usuario: string;
   token: string;
-  password: string;
+  new_password: string;
 }
 
 export interface StandardResponse {

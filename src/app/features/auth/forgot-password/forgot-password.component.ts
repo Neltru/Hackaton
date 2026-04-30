@@ -31,7 +31,7 @@ export class ForgotPasswordComponent {
       this.isLoading = true;
       this.errorMessage = null;
 
-      this.authService.recoverPassword(this.forgotForm.value).subscribe({
+      this.authService.recoverPassword({ nombre_usuario: this.forgotForm.get('email')?.value }).subscribe({
         next: (response) => {
           this.isLoading = false;
           this.isSent = true;

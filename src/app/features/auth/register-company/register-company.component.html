@@ -14,33 +14,37 @@
       <div class="form-group">
         <label>Nombre de la Empresa</label>
         <div class="input-wrapper">
-          <input type="text" formControlName="nombre_empresa" placeholder="Ej. Tech Solutions"
-                 [class.error]="registerForm.get('nombre_empresa')?.touched && registerForm.get('nombre_empresa')?.invalid">
+          <input type="text" formControlName="nombre" placeholder="Ej. Tech Solutions"
+                 [class.error]="registerForm.get('nombre')?.touched && registerForm.get('nombre')?.invalid">
         </div>
       </div>
 
       <div class="form-group">
         <label>Correo Electrónico Corporativo</label>
         <div class="input-wrapper">
-          <input type="email" formControlName="email" placeholder="empresa@ejemplo.com"
-                 [class.error]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+          <input type="email" formControlName="correo" placeholder="empresa@ejemplo.com"
+                 [class.error]="registerForm.get('correo')?.touched && registerForm.get('correo')?.invalid">
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label>Sector</label>
-          <select formControlName="sector">
-            <option value="">Selecciona Sector</option>
-            <option value="Tecnología">Tecnología</option>
-            <option value="Servicios">Servicios</option>
-            <option value="Manufactura">Manufactura</option>
-            <option value="Comercio">Comercio</option>
-          </select>
+          <label>RFC</label>
+          <input type="text" formControlName="rfc" placeholder="ABC123456T1" maxlength="13"
+                 [class.error]="registerForm.get('rfc')?.touched && registerForm.get('rfc')?.invalid">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Estado</label>
+          <input type="text" formControlName="estado" placeholder="Ej. Nayarit"
+                 [class.error]="registerForm.get('estado')?.touched && registerForm.get('estado')?.invalid">
         </div>
         <div class="form-group">
-          <label>Teléfono de Contacto</label>
-          <input type="text" formControlName="contacto" placeholder="311 000 0000">
+          <label>Municipio</label>
+          <input type="text" formControlName="municipio" placeholder="Ej. Tepic"
+                 [class.error]="registerForm.get('municipio')?.touched && registerForm.get('municipio')?.invalid">
         </div>
       </div>
 
