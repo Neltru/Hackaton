@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
-import { TestsService } from '../../../../../core/services/tests.service';
+import { TestsService, TestResult } from '../../../../../core/services/tests.service';
 
 Chart.register(...registerables);
 
@@ -57,7 +57,7 @@ export class DimensionResultsComponent implements OnInit, AfterViewInit {
   private initChart(): void {
     const ctx = this.radarCanvas.nativeElement.getContext('2d');
     
-    this.testsService.getTests().subscribe(tests => {
+    this.testsService.getTests().subscribe((tests: TestResult[]) => {
       const scores = [
         tests.find(t => t.id === 'psico')?.score || 0,
         tests.find(t => t.id === 'cogni')?.score || 0,
@@ -98,7 +98,7 @@ export class DimensionResultsComponent implements OnInit, AfterViewInit {
   }
 
   private updateChart(): void {
-    this.testsService.getTests().subscribe(tests => {
+    this.testsService.getTests().subscribe((tests: TestResult[]) => {
       const scores = [
         tests.find(t => t.id === 'psico')?.score || 0,
         tests.find(t => t.id === 'cogni')?.score || 0,

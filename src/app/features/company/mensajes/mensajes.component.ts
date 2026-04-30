@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@ang
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CompanyMensajesService, Conversation } from '../services/company-mensajes.service';
+import { CompanyMensajesService, Conversation } from '../../../core/services/company-mensajes.service';
 
 @Component({
   selector: 'app-mensajes',
@@ -21,20 +21,21 @@ export class MensajesComponent implements OnInit, AfterViewChecked {
   constructor(
     private mensajesService: CompanyMensajesService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Suscribirse a los cambios en las conversaciones
-    this.mensajesService.getConversations().subscribe(convs => {
+    this.mensajesService.getConversations().subscribe((convs: Conversation[]) => {
       this.conversations = convs;
       // Actualizar la conversación activa si cambió (por un nuevo mensaje)
       if (this.activeConversation) {
-        this.activeConversation = convs.find(c => c.id === this.activeConversation!.id) || null;
+        const currentId = this.activeConversation.id;
+        this.activeConversation = convs.find(c => c.id === currentId) || null;
       }
     });
 
     // Check if we navigated here via "Invitar" with query params
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params: any) => {
       const startConv = params['startConv'];
       if (startConv && this.conversations.length > 0) {
         const target = this.conversations.find(c => c.id === startConv);
@@ -70,6 +71,6 @@ export class MensajesComponent implements OnInit, AfterViewChecked {
       if (this.chatScrollContainer) {
         this.chatScrollContainer.nativeElement.scrollTop = this.chatScrollContainer.nativeElement.scrollHeight;
       }
-    } catch(err) { }
+    } catch (err) { }
   }
 }

@@ -7,7 +7,6 @@ import { AlumniLayoutComponent } from './core/layout/alumni-layout/alumni-layout
 import { DashboardComponent as AlumniDashboardComponent } from './features/alumni/dashboard/dashboard.component';
 import { VacantesComponent } from './features/alumni/vacantes/vacantes.component';
 import { CompanyLayoutComponent } from './core/layout/company-layout/company-layout.component';
-import { DashboardComponent as CompanyDashboardComponent } from './features/company/dashboard/dashboard.component';
 import { PerfilComponent } from './features/alumni/perfil/perfil.component';
 import { PruebasComponent } from './features/alumni/pruebas/pruebas.component';
 
@@ -29,6 +28,10 @@ import { DriveGestionComponent } from './features/transversal/drive-gestion/driv
 import { GlobalAnalyticsComponent } from './features/transversal/global-analytics/global-analytics.component';
 import { PruebasSotComponent } from './features/transversal/pruebas-sot/pruebas-sot.component';
 import { MatchingMotorComponent } from './features/transversal/matching-motor/matching-motor.component';
+
+// --- Company ---
+import { DashboardComponent as CompanyDashboardComponent } from './features/company/dashboard/dashboard.component';
+
 
 export const routes: Routes = [
   // ── Auth ────────────────────────────────────────────────────────────────────

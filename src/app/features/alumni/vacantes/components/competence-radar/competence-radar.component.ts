@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
-import { TestsService } from '../../../../../core/services/tests.service';
+import { TestsService, TestResult } from '../../../../../core/services/tests.service';
 
 Chart.register(...registerables);
 
@@ -66,7 +66,7 @@ export class CompetenceRadarComponent implements OnInit, AfterViewInit {
   constructor(private testsService: TestsService) {}
 
   ngOnInit(): void {
-    this.testsService.getTests().subscribe(tests => {
+    this.testsService.getTests().subscribe((tests: TestResult[]) => {
       // Mapear los resultados del egresado
       this.alumniScores = [
         tests.find(t => t.id === 'psico')?.score || 0,
