@@ -1,13 +1,12 @@
 .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  animation: fadeInUp 0.4s ease both;
-  color: #f8fafc;
+  gap: 2.5rem;
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  color: var(--text-main);
   
-  --border: #2e2e2e;
-  --card-bg: #1a1a1a;
-  --card-bg-hover: #1f1f1f;
+  --border: var(--border-color);
+  --card-bg: var(--bg-card);
 }
 
 // ─── Welcome Banner ─────────────────────────────────────────────────────────────
@@ -15,12 +14,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #1c1c2e 0%, #16213e 50%, #1a1a2e 100%);
-  border: 1px solid #2a2a4a;
-  border-radius: 16px;
-  padding: 2rem 2.5rem;
+  background: var(--primary-gradient);
+  border: 1px solid var(--primary);
+  border-radius: 20px;
+  padding: 2.5rem 3rem;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-lg);
   
   &::before {
     content: '';
@@ -29,65 +29,82 @@
     right: -80px;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
     pointer-events: none;
   }
 
   .welcome-greeting {
-    color: #888;
-    font-size: 0.9rem;
-    margin: 0 0 0.4rem 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0 0.5rem 0;
   }
 
   .welcome-title {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-weight: 800;
-    margin: 0 0 0.5rem 0;
-    background: linear-gradient(135deg, #fff 60%, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    margin: 0 0 0.75rem 0;
+    color: #ffffff;
+    letter-spacing: -0.02em;
   }
 
   .welcome-date {
-    color: #666;
-    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 500;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    &::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      background: var(--secondary);
+      border-radius: 50%;
+    }
   }
 }
 
 .ut-badge {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 1.25rem 1.75rem;
 
   .ut-logo {
-    width: 44px;
-    height: 44px;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    border-radius: 10px;
+    width: 48px;
+    height: 48px;
+    background: #ffffff;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 0.9rem;
-    color: #fff;
+    font-size: 1.1rem;
+    color: var(--primary);
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   .ut-name {
-    font-weight: 700;
-    font-size: 0.95rem;
-    margin-bottom: 0.2rem;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-bottom: 0.1rem;
   }
 
   .ut-sub {
-    color: #777;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 }
 
@@ -99,82 +116,88 @@
 }
 
 .kpi-card {
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1.5rem;
+  border-radius: 18px;
+  padding: 1.75rem;
   display: flex;
-  gap: 1.2rem;
-  align-items: flex-start;
-  animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--delay);
-  transition: border-color 0.2s, transform 0.2s;
+  gap: 1.5rem;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    border-color: #3a3a3a;
-    transform: translateY(-2px);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
   }
 }
 
 .kpi-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 10px;
+  padding: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 
   svg {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
   }
 }
 
 .kpi-body {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.25rem;
   min-width: 0;
 
   .kpi-label {
-    color: #888;
-    font-size: 0.82rem;
-    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
   }
 
   .kpi-value {
-    font-size: 1.9rem;
+    font-size: 2.2rem;
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1;
+    color: var(--text-main);
   }
 
   .kpi-desc {
-    color: #666;
-    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
   }
 }
 
 // ─── Card Base ──────────────────────────────────────────────────────────────────
 .card {
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1.8rem;
+  border-radius: 18px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
 }
 
 .section-title {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ddd;
-  margin: 0 0 1.5rem 0;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0 0 1.75rem 0;
 
   svg {
-    color: #3b82f6;
+    color: var(--primary);
     flex-shrink: 0;
   }
 }
@@ -183,55 +206,64 @@
 .main-grid {
   display: grid;
   grid-template-columns: 1fr 420px;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 // ─── Quick Links ─────────────────────────────────────────────────────────────────
 .links-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
 }
 
 .quick-link-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.85rem 1rem;
-  border-radius: 10px;
-  border: 1px solid transparent;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #f8faf9;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
-  transition: all 0.2s;
-  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--delay);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    background: rgba(255,255,255,0.04);
-    border-color: #333;
+    background: #ffffff;
+    border-color: var(--primary);
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
 
     .ql-arrow {
       opacity: 1;
-      transform: translateX(2px);
+      transform: translateX(3px);
+      color: var(--primary);
+    }
+    
+    .ql-icon {
+      background: var(--primary);
+      color: white;
     }
   }
 
   .ql-icon {
-    width: 36px;
-    height: 36px;
-    background: rgba(59, 130, 246, 0.1);
-    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    padding: 7px;
-    color: #3b82f6;
+    padding: 10px;
+    color: var(--primary);
+    transition: all 0.3s;
 
     svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
     }
   }
 
@@ -241,25 +273,27 @@
 
     .ql-label {
       display: block;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #eee;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 0.1rem;
     }
 
     .ql-desc {
       display: block;
-      font-size: 0.78rem;
-      color: #666;
+      font-size: 0.8rem;
+      color: var(--text-muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 500;
     }
   }
 
   .ql-arrow {
-    color: #555;
-    opacity: 0;
-    transition: all 0.2s;
+    color: var(--border-color);
+    opacity: 0.5;
+    transition: all 0.3s;
     flex-shrink: 0;
   }
 }
@@ -268,27 +302,32 @@
 .activity-list {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.5rem;
 }
 
 .activity-item {
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
   align-items: flex-start;
-  padding: 1rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--delay);
-
-  &:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+  padding: 1.25rem;
+  border-radius: 12px;
+  transition: background 0.2s;
+  
+  &:hover {
+    background: #f8faf9;
   }
 
   .activity-icon {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
+    width: 40px;
+    height: 40px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-    margin-top: 0.1rem;
   }
 
   .activity-body {
@@ -296,15 +335,25 @@
     min-width: 0;
 
     .activity-text {
-      font-size: 0.85rem;
-      color: #ccc;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      font-weight: 600;
       margin: 0 0 0.3rem 0;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .activity-time {
-      font-size: 0.75rem;
-      color: #555;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      
+      &::before {
+        content: '•';
+        color: var(--primary-light);
+      }
     }
   }
 }
@@ -313,79 +362,61 @@
 .coverage-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .coverage-item {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.85rem;
 
   .cov-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
 
     .cov-label {
-      font-size: 0.82rem;
-      color: #999;
-      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      font-weight: 700;
     }
 
     .cov-value {
-      font-size: 0.85rem;
-      color: #ddd;
-      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+      font-weight: 800;
     }
   }
 
   .cov-track {
-    height: 6px;
-    background: #2a2a2a;
+    height: 10px;
+    background: #f1f7f5;
+    border: 1px solid var(--border);
     border-radius: 10px;
     overflow: hidden;
 
     .cov-fill {
       height: 100%;
       border-radius: 10px;
-      animation: fillBar 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-      animation-delay: 0.3s;
+      transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
   }
 
   .cov-target {
-    font-size: 0.75rem;
-    color: #555;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
   }
 }
 
 // ─── Animations ─────────────────────────────────────────────────────────────────
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideInUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes fillBar {
-  from { transform: scaleX(0); transform-origin: left; }
-  to   { transform: scaleX(1); transform-origin: left; }
-}
-
-// ─── Responsive ──────────────────────────────────────────────────────────────────
 @media (max-width: 1200px) {
-  .kpi-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .coverage-grid {
+  .kpi-grid, .coverage-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -397,15 +428,14 @@
 }
 
 @media (max-width: 600px) {
-  .kpi-grid {
-    grid-template-columns: 1fr;
-  }
-  .coverage-grid {
+  .kpi-grid, .coverage-grid {
     grid-template-columns: 1fr;
   }
   .welcome-banner {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
+    padding: 2rem;
+    text-align: center;
+    .welcome-date { justify-content: center; }
   }
+  .ut-badge { width: 100%; justify-content: center; }
 }

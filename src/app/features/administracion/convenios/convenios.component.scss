@@ -1,12 +1,11 @@
 .convenios-page {
   padding-bottom: 2rem;
   animation: fadeInUp 0.35s ease both;
-  color: #f8fafc;
+  color: var(--text-main);
   
-  // Base component variables
-  --border-color: #333;
-  --bg-card: #222;
-  --bg-hover: #2a2a2a;
+  --border-color: var(--border-color);
+  --bg-card: var(--bg-card);
+  --bg-hover: var(--sidebar-hover);
 }
 
 // ─── Page Header ───────────────────────────────────────────────────────────────
@@ -14,40 +13,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid var(--border-color);
 }
 
 .header-left {
   .page-title {
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 800;
     margin: 0 0 0.3rem 0;
+    color: var(--primary);
   }
 
   .page-subtitle {
-    color: #888;
+    color: var(--text-muted);
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
+    font-weight: 500;
   }
 }
 
 .btn-primary {
-  background: transparent;
+  background: var(--primary-gradient);
   color: #fff;
-  border: 1px solid #555;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.95rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  box-shadow: var(--shadow-md);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: #777;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
   }
 }
 
@@ -56,28 +58,38 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .stat-card {
-  background: #1a1a1a;
-  border-radius: 12px;
-  padding: 1.5rem;
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 1.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
+  }
 
   .stat-label {
-    color: #999;
-    font-size: 0.85rem;
-    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .stat-value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #fff;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary);
     line-height: 1;
   }
 }
@@ -85,42 +97,48 @@
 // ─── Filters Row ────────────────────────────────────────────────────────────────
 .filters-row {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
 }
 
 .filter-group {
   &.search-group {
     flex: 1;
-    max-width: 300px;
+    max-width: 350px;
   }
 }
 
 .form-control, .form-select {
   width: 100%;
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: #fff;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
+  background: #ffffff;
+  border: 2px solid #edf2f0;
+  color: var(--text-main);
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s;
   
   &:focus {
     outline: none;
-    border-color: #555;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
   }
 
   option {
-    background: #222;
-    color: #fff;
+    background: #fff;
+    color: var(--text-main);
   }
 }
 
 // ─── Data Table ─────────────────────────────────────────────────────────────────
 .table-container {
-  overflow-x: auto;
-  border-top: 1px solid var(--border-color);
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
 }
 
 .data-table {
@@ -129,19 +147,23 @@
   text-align: left;
 
   th {
-    padding: 1rem;
-    color: #888;
-    font-weight: 500;
+    padding: 1.25rem 1.5rem;
+    background: #f8faf9;
+    color: var(--text-muted);
+    font-weight: 800;
     font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     border-bottom: 1px solid var(--border-color);
   }
 
   td {
-    padding: 1rem;
-    font-size: 0.9rem;
-    color: #ccc;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.25rem 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    border-bottom: 1px solid #f1f7f5;
     vertical-align: middle;
+    font-weight: 500;
   }
 
   tr:last-child td {
@@ -149,47 +171,45 @@
   }
 
   tr:hover td {
-    background: rgba(255, 255, 255, 0.02);
+    background: #f0f7f4;
   }
 
   .font-medium {
-    font-weight: 500;
-  }
-
-  .text-white {
-    color: #fff;
+    font-weight: 700;
+    color: var(--primary);
   }
 
   .no-data {
-    padding: 3rem;
-    color: #666;
+    padding: 4rem;
+    color: var(--text-muted);
+    text-align: center;
+    font-weight: 600;
   }
 }
 
 // ─── Badges ─────────────────────────────────────────────────────────────────────
 .badge {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
+  padding: 0.4rem 1rem;
   border-radius: 50px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   
   &.badge-activo {
-    background: rgba(101, 163, 99, 0.15);
-    color: #8cd688;
-    border: 1px solid rgba(101, 163, 99, 0.3);
+    background: var(--badge-bg-success);
+    color: var(--badge-text-success);
   }
 
   &.badge-pendiente {
-    background: rgba(245, 176, 65, 0.15);
-    color: #fad7a1;
-    border: 1px solid rgba(245, 176, 65, 0.3);
+    background: var(--badge-bg-warning);
+    color: var(--badge-text-warning);
   }
 
   &.badge-por-vencer {
-    background: rgba(231, 76, 60, 0.15);
-    color: #f1948a;
-    border: 1px solid rgba(231, 76, 60, 0.3);
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
   }
 }
 
@@ -200,14 +220,14 @@
   align-items: center;
   justify-content: center;
   padding: 5rem 2rem;
-  gap: 1rem;
-  color: #666;
+  gap: 1.5rem;
+  color: var(--text-muted);
 
   .spinner {
-    width: 36px;
-    height: 36px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: #888;
+    width: 44px;
+    height: 44px;
+    border: 4px solid #f1f7f5;
+    border-top-color: var(--primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }

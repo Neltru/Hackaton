@@ -77,25 +77,26 @@ import { RouterModule } from '@angular/router';
     }
 
     .sidebar-header {
-      padding: 2rem 1.5rem 1rem;
+      padding: 2.5rem 1.5rem 1.5rem;
       .logo {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.85rem;
         .logo-box {
-          background: #22c55e;
+          background: var(--primary-gradient);
           color: white;
-          padding: 0.5rem;
-          border-radius: 0.5rem;
-          font-weight: 800;
+          padding: 0.6rem;
+          border-radius: 12px;
+          font-weight: 900;
           font-size: 1.2rem;
+          box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2);
         }
         .logo-text {
           display: flex;
           flex-direction: column;
-          line-height: 1.1;
-          .main { font-weight: 700; font-size: 1.1rem; color: var(--text-main); letter-spacing: 1px; }
-          .sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
+          line-height: 1.2;
+          .main { font-weight: 800; font-size: 1.1rem; color: var(--text-main); letter-spacing: 0.5px; }
+          .sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         }
       }
     }
@@ -108,20 +109,19 @@ import { RouterModule } from '@angular/router';
         align-items: center;
         justify-content: center;
         gap: 0.75rem;
-        padding: 0.85rem;
-        background: #22c55e;
+        padding: 1rem;
+        background: var(--primary-gradient);
         color: white;
         border: none;
-        border-radius: 0.75rem;
-        font-weight: 700;
-        font-size: 0.9rem;
+        border-radius: 14px;
+        font-weight: 800;
+        font-size: 0.95rem;
         cursor: pointer;
-        transition: all 0.2s;
-        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+        transition: all 0.3s;
+        box-shadow: var(--shadow-sm);
         &:hover {
-          background: #16a34a;
           transform: translateY(-2px);
-          box-shadow: 0 6px 15px rgba(34, 197, 94, 0.3);
+          box-shadow: var(--shadow-md);
         }
       }
     }
@@ -136,34 +136,36 @@ import { RouterModule } from '@angular/router';
           display: block;
           padding: 0 1.5rem;
           font-size: 0.7rem;
-          font-weight: 700;
+          font-weight: 800;
           color: var(--text-muted);
           letter-spacing: 1.5px;
           margin-bottom: 0.75rem;
+          text-transform: uppercase;
         }
       }
       .nav-item {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.85rem;
         padding: 0.85rem 1.5rem;
         color: var(--text-muted);
         text-decoration: none;
         font-size: 0.95rem;
-        font-weight: 500;
-        transition: all 0.2s;
-        border-left: 3px solid transparent;
+        font-weight: 600;
+        transition: all 0.3s;
+        border-left: 4px solid transparent;
         &:hover {
           background: var(--sidebar-hover);
-          color: var(--text-main);
+          color: var(--primary);
+          padding-left: 1.75rem;
         }
         &.active {
-          color: #22c55e;
-          background: rgba(34, 197, 94, 0.05);
-          border-left-color: #22c55e;
-          font-weight: 600;
+          color: var(--primary);
+          background: #f0f7f4;
+          border-left-color: var(--primary);
+          font-weight: 800;
         }
-        svg { opacity: 0.7; }
+        svg { opacity: 0.8; stroke: currentColor; }
         &.active svg { opacity: 1; }
       }
     }
@@ -174,21 +176,30 @@ import { RouterModule } from '@angular/router';
       .user-pill {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 1rem;
+        gap: 1rem;
+        padding: 1rem;
+        background: #f8faf9;
+        border-radius: 1.25rem;
+        transition: all 0.3s;
+        cursor: pointer;
+
+        &:hover {
+          background: #f0f7f4;
+          transform: translateY(-2px);
+        }
+
         .avatar {
-          width: 36px; height: 36px;
-          background: #22c55e;
-          border-radius: 50%;
+          width: 40px; height: 40px;
+          background: var(--primary-gradient);
+          border-radius: 12px;
           display: flex; align-items: center; justify-content: center;
-          font-weight: 700; font-size: 0.8rem; color: white;
+          font-weight: 800; font-size: 0.9rem; color: white;
+          box-shadow: 0 4px 8px rgba(45, 106, 79, 0.15);
         }
         .user-info {
           display: flex; flex-direction: column;
-          .name { font-size: 0.85rem; font-weight: 600; color: var(--text-main); }
-          .role { font-size: 0.7rem; color: var(--text-muted); }
+          .name { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
+          .role { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
         }
       }
     }
