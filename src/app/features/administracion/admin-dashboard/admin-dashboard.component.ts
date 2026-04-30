@@ -179,7 +179,7 @@ export class AdminDashboardComponent implements OnInit {
               color: '#40916c',
               padding: 20,
               usePointStyle: true,
-              font: { size: 12, weight: '700' }
+              font: { size: 12, weight: 700 }
             }
           }
         },

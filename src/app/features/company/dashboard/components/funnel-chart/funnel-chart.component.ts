@@ -21,7 +21,7 @@ export class FunnelChartComponent {
       height: 180,
       toolbar: { show: false },
       background: 'transparent',
-      foreColor: '#888'
+      foreColor: 'var(--text-muted)'
     },
     plotOptions: {
       bar: {
@@ -30,14 +30,14 @@ export class FunnelChartComponent {
       }
     },
     dataLabels: { enabled: false },
-    colors: ["#3b82f6"],
+    colors: ["var(--primary)"],
     xaxis: {
       categories: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
       axisBorder: { show: false },
       axisTicks: { show: false }
     },
     grid: { show: false },
-    tooltip: { theme: 'dark' }
+    tooltip: { theme: 'light' }
   };
 
   // --- ApexCharts: Embudo de Selección ---
@@ -50,7 +50,8 @@ export class FunnelChartComponent {
       type: "bar",
       height: 250,
       toolbar: { show: false },
-      foreColor: '#888'
+      background: 'transparent',
+      foreColor: 'var(--text-muted)'
     },
     plotOptions: {
       bar: {
@@ -60,11 +61,17 @@ export class FunnelChartComponent {
         distributed: true
       }
     },
-    colors: ["#3b82f6", "#06b6d4", "#f59e0b", "#10b981", "#22c55e"],
+    colors: [
+      "var(--primary)",
+      "var(--primary-light)",
+      "var(--accent)",
+      "var(--secondary)",
+      "var(--success)"
+    ],
     dataLabels: {
       enabled: true,
       textAnchor: 'start',
-      style: { colors: ['#fff'] },
+      style: { colors: ['var(--text-main)'] },
       formatter: function(val: any, opt: any) {
         return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
       },
@@ -77,6 +84,6 @@ export class FunnelChartComponent {
     },
     grid: { show: false },
     legend: { show: false },
-    tooltip: { theme: 'dark' }
+    tooltip: { theme: 'light' }
   };
 }
