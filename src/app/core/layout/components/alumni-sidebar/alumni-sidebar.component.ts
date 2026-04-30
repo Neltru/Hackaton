@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
         <div class="logo">
           <span class="logo-box">UT</span>
           <div class="logo-text">
-            <span class="main">ALUMNI</span>
+            <span class="main">ALUMNO</span>
             <span class="sub">DE LA COSTA</span>
           </div>
         </div>
