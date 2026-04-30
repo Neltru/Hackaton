@@ -8,18 +8,22 @@ import { API_CONFIG } from '../constants/api.constants';
   providedIn: 'root'
 })
 export class AlumniProfileService {
-  private readonly apiUrl = `${API_CONFIG.baseUrl}/alumni/profile`;
+  private readonly apiUrl = `${API_CONFIG.baseUrl}/egresado`;
 
   constructor(private readonly http: HttpClient) { }
 
   getProfile(): Observable<AlumniProfile> {
-    return this.http.get<AlumniProfile>(this.apiUrl).pipe(
+    return this.http.get<AlumniProfile>(`${this.apiUrl}/perfil`).pipe(
       catchError(() => of(this.getFallbackProfile()))
     );
   }
 
   updateProfile(payload: AlumniProfileUpdate): Observable<AlumniProfile> {
-    return this.http.put<AlumniProfile>(this.apiUrl, payload);
+    return this.http.put<AlumniProfile>(`${this.apiUrl}/perfil`, payload);
+  }
+
+  marcarContratacion(payload: { vacante_id: number, empresa_id: number }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/marcar-contratacion`, payload);
   }
 
   private getFallbackProfile(): AlumniProfile {

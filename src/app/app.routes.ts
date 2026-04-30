@@ -37,6 +37,7 @@ import { DashboardComponent as CompanyDashboardComponent } from './features/comp
 export const routes: Routes = [
   // ── Auth ────────────────────────────────────────────────────────────────────
   { path: 'login', component: LoginComponent },
+  { path: 'register-company', loadComponent: () => import('./features/auth/register-company/register-company.component').then(m => m.RegisterCompanyComponent) },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   {
     path: 'alumni',

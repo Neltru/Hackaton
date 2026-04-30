@@ -8,32 +8,37 @@ import { API_CONFIG } from '../constants/api.constants';
   providedIn: 'root'
 })
 export class AlumniFilesService {
-  private readonly baseUrl = `${API_CONFIG.baseUrl}/alumni/profile`;
+  private readonly baseUrl = `${API_CONFIG.baseUrl}/egresado`;
 
   constructor(private readonly http: HttpClient) {}
 
   uploadPhoto(file: File): Observable<HttpEvent<DriveFileRef>> {
-    return this.http.post<DriveFileRef>(`${this.baseUrl}/photo`, this.toFormData(file), {
+    const formData = this.toFormData(file);
+    formData.append('type', 'photo'); // Ayuda al backend a saber qué es
+    return this.http.post<DriveFileRef>(`${this.baseUrl}/upload-file`, formData, {
       reportProgress: true,
       observe: 'events'
     });
   }
 
   uploadCv(file: File): Observable<HttpEvent<DriveFileRef>> {
-    return this.http.post<DriveFileRef>(`${this.baseUrl}/cv`, this.toFormData(file), {
+    const formData = this.toFormData(file);
+    formData.append('type', 'cv'); // Ayuda al backend a saber qué es
+    return this.http.post<DriveFileRef>(`${this.baseUrl}/upload-file`, formData, {
       reportProgress: true,
       observe: 'events'
     });
   }
 
   uploadCertificate(file: File): Observable<HttpEvent<DriveFileRef>> {
-    return this.http.post<DriveFileRef>(`${this.baseUrl}/certificates`, this.toFormData(file), {
+    return this.http.post<DriveFileRef>(`${this.baseUrl}/upload-certificado`, this.toFormData(file), {
       reportProgress: true,
       observe: 'events'
     });
   }
 
   deleteFile(fileId: string): Observable<void> {
+    // Pendiente si el backend tiene una ruta para eliminar, por defecto uso esto:
     return this.http.delete<void>(`${this.baseUrl}/files/${fileId}`);
   }
 

@@ -2,7 +2,7 @@
   padding-bottom: 2rem;
   animation: fadeInUp 0.35s ease both;
   color: var(--text-main);
-  
+
   --border-color: #333;
   --bg-card: #222;
 
@@ -56,8 +56,14 @@
   background-size: 1.2em;
   transition: all 0.3s;
 
-  &:hover { border-color: #777; }
-  option { background: #222; color: #fff; }
+  &:hover {
+    border-color: #777;
+  }
+
+  option {
+    background: #222;
+    color: #fff;
+  }
 
 }
 
@@ -130,7 +136,7 @@
   min-height: 400px;
 }
 
-}
+
 
 // ─── Data Table Section ─────────────────────────────────────────────────────────
 .table-section {
@@ -177,10 +183,21 @@
     font-weight: 500;
   }
 
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(255, 255, 255, 0.02); }
-  .font-bold { font-weight: 700; }
-  .text-white { color: #fff; }
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .font-bold {
+    font-weight: 700;
+  }
+
+  .text-white {
+    color: #fff;
+  }
 
 }
 
@@ -205,17 +222,36 @@
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 @media (max-width: 900px) {
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
-  .header-right.filters { flex-direction: column; gap: 0.5rem; }
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .header-right.filters {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
 
 @media (max-width: 500px) {
-  .stats-row { grid-template-columns: 1fr; }
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
 }
