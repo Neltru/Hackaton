@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary: #4f8cf6; /* Blue from the design */
+  --primary-hover: #3b76d9;
+  --bg-dark: #121212; /* Main background */
+  --bg-card: #222222; /* Card background */
+  --bg-card-hover: #2a2a2a;
+  --border-color: #333333;
+  --text-main: #f8fafc;
+  --text-muted: #a0a0a0;
+  
+  /* Status Colors */
+  --success: #65a363; /* Green from the design */
+  --warning: #f5b041; /* Orange/Yellow */
+  --info: #4f8cf6;
+  --neutral: #444444; /* Empty/Pending bars */
+
+  /* Badges */
+  --badge-bg-success: rgba(101, 163, 99, 0.2);
+  --badge-text-success: #8cd688;
+  --badge-bg-info: rgba(79, 140, 246, 0.2);
+  --badge-text-info: #8ab4f8;
+  --badge-bg-warning: rgba(245, 176, 65, 0.2);
+  --badge-text-warning: #fad7a1;
+  --badge-bg-neutral: rgba(255, 255, 255, 0.1);
+  --badge-text-neutral: #cccccc;
+
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --font-family: 'Outfit', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background: var(--bg-dark);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+* {
+  box-sizing: border-box;
+}

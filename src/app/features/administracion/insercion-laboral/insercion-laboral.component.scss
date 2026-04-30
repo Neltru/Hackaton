@@ -1,0 +1,280 @@
+.insercion-page {
+  padding-bottom: 2rem;
+  animation: fadeInUp 0.35s ease both;
+  color: #f8fafc;
+  
+  --border-color: #333;
+  --bg-card: #222;
+  --bar-color: #3b82f6; // Blue from mockup
+  --meta-color: #10b981; // Green from mockup
+  --track-color: #333; // Dark track for bars
+}
+
+// ─── Page Header ───────────────────────────────────────────────────────────────
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-left {
+  .page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 0.3rem 0;
+  }
+
+  .page-subtitle {
+    color: #888;
+    margin: 0;
+    font-size: 0.85rem;
+  }
+}
+
+.header-right.filters {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-select {
+  background: transparent;
+  border: 1px solid #555;
+  color: #fff;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em;
+
+  &:focus {
+    outline: none;
+    border-color: #888;
+  }
+
+  option {
+    background: #222;
+    color: #fff;
+  }
+}
+
+// ─── Stats Row ──────────────────────────────────────────────────────────────────
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .stat-label {
+    color: #999;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+  }
+}
+
+// ─── Chart Section ──────────────────────────────────────────────────────────────
+.chart-section {
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    color: #fff;
+  }
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  padding-right: 2rem; // space for the value number
+}
+
+// Target line spanning all bars
+.target-line {
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  width: 2px;
+  background: rgba(16, 185, 129, 0.4); // Semi-transparent green
+  border-left: 1px dashed var(--meta-color);
+  z-index: 1;
+  margin-left: 150px; // Offset to match the track wrapper start
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay);
+}
+
+.bar-label {
+  width: 130px; // Fixed width for alignment
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #ccc;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.bar-track-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.bar-track {
+  flex: 1;
+  height: 16px;
+  background-color: var(--track-color);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  background-color: var(--bar-color);
+  border-radius: 10px;
+  // transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fillBar 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--delay) + 0.2s);
+}
+
+.bar-value {
+  width: 30px;
+  font-size: 0.95rem;
+  color: #ccc;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+// ─── Chart Legend ───────────────────────────────────────────────────────────────
+.chart-legend {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  
+  &.fill-color {
+    background-color: var(--bar-color);
+  }
+  
+  &.meta-color {
+    background-color: var(--meta-color);
+  }
+}
+
+.legend-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #aaa;
+}
+
+// ─── Loading ────────────────────────────────────────────────────────────────────
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
+  gap: 1rem;
+  color: #666;
+
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #888;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+// ─── Animations ─────────────────────────────────────────────────────────────────
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fillBar {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .header-right.filters {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bar-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .bar-label {
+    width: 100%;
+  }
+  
+  .bar-track-wrapper {
+    width: 100%;
+  }
+
+  .target-line {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,110 @@
+<section class="monitoreo-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Monitoreo de nivel de egresados por carrera</h1>
+      <p class="page-subtitle">RF-29 · Histograma / campana de Gauss</p>
+    </div>
+    <div class="header-right filters">
+      <select class="form-select outline" [(ngModel)]="selectedCarrera" (ngModelChange)="onFilterChange()">
+        <option>Todas las carreras</option>
+        <option>Tecnologías de la Información</option>
+        <option>Administración</option>
+        <option>Ing. Civil</option>
+      </select>
+      <select class="form-select outline" [(ngModel)]="selectedAnio" (ngModelChange)="onFilterChange()">
+        <option>2025</option>
+        <option>2024</option>
+        <option>2023</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Cargando datos de monitoreo...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading && stats && histograma">
+    
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-label">Promedio global</span>
+        <span class="stat-value">{{ stats.promedioGlobal }}</span>
+        <span class="stat-desc">de 100 pts</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Puntaje mín.</span>
+        <span class="stat-value">{{ stats.puntajeMin }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Puntaje máx.</span>
+        <span class="stat-value">{{ stats.puntajeMax }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Desv. estándar</span>
+        <span class="stat-value">{{ stats.desviacionEstandar }}</span>
+      </div>
+    </div>
+
+    <!-- Chart Section (Histogram + Gauss) -->
+    <div class="chart-section">
+      <h2 class="section-title">Distribución de puntajes combinados (4 pruebas)</h2>
+      
+      <div class="histogram-container">
+        <!-- SVG for the Gauss Curve Overlay -->
+        <svg class="gauss-curve" viewBox="0 0 800 200" preserveAspectRatio="none">
+          <path [attr.d]="getGaussPath()" fill="none" stroke="#10b981" stroke-width="3"></path>
+          <!-- Meta tag label (approximate center for the mockup visual) -->
+          <text x="50%" y="15%" fill="#3b82f6" font-size="12" text-anchor="middle" font-weight="bold">µ = {{ stats.promedioGlobal }}</text>
+        </svg>
+
+        <!-- CSS Bars for the Histogram -->
+        <div class="bars-container">
+          <div class="histogram-bar" *ngFor="let point of histograma; let i = index">
+            <!-- Normalized height based on max height 100 for visual mockup -->
+            <div class="bar-fill" [style.height.%]="point.frecuencia" [style.animation-delay]="i * 0.05 + 's'"></div>
+          </div>
+        </div>
+        
+        <!-- X Axis labels placeholder -->
+        <div class="x-axis-labels">
+          <span *ngFor="let point of histograma">{{ point.rango }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table Section -->
+    <div class="table-section">
+      <h2 class="section-title">Promedio por prueba y carrera</h2>
+      
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Carrera</th>
+              <th>Psicométrica</th>
+              <th>Cognitiva</th>
+              <th>Técnica</th>
+              <th>Proyectiva</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of promedios">
+              <td class="font-bold text-white">{{ item.carrera }}</td>
+              <td class="font-bold text-white">{{ item.psicometrica || '—' }}</td>
+              <td class="font-bold text-white">{{ item.cognitiva || '—' }}</td>
+              <td class="font-bold text-white">{{ item.tecnica || '—' }}</td>
+              <td class="font-bold text-white">{{ item.proyectiva || '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </ng-container>
+
+</section>

@@ -1,0 +1,83 @@
+<section class="vacantes-nacionales">
+  <div class="header">
+    <div class="title-area">
+      <h1>Vacantes Nacionales</h1>
+      <p class="subtitle">RF-32 · Integración con API Externa de Empleos</p>
+    </div>
+    <div class="api-status" [ngClass]="{'online': apiStatus === 'Conectado'}">
+      <span class="status-indicator"></span>
+      API Nacional: {{apiStatus}}
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Main Vacancies List -->
+    <div class="main-content">
+      <div class="card">
+        <div class="card-header">
+          <h2>Catálogo de Vacantes Externas</h2>
+          <span class="badge">Fuera de Nayarit</span>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="loading-state">
+            <div class="spinner"></div>
+            <p>Sincronizando con API nacional...</p>
+          </div>
+
+          <div *ngIf="!loading" class="vacantes-list">
+            <div *ngFor="let v of vacantes" class="vacante-item">
+              <div class="v-info">
+                <div class="v-header">
+                  <h3>{{v.titulo}}</h3>
+                  <span class="v-modalidad">{{v.modalidad}}</span>
+                </div>
+                <p class="v-empresa">{{v.empresa}}</p>
+                <p class="v-location">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {{v.ubicacion}}
+                </p>
+              </div>
+              <div class="v-actions">
+                <span class="v-salary">{{v.salario}}</span>
+                <div class="btn-group">
+                  <a [href]="v.link_externo" target="_blank" class="btn-secondary">Ver Oferta</a>
+                  <button (click)="simularContratacion(v)" class="btn-primary">Marcar Contratación</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Side: Alerts -->
+    <div class="side-content">
+      <div class="card alerts-card">
+        <div class="card-header">
+          <h2>Alertas de Convenio</h2>
+          <span class="badge badge-warning">Convenio Post-Contratación</span>
+        </div>
+        <div class="card-body">
+          <p class="help-text">Empresas nacionales donde alumnos se han contratado y requieren formalización de convenio.</p>
+          
+          <div class="alerts-list">
+            <div *ngFor="let a of alertas" class="alert-item">
+              <div class="alert-header">
+                <span class="status-dot"></span>
+                <strong>{{a.empresa_nacional}}</strong>
+              </div>
+              <p class="alert-text">Alumno: <strong>{{a.egresado_nombre}}</strong></p>
+              <div class="alert-footer">
+                <span class="date">{{a.fecha_contratacion | date:'dd/MM/yyyy'}}</span>
+                <span class="status">{{a.estatus}}</span>
+              </div>
+            </div>
+            <div *ngIf="alertas.length === 0" class="empty-state">
+              No hay alertas pendientes
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

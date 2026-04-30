@@ -1,0 +1,52 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+h3 {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+}
+
+.app-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.app-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.app-title {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.app-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  
+  &-success { background: var(--badge-bg-success); color: var(--badge-text-success); }
+  &-info { background: var(--badge-bg-info); color: var(--badge-text-info); }
+  &-warning { background: var(--badge-bg-warning); color: var(--badge-text-warning); }
+  &-neutral { background: var(--badge-bg-neutral); color: var(--badge-text-neutral); }
+}

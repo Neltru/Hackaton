@@ -1,0 +1,20 @@
+<div class="card">
+  <span class="title">{{ title }}</span>
+  <div class="main-content">
+    <span class="value">{{ value }}</span>
+    @if (badgeText) {
+    <span class="badge" [ngClass]="'badge-' + badgeType">{{ badgeText }}</span>
+    }
+  </div>
+
+  @if (isProgress) {
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="progress"></div>
+    </div>
+    <span class="subtitle">{{ subtitle }}</span>
+  </div>
+  } @else if (subtitle) {
+  <span class="subtitle">{{ subtitle }}</span>
+  }
+</div>

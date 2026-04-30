@@ -1,0 +1,93 @@
+<section class="ranking-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Ranking de competencias más demandadas</h1>
+      <p class="page-subtitle">RF-28 · Basado en vacantes publicadas</p>
+    </div>
+    <div class="header-right">
+      <select class="form-select outline" [(ngModel)]="selectedCarrera" (ngModelChange)="onFilterChange()">
+        <option>Todas las carreras</option>
+        <option>TI</option>
+        <option>Administración</option>
+        <option>Ing. Civil</option>
+        <option>Logística</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Calculando ranking...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading && ranking">
+    
+    <!-- Parallel Columns Section -->
+    <div class="parallel-columns">
+      
+      <!-- Column 1: Habilidades técnicas -->
+      <div class="ranking-column">
+        <h2 class="column-title">Habilidades técnicas</h2>
+        
+        <div class="ranking-list">
+          <div class="ranking-item" *ngFor="let hab of ranking.tecnicas; let i = index" [style.--delay]="i * 0.05 + 's'">
+            <div class="item-name">{{ hab.nombre }}</div>
+            <div class="item-track-wrapper">
+              <div class="item-track">
+                <div class="item-fill fill-blue" [style.width.%]="hab.puntaje"></div>
+              </div>
+              <div class="item-value">{{ hab.puntaje }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: Habilidades blandas -->
+      <div class="ranking-column">
+        <h2 class="column-title">Habilidades blandas</h2>
+        
+        <div class="ranking-list">
+          <div class="ranking-item" *ngFor="let hab of ranking.blandas; let i = index" [style.--delay]="i * 0.05 + 's'">
+            <div class="item-name">{{ hab.nombre }}</div>
+            <div class="item-track-wrapper">
+              <div class="item-track">
+                <div class="item-fill fill-green" [style.width.%]="hab.puntaje"></div>
+              </div>
+              <div class="item-value">{{ hab.puntaje }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tendencia mensual -->
+    <div class="tendencia-section">
+      <h2 class="section-title">Tendencia mensual — top 3 habilidades</h2>
+      
+      <div class="tendencia-chart-placeholder">
+        <!-- A CSS-based mock of a line chart just to look good -->
+        <svg viewBox="0 0 800 200" class="mock-line-chart">
+          <!-- Grid lines -->
+          <line x1="0" y1="50" x2="800" y2="50" stroke="#333" stroke-width="1" stroke-dasharray="4" />
+          <line x1="0" y1="100" x2="800" y2="100" stroke="#333" stroke-width="1" stroke-dasharray="4" />
+          <line x1="0" y1="150" x2="800" y2="150" stroke="#333" stroke-width="1" stroke-dasharray="4" />
+          
+          <!-- Line 1 (Blue) -->
+          <path d="M0,150 Q100,140 200,100 T400,60 T600,40 T800,20" fill="none" stroke="#3b82f6" stroke-width="3" />
+          <!-- Line 2 (Green) -->
+          <path d="M0,180 Q100,160 200,120 T400,100 T600,80 T800,50" fill="none" stroke="#10b981" stroke-width="3" />
+          <!-- Line 3 (Purple) -->
+          <path d="M0,190 Q100,180 200,170 T400,140 T600,120 T800,90" fill="none" stroke="#8b5cf6" stroke-width="3" />
+        </svg>
+        
+        <div class="placeholder-text">Gráfica de líneas · datos por mes</div>
+      </div>
+    </div>
+
+  </ng-container>
+
+</section>

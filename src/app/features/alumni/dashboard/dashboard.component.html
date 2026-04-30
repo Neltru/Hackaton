@@ -1,0 +1,46 @@
+<div class="dashboard-grid">
+  <!-- Top KPI Cards -->
+  <div class="kpi-row">
+    <app-stat-card title="Perfil completado" value="87%" subtitle="Falta: prueba proyectiva" [progress]="87"
+      [isProgress]="true">
+    </app-stat-card>
+
+    <app-stat-card title="Pruebas completadas" value="3/4" badgeText="Pendiente: proyectiva" badgeType="warning">
+    </app-stat-card>
+
+    <app-stat-card title="Postulaciones activas" value="4" badgeText="2 en revisión" badgeType="info">
+    </app-stat-card>
+
+    <app-stat-card title="Vacantes disponibles" value="127" badgeText="8 nuevas hoy" badgeType="success">
+    </app-stat-card>
+  </div>
+
+  <!-- Middle Row -->
+  <div class="middle-row">
+    <app-dimension-results class="col-left"></app-dimension-results>
+    <app-cv-status class="col-right"></app-cv-status>
+  </div>
+
+  <!-- Bottom Row -->
+  <div class="bottom-row">
+    <app-recommended-jobs class="col-left"></app-recommended-jobs>
+    <app-applications-list class="col-right"></app-applications-list>
+  </div>
+
+  <!-- Footer Banner -->
+  <div class="report-banner">
+    <div class="banner-content">
+      <div class="banner-text">
+        <h3>Reporte de idoneidad disponible</h3>
+        <p>Descarga tu reporte técnico con fortalezas, áreas de oportunidad y puntajes por dimensión con logo
+          institucional.</p>
+      </div>
+      <button class="btn-outline">Descargar PDF <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="7" y1="17" x2="17" y2="7"></line>
+          <polyline points="7 7 17 7 17 17"></polyline>
+        </svg></button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<section class="reporte-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Reporte de estatus de convenios</h1>
+      <p class="page-subtitle">RF-25 · Admin UT · Exportable</p>
+    </div>
+    <div class="header-right actions">
+      <button class="btn-outline">PDF</button>
+      <button class="btn-outline">Excel</button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Cargando reporte...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading && stats">
+    <!-- Stats Cards -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <h3 class="stat-title">Empresas activas</h3>
+        <span class="stat-value">{{ stats.activas }}</span>
+        <span class="stat-desc">con convenio vigente</span>
+      </div>
+      <div class="stat-card">
+        <h3 class="stat-title">Próximos a vencer</h3>
+        <span class="stat-value">{{ stats.proximosVencer }}</span>
+        <span class="stat-desc">en los próximos 60 días</span>
+      </div>
+      <div class="stat-card">
+        <h3 class="stat-title">Pendientes formalización</h3>
+        <span class="stat-value">{{ stats.pendientesFormalizacion }}</span>
+        <span class="stat-desc">tras contratación API</span>
+      </div>
+    </div>
+
+    <!-- Section: Empresas pendientes de formalización -->
+    <div class="section-container">
+      <h2 class="section-title">Empresas pendientes de formalización</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Empresa</th>
+              <th>Egresado contratado</th>
+              <th>Vacante</th>
+              <th>Días pendiente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of empresasPendientes">
+              <td class="font-bold text-white">{{ item.empresa }}</td>
+              <td class="font-medium text-white">{{ item.egresado }}</td>
+              <td class="font-medium text-white">{{ item.vacante }}</td>
+              <td>
+                <span class="badge" [ngClass]="getBadgeClass(item.diasPendiente)">
+                  {{ item.diasPendiente }} días
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section: Por vencer (próximos 60 días) -->
+    <div class="section-container">
+      <h2 class="section-title">Por vencer (próximos 60 días)</h2>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Empresa</th>
+              <th>Fecha vencimiento</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of empresasPorVencer">
+              <td class="font-bold text-white">{{ item.empresa }}</td>
+              <td class="font-medium text-white">{{ item.fechaVencimiento }}</td>
+              <td>
+                <button class="btn-action">Renovar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </ng-container>
+
+</section>
