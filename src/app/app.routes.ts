@@ -38,7 +38,6 @@ export const routes: Routes = [
     path: 'alumni',
     component: AlumniLayoutComponent,
     children: [
-develop-Neltru
       { path: 'dashboard', component: AlumniDashboardComponent },
       { path: 'vacantes', component: VacantesComponent },
       { path: 'perfil', component: PerfilComponent },
@@ -57,7 +56,7 @@ develop-Neltru
       { path: 'vacantes/:id/candidatos', loadComponent: () => import('./features/company/vacantes/vacante-candidatos/vacante-candidatos.component').then(m => m.VacanteCandidatosComponent) },
       { path: 'mensajes', loadComponent: () => import('./features/company/mensajes/mensajes.component').then(m => m.MensajesComponent) },
       { path: 'reportes', loadComponent: () => import('./features/company/reportes/reportes.component').then(m => m.ReportesComponent) },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' 
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
 
@@ -81,7 +80,7 @@ develop-Neltru
       { path: 'sistema/pruebas-sot', component: PruebasSotComponent },
       { path: 'sistema/matching', component: MatchingMotorComponent },
       // próximamente: postulaciones, alumnos, vacantes
-      { path: '',             redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
 
