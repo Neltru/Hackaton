@@ -1,0 +1,58 @@
+<div class="dashboard-grid">
+  <!-- Top Section: General Summary -->
+  <section class="summary-section">
+    <h2 class="section-title">RESUMEN GENERAL</h2>
+    <div class="stats-row">
+      <app-company-stat-card
+        title="Vacantes activas"
+        value="8"
+        trendValue="2"
+        trendText="este mes"
+        [progressValue]="60"
+        colorClass="success">
+      </app-company-stat-card>
+
+      <app-company-stat-card
+        title="Postulaciones recibidas"
+        value="143"
+        trendValue="31"
+        trendText="nuevas"
+        [progressValue]="85"
+        colorClass="success">
+      </app-company-stat-card>
+
+      <app-company-stat-card
+        title="En proceso"
+        value="24"
+        trendText="entrevistas pendientes"
+        [progressValue]="40"
+        colorClass="warning">
+      </app-company-stat-card>
+
+      <app-company-stat-card
+        title="Contrataciones"
+        value="5"
+        trendValue="2"
+        trendText="este trimestre"
+        [progressValue]="25"
+        colorClass="success">
+      </app-company-stat-card>
+    </div>
+  </section>
+
+  <!-- Middle Section: Jobs & Funnel -->
+  <section class="middle-section">
+    <div class="jobs-col">
+      <app-published-jobs></app-published-jobs>
+    </div>
+    <div class="funnel-col">
+      <app-funnel-chart></app-funnel-chart>
+    </div>
+  </section>
+
+  <!-- Bottom Section: Candidates & Notifications -->
+  <section class="bottom-section">
+    <app-recent-candidates></app-recent-candidates>
+    <app-recent-notifications></app-recent-notifications>
+  </section>
+</div>

@@ -1,0 +1,34 @@
+<div class="card-container">
+  <div class="card-section">
+    <h3 class="card-title">Postulaciones por semana</h3>
+    
+    <!-- Simple CSS bar chart placeholder -->
+    <div class="chart-container">
+      <div class="chart-bars">
+        <div class="chart-bar-wrapper" *ngFor="let value of weeklyData; let i = index">
+          <div class="chart-bar" [style.height.%]="value"></div>
+        </div>
+      </div>
+      <div class="chart-labels">
+        <span *ngFor="let day of days">{{ day }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card-section">
+    <h3 class="card-title">Embudo de selección</h3>
+    
+    <div class="funnel-list">
+      <div class="funnel-item" *ngFor="let stage of funnelStages">
+        <div class="stage-name">{{ stage.name }}</div>
+        <div class="stage-progress-container">
+          <div class="stage-progress-bg"></div>
+          <div class="stage-progress-fill" [ngClass]="stage.colorClass" [style.width.%]="stage.progress"></div>
+        </div>
+        <div class="stage-count">{{ stage.count }}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="card-container">
+  <div class="card-header">
+    <h3 class="card-title">Candidatos recientes</h3>
+    <button class="btn-outline-small">Ver todos</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="candidates-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Candidato</th>
+          <th>Vacante</th>
+          <th>Etapa</th>
+          <th>Fecha</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let candidate of candidates">
+          <td class="col-id">{{ candidate.id }}</td>
+          <td class="col-candidate">
+            <div class="avatar-container">
+              <div class="avatar-circle">{{ candidate.initials }}</div>
+              <span class="candidate-name">{{ candidate.name }}</span>
+            </div>
+          </td>
+          <td class="col-job">{{ candidate.job }}</td>
+          <td class="col-stage">
+            <span class="status-dot" [ngClass]="candidate.stageColor"></span>
+            {{ candidate.stage }}
+          </td>
+          <td class="col-date">{{ candidate.date }}</td>
+          <td class="col-action">
+            <button class="btn-outline-small">Ver perfil</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

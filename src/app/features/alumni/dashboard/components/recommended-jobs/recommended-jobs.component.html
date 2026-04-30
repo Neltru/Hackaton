@@ -4,7 +4,7 @@
   </div>
 
   <div class="job-list">
-    @for (job of jobs; track job.title) {
+    @for (job of recommendedJobs; track job.title) {
     <div class="job-item">
       <div class="job-info">
         <span class="job-title">{{ job.title }}</span>
@@ -15,5 +15,5 @@
     }
   </div>
 
-  <button class="btn-full-width">Ver todas las vacantes ↗</button>
+  <button [routerLink]="'/alumni/vacantes'" class="btn-full-width">Ver todas las vacantes ↗</button>
 </div>

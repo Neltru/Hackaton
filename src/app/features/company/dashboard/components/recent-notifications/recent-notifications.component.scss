@@ -1,0 +1,67 @@
+.card-container {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+
+  &.success { background-color: var(--success); }
+  &.warning { background-color: var(--warning); }
+  &.info { background-color: var(--info); }
+}
+
+.notification-content {
+  flex: 1;
+  font-size: 0.95rem;
+
+  .text {
+    color: var(--text-main);
+  }
+
+  .highlight {
+    font-weight: 600;
+    color: white; /* Make highlights pop slightly more if needed, or keep var(--text-main) */
+  }
+}
+
+.time {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}

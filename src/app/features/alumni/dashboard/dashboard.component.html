@@ -2,10 +2,15 @@
   <!-- Top KPI Cards -->
   <div class="kpi-row">
     <app-stat-card title="Perfil completado" value="87%" subtitle="Falta: prueba proyectiva" [progress]="87"
-      [isProgress]="true">
+      [isProgress]="true" routerLink="/alumni/perfil">
     </app-stat-card>
 
-    <app-stat-card title="Pruebas completadas" value="3/4" badgeText="Pendiente: proyectiva" badgeType="warning">
+    <app-stat-card 
+      title="Pruebas completadas" 
+      [value]="completedTests + '/' + totalTests" 
+      [badgeText]="allCompleted ? 'Completado' : 'Pendiente: proyectiva'" 
+      [badgeType]="allCompleted ? 'success' : 'warning'"
+      routerLink="/alumni/pruebas">
     </app-stat-card>
 
     <app-stat-card title="Postulaciones activas" value="4" badgeText="2 en revisión" badgeType="info">
@@ -32,15 +37,21 @@
     <div class="banner-content">
       <div class="banner-text">
         <h3>Reporte de idoneidad disponible</h3>
-        <p>Descarga tu reporte técnico con fortalezas, áreas de oportunidad y puntajes por dimensión con logo
-          institucional.</p>
+        <p>Descarga tu reporte técnico con fortalezas, áreas de oportunidad y puntajes por dimensión con logo institucional.</p>
       </div>
-      <button class="btn-outline">Descargar PDF <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+      <button class="btn-outline" (click)="downloadReport()" [disabled]="isGeneratingPdf">
+        {{ isGeneratingPdf ? 'Generando...' : 'Descargar PDF' }}
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
-          <line x1="7" y1="17" x2="17" y2="7"></line>
-          <polyline points="7 7 17 7 17 17"></polyline>
-        </svg></button>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </button>
     </div>
+  </div>
+
+  <!-- Plantilla oculta para PDF -->
+  <div style="position: absolute; left: -9999px; top: -9999px;">
+    <app-report-template id="report-content" [profile]="alumniProfile" [tests]="allTests"></app-report-template>
   </div>
 </div>
