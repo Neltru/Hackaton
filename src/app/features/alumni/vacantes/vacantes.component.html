@@ -2,14 +2,17 @@
   <header class="view-header">
     <div class="header-left">
       <a routerLink="/alumni/dashboard" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
         Volver
       </a>
       <span class="divider">|</span>
       <h1>Catálogo de vacantes</h1>
     </div>
     @if (!isLoading) {
-      <span class="available-count">{{ totalResults }}+ vacantes disponibles</span>
+    <span class="available-count">{{ totalResults }}+ vacantes disponibles</span>
     }
   </header>
 
@@ -20,8 +23,13 @@
       <div class="filter-group search">
         <label>BUSCAR</label>
         <div class="input-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Puesto, empresa, tecnología...">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()"
+            placeholder="Puesto, empresa, tecnología...">
         </div>
       </div>
 
@@ -30,7 +38,7 @@
         <label>TIPO DE CONTRATO</label>
         <select [(ngModel)]="selectedType" (change)="applyFilters()">
           @for (t of types; track t.value) {
-            <option [value]="t.value">{{ t.label }}</option>
+          <option [value]="t.value">{{ t.label }}</option>
           }
         </select>
       </div>
@@ -40,7 +48,7 @@
         <label>MODALIDAD</label>
         <select [(ngModel)]="selectedModality" (change)="applyFilters()">
           @for (m of modalities; track m.value) {
-            <option [value]="m.value">{{ m.label }}</option>
+          <option [value]="m.value">{{ m.label }}</option>
           }
         </select>
       </div>
@@ -52,7 +60,7 @@
         <label>PUBLICADO</label>
         <select [(ngModel)]="selectedDatePosted" (change)="applyFilters()">
           @for (d of datesPosted; track d.value) {
-            <option [value]="d.value">{{ d.label }}</option>
+          <option [value]="d.value">{{ d.label }}</option>
           }
         </select>
       </div>
@@ -60,7 +68,11 @@
       <div class="filter-group"></div>
 
       <button class="btn-clear" (click)="clearFilters()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.87"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <polyline points="1 4 1 10 7 10" />
+          <path d="M3.51 15a9 9 0 1 0 .49-3.87" />
+        </svg>
         Limpiar filtros
       </button>
     </div>
@@ -77,113 +89,285 @@
   <!-- Grid de vacantes -->
   <div class="jobs-grid">
     @if (isLoading) {
-      @for (i of [1,2,3,4,5,6]; track i) {
-        <div class="skeleton-card"></div>
-      }
+    @for (i of [1,2,3,4,5,6]; track i) {
+    <div class="skeleton-card"></div>
+    }
     } @else if (vacantes.length === 0) {
-      <div class="empty-state">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <p>No se encontraron vacantes para tu búsqueda.</p>
-        <button class="btn-clear" (click)="clearFilters()">Ver todas las vacantes</button>
-      </div>
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <p>No se encontraron vacantes para tu búsqueda.</p>
+      <button class="btn-clear" (click)="clearFilters()">Ver todas las vacantes</button>
+    </div>
     } @else {
-      @for (v of vacantes; track v.id) {
-        <div class="job-card" [class.recommended]="v.recommended">
-          @if (v.recommended) {
-            <div class="recommended-banner">⭐ Recomendada para tu perfil</div>
+    @for (v of vacantes; track v.id) {
+    <div class="job-card" [class.recommended]="v.recommended">
+      @if (v.recommended) {
+      <div class="recommended-banner">⭐ Recomendada para tu perfil</div>
+      }
+
+      <div class="card-body">
+        <div class="card-header-row">
+          @if (v.employer_logo) {
+          <img class="company-logo-img" [src]="v.employer_logo" [alt]="v.company"
+            (error)="imgFallback($event, v.company)">
+          } @else {
+          <div class="company-logo">{{ getInitials(v.company) }}</div>
           }
-
-          <div class="card-body">
-            <div class="card-header-row">
-              @if (v.employer_logo) {
-                <img class="company-logo-img" [src]="v.employer_logo" [alt]="v.company" (error)="imgFallback($event, v.company)">
-              } @else {
-                <div class="company-logo">{{ getInitials(v.company) }}</div>
-              }
-              <div class="title-group">
-                <div class="title-row">
-                  <h2 class="job-title">{{ v.title }}</h2>
-                  <span class="match-badge" (click)="$event.stopPropagation(); toggleRadar(v.id)" style="cursor: pointer;" title="Ver comparativa de competencias">
-                    {{ v.match }}% match
-                  </span>
-                </div>
-                <div class="company-meta">
-                  <span class="company-name">{{ v.company }}</span>
-                  @if (v.publisher) {
-                    <span class="publisher-badge">via {{ v.publisher }}</span>
-                  }
-                </div>
-              </div>
-            </div>
-
-            @if (selectedVacanteId === v.id) {
-              <div class="radar-expanded" (click)="$event.stopPropagation()">
-                <app-competence-radar [idealScores]="v.ideal_scores"></app-competence-radar>
-              </div>
-            }
-
-            <div class="badges-row">
-              <span class="badge location">
-                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                {{ v.location }}
+          <div class="title-group">
+            <div class="title-row">
+              <h2 class="job-title">{{ v.title }}</h2>
+              <span class="match-badge" (click)="$event.stopPropagation(); toggleRadar(v.id)" style="cursor: pointer;"
+                title="Ver comparativa de competencias">
+                {{ v.match }}% match
               </span>
-              <span class="badge type">{{ v.type }}</span>
-              <span class="badge modality" [class.remote]="v.modality === 'Remoto'">{{ v.modality }}</span>
             </div>
-
-            <p class="description">{{ v.description }}</p>
-
-            <div class="card-footer">
-              <span class="publish-date">{{ v.published_at }}</span>
-              
-              <div class="footer-actions">
-                @if (!areTestsCompleted) {
-                  <div class="locked-action" title="Debes completar tus pruebas estandarizadas para postularte">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    <span>Pruebas pendientes</span>
-                  </div>
-                } @else {
-                  @if (v.status === 'postulada') {
-                    <span class="status-applied">Postulada ✓</span>
-                  } @else {
-                    <div class="action-group">
-                      @if (v.match >= 80) {
-                        <button class="btn-contact" (click)="$event.preventDefault(); $event.stopPropagation();">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                          Contactar
-                        </button>
-                      }
-                      <a [href]="v.apply_link" target="_blank" class="btn-apply">
-                        Postularme
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
-                      </a>
-                    </div>
-                  }
-                }
-              </div>
+            <div class="company-meta">
+              <span class="company-name">{{ v.company }}</span>
+              @if (v.publisher) {
+              <span class="publisher-badge">via {{ v.publisher }}</span>
+              }
             </div>
           </div>
         </div>
-      }
+
+        @if (selectedVacanteId === v.id) {
+        <div class="radar-expanded" (click)="$event.stopPropagation()">
+          <app-competence-radar [idealScores]="v.ideal_scores"></app-competence-radar>
+        </div>
+        }
+
+        <div class="badges-row">
+          <span class="badge location">
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            {{ v.location }}
+          </span>
+          <span class="badge type">{{ v.type }}</span>
+          <span class="badge modality" [class.remote]="v.modality === 'Remoto'">{{ v.modality }}</span>
+        </div>
+
+        <p class="description">{{ v.description }}</p>
+
+        <div class="card-footer">
+          <span class="publish-date">{{ v.published_at }}</span>
+
+          <div class="footer-actions">
+            @if (!areTestsCompleted) {
+            <div class="locked-action" title="Debes completar tus pruebas estandarizadas para postularte">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span>Pruebas pendientes</span>
+            </div>
+            } @else {
+            @if (v.status === 'postulada') {
+            <span class="status-applied">Postulada ✓</span>
+            } @else {
+            <div class="action-group">
+              @if (v.match >= 80) {
+              <button class="btn-contact" (click)="openContactModal(v)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                Contactar
+              </button>
+              }
+              <button (click)="openApplyModal(v)" class="btn-apply">
+                Postularme
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </button>
+            </div>
+            }
+            }
+          </div>
+        </div>
+      </div>
+    </div>
     }
+    }
+  </div>
+
+  <!-- MODAL DE POSTULACIÓN (Existente) -->
+  <div class="modal-overlay" *ngIf="showApplyModal" (click)="closeApplyModal()">
+    <!-- ... (Contenido del modal de postulación se mantiene) ... -->
+    <div class="apply-modal glass-card" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeApplyModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="company-info">
+          <div class="logo-container">
+            <img *ngIf="selectedVacante?.employer_logo" [src]="selectedVacante?.employer_logo" class="modal-logo-img"
+              (error)="imgFallback($event, selectedVacante?.company || '')">
+            <div *ngIf="!selectedVacante?.employer_logo" class="company-logo-fallback">
+              {{ getInitials(selectedVacante?.company || '??') }}
+            </div>
+          </div>
+          <div class="header-text">
+            <h2>Postularme a {{ selectedVacante?.title }}</h2>
+            <p>{{ selectedVacante?.company }} · {{ selectedVacante?.location }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="match-analysis">
+          <div class="analysis-header">
+            <h3>Tu idoneidad para el puesto</h3>
+            <span class="match-percentage" [class.high]="(selectedVacante?.match || 0) >= 80">
+              {{ selectedVacante?.match }}% Coincidencia
+            </span>
+          </div>
+          <div class="radar-container">
+            <app-competence-radar [idealScores]="selectedVacante?.ideal_scores"></app-competence-radar>
+          </div>
+          <br>
+          <p class="analysis-note">Basado en tus pruebas estandarizadas SOT 2.0 y el perfil solicitado por la empresa.
+          </p>
+        </div>
+
+        <div class="apply-form">
+          <div class="form-group">
+            <label>Mensaje para el reclutador (Opcional)</label>
+            <textarea [(ngModel)]="postulacionMessage" rows="4"
+              placeholder="Escribe algo que te destaque de los demás candidatos..."
+              [disabled]="isSubmitting || postulacionSuccess"></textarea>
+          </div>
+
+          <div class="info-confirmation">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            <p>Se enviará automáticamente tu **Perfil Institucional** y tu **CV Digital** actualizado.</p>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-cancel" (click)="closeApplyModal()" [disabled]="isSubmitting">Cancelar</button>
+            <button class="btn-submit-apply" (click)="submitPostulacion()"
+              [disabled]="isSubmitting || postulacionSuccess">
+              <span *ngIf="!isSubmitting && !postulacionSuccess">Confirmar Postulación</span>
+              <span *ngIf="isSubmitting">Enviando...</span>
+              <span *ngIf="postulacionSuccess">¡Enviado con éxito!</span>
+            </button>
+          </div>
+
+          <div class="alert success" *ngIf="postulacionSuccess">
+            Tu postulación ha sido recibida. ¡Mucha suerte!
+          </div>
+          <div class="alert error" *ngIf="postulacionError">
+            {{ postulacionError }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONTACTO DIRECTO -->
+  <div class="modal-overlay" *ngIf="showContactModal" (click)="closeContactModal()">
+    <div class="contact-modal glass-card" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeContactModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="company-info">
+          <div class="logo-container">
+            <img *ngIf="selectedVacante?.employer_logo" [src]="selectedVacante?.employer_logo" class="modal-logo-img"
+              (error)="imgFallback($event, selectedVacante?.company || '')">
+            <div *ngIf="!selectedVacante?.employer_logo" class="company-logo-fallback">
+              {{ getInitials(selectedVacante?.company || '??') }}
+            </div>
+          </div>
+          <div class="header-text">
+            <h2>Contactar con reclutador</h2>
+            <p>{{ selectedVacante?.company }} · Chat Directo</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="chat-intro">
+          <p>Tienes un alto porcentaje de coincidencia ({{selectedVacante?.match}}%). Aprovecha para resolver dudas o
+            presentarte.</p>
+        </div>
+
+        <div class="form-group">
+          <label>Tu mensaje</label>
+          <textarea [(ngModel)]="contactMessage" rows="5"
+            placeholder="Hola, me interesa mucho la vacante de {{selectedVacante?.title}}..."
+            [disabled]="isSendingMessage || contactSuccess"></textarea>
+        </div>
+
+        <div class="quick-hints">
+          <button (click)="contactMessage = '¿Siguen recibiendo candidatos para este puesto?'">¿Siguen
+            recibiendo?</button>
+          <button (click)="contactMessage = 'Me gustaría conocer más sobre los beneficios de la empresa.'">Saber
+            beneficios</button>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="closeContactModal()" [disabled]="isSendingMessage">Cerrar</button>
+          <button class="btn-submit-apply" (click)="sendMessage()" [disabled]="isSendingMessage || contactSuccess">
+            <span *ngIf="!isSendingMessage && !contactSuccess">Enviar Mensaje</span>
+            <span *ngIf="isSendingMessage">Enviando...</span>
+            <span *ngIf="contactSuccess">¡Mensaje Enviado!</span>
+          </button>
+        </div>
+
+        <div class="alert success" *ngIf="contactSuccess">
+          Mensaje enviado. La empresa recibirá una notificación con tu perfil.
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Paginación funcional -->
   @if (!isLoading && vacantes.length > 0) {
-    <div class="pagination">
-      <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
+  <div class="pagination">
+    <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+    </button>
 
-      @for (page of pageNumbers; track page) {
-        <button class="page-btn" [class.active]="page === currentPage" (click)="goToPage(page)">
-          {{ page }}
-        </button>
-      }
+    @for (page of pageNumbers; track page) {
+    <button class="page-btn" [class.active]="page === currentPage" (click)="goToPage(page)">
+      {{ page }}
+    </button>
+    }
 
-      <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
-    </div>
+    <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+  </div>
   }
 </div>

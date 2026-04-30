@@ -16,7 +16,7 @@ export class PruebasComponent implements OnInit {
   isTakingTest = false;
   testProgress = 0;
 
-  constructor(private testsService: TestsService) {}
+  constructor(private testsService: TestsService) { }
 
   ngOnInit(): void {
     this.testsService.getTests().subscribe(data => {
@@ -33,7 +33,7 @@ export class PruebasComponent implements OnInit {
 
   completeTest(): void {
     if (!this.selectedTest) return;
-    
+
     // Simular progreso
     const interval = setInterval(() => {
       this.testProgress += 10;

@@ -4,7 +4,6 @@
   <div class="page-header">
     <div class="header-left">
       <h1 class="page-title">Mapa de calor de convenios</h1>
-      <p class="page-subtitle">RF-27 · Zona norte vs nacional · Filtrable</p>
     </div>
     <div class="header-right">
       <select class="form-select outline" [(ngModel)]="filtroZona" (ngModelChange)="onFilterChange()">
@@ -41,12 +40,8 @@
         <p class="section-desc">Visualización de convenios por región y volumen de actividad</p>
       </div>
       <div class="treemap-container">
-        <apx-chart
-          [series]="treemapOptions.series"
-          [chart]="treemapOptions.chart"
-          [title]="treemapOptions.title"
-          [colors]="treemapOptions.colors"
-          [plotOptions]="treemapOptions.plotOptions"
+        <apx-chart [series]="treemapOptions.series" [chart]="treemapOptions.chart" [title]="treemapOptions.title"
+          [colors]="treemapOptions.colors" [plotOptions]="treemapOptions.plotOptions"
           [tooltip]="treemapOptions.tooltip">
         </apx-chart>
       </div>

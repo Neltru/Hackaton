@@ -4,7 +4,6 @@
   <div class="page-header">
     <div class="header-left">
       <h1 class="page-title">Ranking de competencias más demandadas</h1>
-      <p class="page-subtitle">RF-28 · Basado en vacantes publicadas</p>
     </div>
     <div class="header-right">
       <select class="form-select outline" [(ngModel)]="selectedCarrera" (ngModelChange)="onFilterChange()">
@@ -24,21 +23,14 @@
   </div>
 
   <ng-container *ngIf="!isLoading && ranking">
-    
+
     <!-- Radar Overview Section -->
     <div class="chart-radar-section">
       <h2 class="section-title">Mapa de Competencias — Vista Holística (ApexCharts Radar)</h2>
       <div class="radar-container">
-        <apx-chart
-          [series]="radarOptions.series"
-          [chart]="radarOptions.chart"
-          [xaxis]="radarOptions.xaxis"
-          [yaxis]="radarOptions.yaxis"
-          [stroke]="radarOptions.stroke"
-          [colors]="radarOptions.colors"
-          [fill]="radarOptions.fill"
-          [markers]="radarOptions.markers"
-          [grid]="radarOptions.grid"
+        <apx-chart [series]="radarOptions.series" [chart]="radarOptions.chart" [xaxis]="radarOptions.xaxis"
+          [yaxis]="radarOptions.yaxis" [stroke]="radarOptions.stroke" [colors]="radarOptions.colors"
+          [fill]="radarOptions.fill" [markers]="radarOptions.markers" [grid]="radarOptions.grid"
           [tooltip]="radarOptions.tooltip">
         </apx-chart>
       </div>
@@ -46,13 +38,14 @@
 
     <!-- Parallel Columns Section -->
     <div class="parallel-columns">
-      
+
       <!-- Column 1: Habilidades técnicas -->
       <div class="ranking-column">
         <h2 class="column-title">Habilidades técnicas</h2>
-        
+
         <div class="ranking-list">
-          <div class="ranking-item" *ngFor="let hab of ranking.tecnicas; let i = index" [style.--delay]="i * 0.05 + 's'">
+          <div class="ranking-item" *ngFor="let hab of ranking.tecnicas; let i = index"
+            [style.--delay]="i * 0.05 + 's'">
             <div class="item-name">{{ hab.nombre }}</div>
             <div class="item-track-wrapper">
               <div class="item-track">
@@ -67,7 +60,7 @@
       <!-- Column 2: Habilidades blandas -->
       <div class="ranking-column">
         <h2 class="column-title">Habilidades blandas</h2>
-        
+
         <div class="ranking-list">
           <div class="ranking-item" *ngFor="let hab of ranking.blandas; let i = index" [style.--delay]="i * 0.05 + 's'">
             <div class="item-name">{{ hab.nombre }}</div>
@@ -87,16 +80,9 @@
     <div class="tendencia-section">
       <h2 class="section-title">Tendencia mensual — top habilidades demandadas (ApexCharts)</h2>
       <div class="line-chart-container">
-        <apx-chart
-          [series]="lineOptions.series"
-          [chart]="lineOptions.chart"
-          [xaxis]="lineOptions.xaxis"
-          [stroke]="lineOptions.stroke"
-          [colors]="lineOptions.colors"
-          [markers]="lineOptions.markers"
-          [grid]="lineOptions.grid"
-          [tooltip]="lineOptions.tooltip"
-          [legend]="lineOptions.legend">
+        <apx-chart [series]="lineOptions.series" [chart]="lineOptions.chart" [xaxis]="lineOptions.xaxis"
+          [stroke]="lineOptions.stroke" [colors]="lineOptions.colors" [markers]="lineOptions.markers"
+          [grid]="lineOptions.grid" [tooltip]="lineOptions.tooltip" [legend]="lineOptions.legend">
         </apx-chart>
       </div>
     </div>

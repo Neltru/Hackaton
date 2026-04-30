@@ -2,16 +2,17 @@
   <div class="card-section">
     <h3 class="card-title">Postulaciones por semana</h3>
     
-    <!-- Simple CSS bar chart placeholder -->
-    <div class="chart-container">
-      <div class="chart-bars">
-        <div class="chart-bar-wrapper" *ngFor="let value of weeklyData; let i = index">
-          <div class="chart-bar" [style.height.%]="value"></div>
-        </div>
-      </div>
-      <div class="chart-labels">
-        <span *ngFor="let day of days">{{ day }}</span>
-      </div>
+    <div class="chart-container-apex">
+      <apx-chart
+        [series]="barChartOptions.series"
+        [chart]="barChartOptions.chart"
+        [xaxis]="barChartOptions.xaxis"
+        [plotOptions]="barChartOptions.plotOptions"
+        [colors]="barChartOptions.colors"
+        [dataLabels]="barChartOptions.dataLabels"
+        [grid]="barChartOptions.grid"
+        [tooltip]="barChartOptions.tooltip">
+      </apx-chart>
     </div>
   </div>
 
@@ -20,15 +21,19 @@
   <div class="card-section">
     <h3 class="card-title">Embudo de selección</h3>
     
-    <div class="funnel-list">
-      <div class="funnel-item" *ngFor="let stage of funnelStages">
-        <div class="stage-name">{{ stage.name }}</div>
-        <div class="stage-progress-container">
-          <div class="stage-progress-bg"></div>
-          <div class="stage-progress-fill" [ngClass]="stage.colorClass" [style.width.%]="stage.progress"></div>
-        </div>
-        <div class="stage-count">{{ stage.count }}</div>
-      </div>
+    <div class="funnel-container-apex">
+      <apx-chart
+        [series]="funnelChartOptions.series"
+        [chart]="funnelChartOptions.chart"
+        [plotOptions]="funnelChartOptions.plotOptions"
+        [labels]="funnelChartOptions.xaxis.categories"
+        [colors]="funnelChartOptions.colors"
+        [dataLabels]="funnelChartOptions.dataLabels"
+        [xaxis]="funnelChartOptions.xaxis"
+        [grid]="funnelChartOptions.grid"
+        [legend]="funnelChartOptions.legend"
+        [tooltip]="funnelChartOptions.tooltip">
+      </apx-chart>
     </div>
   </div>
 </div>

@@ -20,28 +20,28 @@ export class CvStatusComponent implements OnInit {
       this.statusItems = [
         { 
           label: 'Fotografía de perfil', 
-          description: profile.photo ? 'Actualizada' : 'Faltante', 
-          incomplete: !profile.photo,
+          description: profile.foto_url ? 'Actualizada' : 'Faltante', 
+          incomplete: !profile.foto_url,
           action: 'Subir',
           route: '/alumni/perfil'
         },
         { 
-          label: 'Currículum Vitae (PDF)', 
-          description: profile.cv ? 'Subido' : 'Sin registrar', 
-          incomplete: !profile.cv,
-          action: profile.cv ? 'Actualizar' : 'Agregar',
+          label: 'Currículum Vitae (Digital)', 
+          description: profile.cv_drive_url ? 'Enlazado' : 'Sin registrar', 
+          incomplete: !profile.cv_drive_url,
+          action: profile.cv_drive_url ? 'Actualizar' : 'Agregar',
           route: '/alumni/perfil'
         },
         { 
           label: 'Certificaciones', 
-          description: profile.certificates.length > 0 ? `${profile.certificates.length} registradas` : 'Incompleto', 
-          incomplete: profile.certificates.length === 0,
+          description: (profile.certificados?.length || 0) > 0 ? `${profile.certificados?.length} registradas` : 'Incompleto', 
+          incomplete: (profile.certificados?.length || 0) === 0,
           action: 'Agregar',
           route: '/alumni/perfil'
         },
         { 
           label: 'Trayectoria académica', 
-          description: 'Validada', 
+          description: 'Validada via SIEst', 
           incomplete: false,
           action: 'Ver',
           route: '/alumni/perfil'

@@ -56,16 +56,18 @@
   <div class="layout-grid">
     <!-- Chart: Postulaciones por puesto -->
     <div class="card chart-card">
-      <h3>Postulaciones por Puesto</h3>
-      <div class="bar-chart">
-        <div class="bar-row" *ngFor="let item of metricas.postulacionesPorPuesto">
-          <div class="bar-label">{{ item.puesto }}</div>
-          <div class="bar-track">
-            <div class="bar-fill" [style.width.%]="(item.postulaciones / getMaxPostulaciones()) * 100">
-              <span class="bar-value">{{ item.postulaciones }}</span>
-            </div>
-          </div>
-        </div>
+      <h3>Distribución de Candidatos por Puesto</h3>
+      <div class="apex-chart-container">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [xaxis]="chartOptions.xaxis"
+          [plotOptions]="chartOptions.plotOptions"
+          [colors]="chartOptions.colors"
+          [dataLabels]="chartOptions.dataLabels"
+          [grid]="chartOptions.grid"
+          [tooltip]="chartOptions.tooltip">
+        </apx-chart>
       </div>
     </div>
 

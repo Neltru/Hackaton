@@ -1,200 +1,117 @@
-<section class="perfil-page">
-  <header class="perfil-header">
-    <h1>Configuración de perfil</h1>
-    <p>Gestiona tu información profesional y personal para mejorar tus oportunidades.</p>
+<div class="perfil-container" *ngIf="!isLoading; else loading">
+  <!-- HEADER: IDENTIDAD -->
+  <header class="profile-header glass-card">
+    <div class="header-main">
+      <div class="avatar-wrapper">
+        <img [src]="profile?.foto_url || 'assets/default-avatar.png'" alt="Foto de perfil">
+        <div class="status-indicator" [ngClass]="profile?.disponibilidad"></div>
+      </div>
+      <div class="user-id">
+        <h1>{{ profile?.nombre }} {{ profile?.apellido_paterno }} {{ profile?.apellido_materno }}</h1>
+        <p class="matricula-badge">Matrícula: {{ profile?.matricula }}</p>
+        <p class="career-text">{{ profile?.carrera_nombre }} | Egreso: {{ profile?.periodo_egreso | date:'MMMM yyyy' }}</p>
+      </div>
+    </div>
   </header>
 
-  @if (isLoading) {
-    <div class="state-card">
-      <div class="spinner"></div>
-      Cargando tu perfil...
-    </div>
-  } @else {
-    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="perfil-form">
-      <div class="card">
-        <h2>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Datos personales
-        </h2>
-        <div class="grid two-columns">
-          <label>
-            Nombre completo
-            <input type="text" formControlName="fullName" placeholder="Ej. Ana Ramirez" />
-          </label>
-          <label>
-            Correo institucional
-            <input type="email" formControlName="institutionalEmail" readonly placeholder="alXXXXXX@itech.edu.mx" />
-          </label>
-          <label>
-            Correo personal
-            <input type="email" formControlName="personalEmail" placeholder="tu@correo.com" />
-          </label>
-          <label>
-            Teléfono de contacto
-            <input type="text" formControlName="phone" placeholder="+52 311 ..." />
-          </label>
+  <div class="profile-grid">
+    <!-- COLUMNA IZQUIERDA: DATOS OFICIALES (READ-ONLY) -->
+    <aside class="academic-info glass-card">
+      <div class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        <h3>Datos Académicos (SI-EST)</h3>
+      </div>
+      
+      <div class="info-list">
+        <div class="info-item">
+          <label>CVE Alumno</label>
+          <p>{{ profile?.cve_alumno }}</p>
         </div>
-        <label style="margin-top: 1.5rem;">
-          Resumen profesional
-          <textarea rows="4" formControlName="summary" placeholder="Cuéntanos sobre tus fortalezas y objetivos profesionales..."></textarea>
-        </label>
-
-        <div class="career-info">
-          <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
-            <span>Carrera detectada:</span>
-            <strong>{{ emailInfo.careerName }}</strong>
-          </div>
-          @if (emailInfo.entryYear) {
-            <span class="entry-badge">Generación {{ emailInfo.entryYear }}</span>
-          }
+        <div class="info-item">
+          <label>Correo Institucional</label>
+          <p>{{ profile?.correo_institucional }}</p>
+        </div>
+        <div class="info-item">
+          <label>Estatus Académico</label>
+          <p class="badge valid">Egresado Titulado</p>
         </div>
       </div>
 
-      <div class="card">
-        <h2>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-          Documentación
-        </h2>
-        <div class="file-grid">
-          <div class="file-block">
-            <h3>Foto de perfil</h3>
-            <input type="file" (change)="onPhotoSelected($event)" accept="image/png,image/jpeg,image/webp" />
-            <div class="file-status">
-              @if (photoUploadProgress > 0 && photoUploadProgress < 100) {
-                <span class="uploading">Subiendo: {{ photoUploadProgress }}%</span>
-              }
-              @if (uploadedPhoto) {
-                <a [href]="uploadedPhoto.viewUrl" target="_blank" rel="noopener">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Ver foto actual
-                </a>
-              }
-            </div>
-          </div>
+      <div class="sot-info">
+        <h4>Evaluación SOT 2.0</h4>
+        <div class="sot-badge">
+          <span class="label">Nivel de Competencia</span>
+          <span class="value">Avanzado (8.4)</span>
+        </div>
+      </div>
+    </aside>
 
-          <div class="file-block">
-            <h3>Currículum Vitae (PDF)</h3>
-            <input type="file" (change)="onCvSelected($event)" accept="application/pdf" />
-            <div class="file-status">
-              @if (cvUploadProgress > 0 && cvUploadProgress < 100) {
-                <span class="uploading">Subiendo: {{ cvUploadProgress }}%</span>
-              }
-              @if (uploadedCv) {
-                <a [href]="uploadedCv.viewUrl" target="_blank" rel="noopener">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                  Ver CV actual
-                </a>
-              }
-            </div>
+    <!-- COLUMNA DERECHA: FORMULARIO EDITABLE -->
+    <main class="editable-info glass-card">
+      <div class="section-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <h3>Información Profesional</h3>
+      </div>
+
+      <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="profile-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Correo Alternativo</label>
+            <input type="email" formControlName="correo_alternativo" placeholder="tu@personal.com">
+          </div>
+          <div class="form-group">
+            <label>Teléfono de Contacto</label>
+            <input type="text" formControlName="telefono" placeholder="10 dígitos">
           </div>
         </div>
-      </div>
 
-      <div class="card">
-        <div class="section-title">
-          <h2>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-            Experiencia laboral
-          </h2>
-          <button type="button" class="btn-secondary" (click)="addExperience()">+ Añadir</button>
+        <div class="form-group">
+          <label>LinkedIn (URL)</label>
+          <input type="text" formControlName="linkedin_url" placeholder="https://linkedin.com/in/tuperfil">
         </div>
-        <div formArrayName="experiences">
-          @for (experience of experiencesArray.controls; track $index) {
-            <div class="repeatable" [formGroupName]="$index">
-              <div class="grid two-columns">
-                <label>
-                  Empresa
-                  <input type="text" formControlName="company" placeholder="Nombre de la empresa" />
-                </label>
-                <label>
-                  Puesto
-                  <input type="text" formControlName="role" placeholder="Cargo desempeñado" />
-                </label>
-                <label>
-                  Fecha de Inicio
-                  <input type="date" formControlName="startDate" />
-                </label>
-                <label>
-                  Fecha de Fin
-                  <input type="date" formControlName="endDate" />
-                </label>
-              </div>
-              <label style="margin-top: 1rem;">
-                Descripción de actividades
-                <textarea rows="3" formControlName="description" placeholder="Describe tus responsabilidades y logros..."></textarea>
-              </label>
-              <button type="button" class="btn-link danger" (click)="removeExperience($index)">Eliminar esta entrada</button>
-            </div>
-          }
+
+        <div class="form-group">
+          <label>CV Digital (Enlace Google Drive)</label>
+          <div class="input-with-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <input type="text" formControlName="cv_drive_url" placeholder="Pega el enlace compartido de tu CV">
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <div class="section-title">
-          <h2>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-            Certificaciones y Cursos
-          </h2>
-          <button type="button" class="btn-secondary" (click)="addCertificate()">+ Añadir</button>
+        <div class="form-group">
+          <label>Disponibilidad Laboral</label>
+          <select formControlName="disponibilidad">
+            <option value="activo">Activo - Buscando Oportunidades</option>
+            <option value="no_disponible">No Disponible temporalmente</option>
+            <option value="contratado">Ya estoy Contratado</option>
+          </select>
         </div>
-        <div formArrayName="certificates">
-          @for (certificate of certificatesArray.controls; track $index) {
-            <div class="repeatable" [formGroupName]="$index">
-              <div class="grid two-columns">
-                <label>
-                  Título de certificación
-                  <input type="text" formControlName="title" placeholder="Ej. AWS Certified" />
-                </label>
-                <label>
-                  Institución emisora
-                  <input type="text" formControlName="institution" placeholder="Ej. Amazon Web Services" />
-                </label>
-                <label>
-                  Fecha de emisión
-                  <input type="date" formControlName="issueDate" />
-                </label>
-                <label>
-                  Expiración (Opcional)
-                  <input type="date" formControlName="expiresAt" />
-                </label>
-              </div>
-              <label style="margin-top: 1rem;">
-                ID de credencial / Enlace
-                <input type="text" formControlName="credentialId" placeholder="URL o código de validación" />
-              </label>
 
-              <div class="file-inline" style="margin-top: 1rem;">
-                <input type="file" (change)="onCertificateSelected($event, $index)" accept="application/pdf,image/png,image/jpeg,image/webp" />
-                @if (certificateUploadProgress[$index] > 0 && certificateUploadProgress[$index] < 100) {
-                  <span class="uploading">Subiendo: {{ certificateUploadProgress[$index] }}%</span>
-                }
-                @if (uploadedCertificates[$index]) {
-                  <a [href]="uploadedCertificates[$index].viewUrl" target="_blank" rel="noopener">Ver comprobante</a>
-                }
-              </div>
-
-              <button type="button" class="btn-link danger" (click)="removeCertificate($index)">Eliminar certificado</button>
-            </div>
-          }
+        <div class="form-group">
+          <label>Resumen Profesional / Bio</label>
+          <textarea formControlName="resumen_profesional" rows="4" placeholder="Cuéntanos un poco sobre tus fortalezas y objetivos..."></textarea>
         </div>
-      </div>
 
-      @if (errorMessage) {
-        <div class="feedback error">{{ errorMessage }}</div>
-      }
-      @if (successMessage) {
-        <div class="feedback success">{{ successMessage }}</div>
-      }
+        <div class="form-actions">
+          <button type="submit" class="btn-save" [disabled]="editForm.invalid || isSaving">
+            {{ isSaving ? 'Guardando...' : 'Actualizar Perfil' }}
+          </button>
+        </div>
 
-      <div class="actions">
-        <button type="submit" class="btn-primary" [disabled]="isSaving">
-          @if (isSaving) {
-            <span class="spinner-small"></span>
-          }
-          {{ isSaving ? 'Guardando...' : 'Guardar perfil profesional' }}
-        </button>
-      </div>
-    </form>
-  }
-</section>
+        <div class="alert success" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+        <div class="alert error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+      </form>
+    </main>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-state">
+    <div class="loader"></div>
+    <p>Sincronizando con SI-EST 2.0...</p>
+  </div>
+</ng-template>

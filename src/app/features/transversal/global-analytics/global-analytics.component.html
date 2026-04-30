@@ -2,7 +2,6 @@
   <div class="header">
     <div class="title-area">
       <h1>Analíticas e Indicadores en Tiempo Real</h1>
-      <p class="subtitle">RF-34 · Filtros Dinámicos Cruzados (Carrera, Fecha, Zona)</p>
     </div>
   </div>
 
@@ -16,7 +15,7 @@
         <input type="date" [(ngModel)]="filters.fechaFin" (change)="onFilterChange()">
       </div>
     </div>
-    
+
     <div class="filter-item">
       <label>Carrera</label>
       <select [(ngModel)]="filters.carrera" (change)="onFilterChange()">
@@ -71,15 +70,9 @@
         </div>
         <div class="card-body">
           <div class="apex-chart-container">
-            <apx-chart
-              [series]="chartOptions.series"
-              [chart]="chartOptions.chart"
-              [xaxis]="chartOptions.xaxis"
-              [stroke]="chartOptions.stroke"
-              [colors]="chartOptions.colors"
-              [fill]="chartOptions.fill"
-              [grid]="chartOptions.grid"
-              [tooltip]="chartOptions.tooltip">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+              [stroke]="chartOptions.stroke" [colors]="chartOptions.colors" [fill]="chartOptions.fill"
+              [grid]="chartOptions.grid" [tooltip]="chartOptions.tooltip">
             </apx-chart>
           </div>
         </div>
