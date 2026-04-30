@@ -39,7 +39,7 @@
         <h3>Reporte de idoneidad disponible</h3>
         <p>Descarga tu reporte técnico con fortalezas, áreas de oportunidad y puntajes por dimensión con logo institucional.</p>
       </div>
-      <button class="btn-outline" (click)="downloadReport()" [disabled]="isGeneratingPdf">
+      <button class="btn-download" (click)="downloadReport()" [disabled]="isGeneratingPdf">
         {{ isGeneratingPdf ? 'Generando...' : 'Descargar PDF' }}
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

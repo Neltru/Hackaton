@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, delay } from 'rxjs/operators';
+import { API_CONFIG } from '../constants/api.constants';
 
 export interface Vacante {
   id: string;
@@ -44,7 +45,7 @@ export interface VacantesFiltros {
   providedIn: 'root'
 })
 export class VacantesService {
-  private apiUrl = 'https://jsearch.p.rapidapi.com/search';
+  private apiUrl = `${API_CONFIG.baseUrl}/vacantes`;
   private apiKey = 'fcb7756235msh2a0de96d767fe0dp113a68jsn380c7abf1b1f';
 
   // Toggle para cambiar entre API y Mock fácilmente

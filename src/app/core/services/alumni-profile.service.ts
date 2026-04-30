@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { AlumniProfile, AlumniProfileUpdate } from '../models/alumni-profile.models';
+import { API_CONFIG } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumniProfileService {
-  private readonly apiUrl = 'https://api.hackaton-project.com/alumni/profile';
+  private readonly apiUrl = `${API_CONFIG.baseUrl}/alumni/profile`;
 
   constructor(private readonly http: HttpClient) { }
 

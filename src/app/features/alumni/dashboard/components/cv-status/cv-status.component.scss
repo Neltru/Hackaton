@@ -1,6 +1,7 @@
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 74, 67, 0.05);
   padding: 1.5rem;
   border-radius: 1rem;
   height: 100%;
@@ -9,6 +10,9 @@
 h3 {
   font-size: 0.875rem;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
   margin: 0 0 1.5rem;
 }
 
@@ -26,8 +30,8 @@ h3 {
 .icon-container {
   padding-top: 0.25rem;
 
-  .icon-success { color: #65a363; }
-  .icon-warning { color: #f5b041; }
+  .icon-success { color: var(--success); }
+  .icon-warning { color: var(--warning); }
   .icon-empty { color: var(--border-color); }
 }
 
@@ -60,11 +64,12 @@ h3 {
   border: none;
   color: var(--primary);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   padding: 0;
 
   &:hover {
+    color: var(--accent);
     text-decoration: underline;
   }
 }

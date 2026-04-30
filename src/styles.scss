@@ -1,46 +1,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --primary: #4f8cf6; /* Blue from the design */
-  --primary-hover: #3b76d9;
-  --bg-dark: #121212; /* Main background */
-  --bg-card: #222222; /* Card background */
-  --bg-card-hover: #2a2a2a;
-  --border-color: #333333;
-  --text-main: #f8fafc;
-  --text-muted: #a0a0a0;
+  --primary: #2d6a4f; /* Balanced Forest Green */
+  --primary-light: #40916c;
+  --primary-gradient: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
+  
+  --secondary: #ffb800; /* UT Gold */
+  --accent: #74c69d; /* Soft Mint */
+  
+  --bg-body: #f7faf9; /* Fresh light green-tinted background */
+  --bg-card: #ffffff;
+  --bg-surface: #ecf3f0;
+  --border-color: #dbe5e1;
+  
+  --text-main: #1b4332; /* Deepest green for text (instead of black) */
+  --text-muted: #588157; /* Medium green for muted text */
   
   /* Status Colors */
-  --success: #65a363; /* Green from the design */
-  --warning: #f5b041; /* Orange/Yellow */
-  --info: #4f8cf6;
-  --neutral: #444444; /* Empty/Pending bars */
+  --success: #52b788;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
 
-  /* Badges */
-  --badge-bg-success: rgba(101, 163, 99, 0.2);
-  --badge-text-success: #8cd688;
-  --badge-bg-info: rgba(79, 140, 246, 0.2);
-  --badge-text-info: #8ab4f8;
-  --badge-bg-warning: rgba(245, 176, 65, 0.2);
-  --badge-text-warning: #fad7a1;
-  --badge-bg-neutral: rgba(255, 255, 255, 0.1);
-  --badge-text-neutral: #cccccc;
+  /* Refined Badges */
+  --badge-bg-success: rgba(82, 183, 136, 0.15);
+  --badge-text-success: #1b4332;
+  --badge-bg-info: rgba(59, 130, 246, 0.1);
+  --badge-text-info: #1e40af;
+  --badge-bg-warning: rgba(245, 158, 11, 0.1);
+  --badge-text-warning: #92400e;
+  --badge-bg-neutral: rgba(148, 163, 184, 0.15);
+  --badge-text-neutral: #1b4332;
 
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-sm: 0 1px 3px rgba(45, 106, 79, 0.05);
+  --shadow-md: 0 4px 6px rgba(45, 106, 79, 0.08);
+  --shadow-lg: 0 10px 25px rgba(45, 106, 79, 0.12);
+
   --font-family: 'Outfit', sans-serif;
   
   /* Sidebar Constants */
   --sidebar-width: 280px;
-  --sidebar-bg: #1a1a1a;
-  --sidebar-hover: rgba(255, 255, 255, 0.03);
+  --sidebar-bg: #ffffff;
+  --sidebar-hover: #f0f7f4;
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: var(--font-family);
-  background: var(--bg-dark);
+  background: var(--bg-body);
   color: var(--text-main);
   min-height: 100vh;
   display: flex;
@@ -112,7 +120,7 @@ body {
 
 .topbar {
   height: 70px;
-  background: rgba(18, 18, 18, 0.8);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-color);
   padding: 0 2rem;
@@ -127,7 +135,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: rgba(255, 255, 255, 0.03);
+    background: #f1f5f4;
     border: 1px solid var(--border-color);
     padding: 0.6rem 1rem;
     border-radius: 0.75rem;

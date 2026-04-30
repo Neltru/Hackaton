@@ -6,45 +6,46 @@
 
   <div class="list-container">
     @if (isLoading) {
-      <div class="loading-spinner">Cargando...</div>
+    <div class="loading-spinner">Cargando...</div>
     } @else {
-      @for (app of applications; track app.id) {
-        <div class="app-item">
-          <div class="item-left">
-            <div class="job-info">
-              <h4>{{ app.jobTitle }}</h4>
-              <p>{{ app.company }}</p>
-            </div>
-          </div>
-          <div class="item-right">
-            @if (app.status !== 'Contratado') {
-              <button class="btn-hired" (click)="openHiringModal(app)">¡Fui Contratado!</button>
-            }
-            <span class="status-badge" [ngClass]="app.statusClass">{{ app.status }}</span>
-          </div>
+    @for (app of applications; track app.id) {
+    <div class="app-item">
+      <div class="item-left">
+        <div class="job-info">
+          <h4>{{ app.jobTitle }}</h4>
+          <p>{{ app.company }}</p>
         </div>
-      }
+      </div>
+      <div class="item-right">
+        @if (app.status !== 'Contratado') {
+        <button class="btn-hired" (click)="openHiringModal(app)"><img src="assets/images/check.png" alt="Hired"
+            class="hired-icon">¡Fui Contratado!</button>
+        }
+        <span class="status-badge" [ngClass]="app.statusClass">{{ app.status }}</span>
+      </div>
+    </div>
+    }
     }
   </div>
 
   <!-- Modal de Contratación -->
   @if (showHiringModal) {
-    <div class="modal-overlay">
-      <div class="modal-content glass-effect">
-        <h3>Reportar Contratación</h3>
-        <p>¡Felicidades por tu nuevo empleo en <strong>{{ selectedApp?.company }}</strong>!</p>
-        
-        <div class="form-group">
-          <label>Ubicación de la empresa</label>
-          <input type="text" [(ngModel)]="hiringLocation" placeholder="Ej. Guadalajara, Jalisco o Santiago Ixcuintla">
-          <small>Si la empresa es fuera del Norte de Nayarit, notificaremos a la UT para gestionar el convenio.</small>
-        </div>
+  <div class="modal-overlay">
+    <div class="modal-content glass-effect">
+      <h3>Reportar Contratación</h3>
+      <p>¡Felicidades por tu nuevo empleo en <strong>{{ selectedApp?.company }}</strong>!</p>
 
-        <div class="modal-actions">
-          <button class="btn-secondary" (click)="showHiringModal = false">Cancelar</button>
-          <button class="btn-primary" (click)="submitHiring()" [disabled]="!hiringLocation">Confirmar Reporte</button>
-        </div>
+      <div class="form-group">
+        <label>Ubicación de la empresa</label>
+        <input type="text" [(ngModel)]="hiringLocation" placeholder="Ej. Guadalajara, Jalisco o Santiago Ixcuintla">
+        <small>Si la empresa es fuera del Norte de Nayarit, notificaremos a la UT para gestionar el convenio.</small>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-secondary" (click)="showHiringModal = false">Cancelar</button>
+        <button class="btn-primary" (click)="submitHiring()" [disabled]="!hiringLocation">Confirmar Reporte</button>
       </div>
     </div>
+  </div>
   }
 </div>
