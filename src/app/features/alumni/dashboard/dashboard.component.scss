@@ -1,8 +1,9 @@
-.dashboard-grid {
+.dashboard-container {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-bottom: 3rem;
 }
 
 @keyframes fadeIn {
@@ -10,105 +11,184 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.kpi-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
-}
-
-.middle-row, .bottom-row {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 2rem;
-
-  @media (max-width: 1200px) {
-    grid-template-columns: 1.4fr 1fr;
-  }
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.report-banner {
-  background: linear-gradient(135deg, #ffffff 0%, #f0f7f4 100%);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-lg);
-  border-radius: 1.5rem;
-  padding: 2.5rem;
+// ── Welcome Banner ────────────────────────────────────────────────────────────
+.welcome-banner {
+  background: var(--primary-gradient);
+  border-radius: 2rem;
+  padding: 3rem;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  color: white;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 6px;
-    height: 100%;
-    background: var(--primary-gradient);
-  }
-  
-  .banner-content {
+  .welcome-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 3rem;
     position: relative;
-    z-index: 1;
+    z-index: 2;
 
     @media (max-width: 768px) {
       flex-direction: column;
       text-align: center;
+      gap: 2rem;
     }
   }
 
-  .banner-text {
-    h3 {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--primary);
+  .welcome-text {
+    .greeting { 
+      font-size: 1.1rem; 
+      font-weight: 600; 
+      color: rgba(255,255,255,0.8); 
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    h1 { 
+      font-size: 3rem; 
+      font-weight: 900; 
+      margin: 0; 
+      letter-spacing: -0.02em; 
+      line-height: 1.1;
+    }
+    .date { 
+      margin-top: 1rem; 
+      font-size: 1rem; 
+      font-weight: 700; 
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      &::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: white;
+        border-radius: 50%;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .stats-mini {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem 2.5rem;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    .mini-stat {
+      display: flex;
+      flex-direction: column;
+      .label { font-size: 0.8rem; font-weight: 800; color: rgba(255,255,255,0.7); text-transform: uppercase; }
+      .value { font-size: 2rem; font-weight: 900; color: white; }
     }
 
-    p {
-      margin: 0.75rem 0 0;
-      color: var(--text-muted);
-      font-size: 1rem;
-      line-height: 1.6;
-      max-width: 600px;
+    .divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
     }
+  }
+
+  .banner-shapes {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    .shape {
+      position: absolute;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .s1 { width: 400px; height: 400px; top: -200px; right: -100px; }
+    .s2 { width: 300px; height: 300px; bottom: -150px; left: 10%; }
   }
 }
 
-.btn-download {
+// ── Dashboard Grid ────────────────────────────────────────────────────────────
+.dashboard-grid {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2.5rem;
-  background: var(--primary-gradient);
-  border: none;
-  border-radius: 1.25rem;
-  color: white;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 10px 20px rgba(45, 106, 79, 0.2);
-  white-space: nowrap;
+  flex-direction: column;
+  gap: 2.5rem;
+}
 
-  &:hover:not(:disabled) {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(45, 106, 79, 0.3);
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.main-body {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2.5rem;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.left-column, .right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+// ── Report Box ───────────────────────────────────────────────────────────────
+.report-box {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 2rem;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 2rem;
+
+  .icon-box {
+    width: 64px;
+    height: 64px;
+    background: #f0f7f4;
+    color: var(--primary);
+    border-radius: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    border: 2px solid rgba(45, 106, 79, 0.1);
   }
 
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
+  h3 { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: 0.75rem; }
+  p { font-size: 1rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem; font-weight: 500; }
 
-  svg {
-    transition: transform 0.3s;
+  .btn-download {
+    width: 100%;
+    padding: 1.25rem;
+    background: var(--primary-gradient);
+    border: none;
+    border-radius: 1.25rem;
+    color: white;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 10px 20px rgba(45, 106, 79, 0.2);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(45, 106, 79, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
   }
-  &:hover svg { transform: translateY(2px); }
 }

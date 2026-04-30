@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
   alumniProfile: any;
   allTests: TestResult[] = [];
   isGeneratingPdf = false;
+  currentDate = new Date();
 
   constructor(
     private testsService: TestsService,

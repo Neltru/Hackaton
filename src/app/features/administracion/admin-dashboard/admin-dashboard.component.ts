@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { Chart, registerables } from 'chart.js';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -32,7 +32,7 @@ interface ActivityItem {
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgApexchartsModule],
+  imports: [CommonModule, RouterLink, NgApexchartsModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
 })
@@ -51,10 +51,9 @@ export class AdminDashboardComponent implements OnInit {
       height: 300,
       type: "area",
       toolbar: { show: false },
-      background: 'transparent',
-      foreColor: '#888'
+      foreColor: 'var(--text-muted)'
     },
-    colors: ['#3b82f6'],
+    colors: ['#2d6a4f'],
     dataLabels: { enabled: false },
     stroke: { curve: "smooth", width: 3 },
     fill: {
@@ -62,18 +61,19 @@ export class AdminDashboardComponent implements OnInit {
       gradient: {
         shadeIntensity: 1,
         opacityFrom: 0.4,
-        opacityTo: 0.05,
+        opacityTo: 0.1,
         stops: [0, 90, 100]
       }
     },
     xaxis: {
       categories: ["Ago", "Sep", "Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"],
       axisBorder: { show: false },
-      axisTicks: { show: false }
+      axisTicks: { show: false },
+      labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } }
     },
-    yaxis: { labels: { style: { colors: '#888' } } },
-    grid: { borderColor: '#333', strokeDashArray: 4 },
-    tooltip: { theme: 'dark' }
+    yaxis: { labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } } },
+    grid: { borderColor: 'rgba(45, 106, 79, 0.1)', strokeDashArray: 4 },
+    tooltip: { theme: 'light' }
   };
 
   // --- Chart.js: Distribución por Carrera ---
@@ -176,14 +176,14 @@ export class AdminDashboardComponent implements OnInit {
           legend: {
             position: 'bottom',
             labels: {
-              color: '#888',
+              color: '#40916c',
               padding: 20,
               usePointStyle: true,
-              font: { size: 12 }
+              font: { size: 12, weight: 700 }
             }
           }
         },
-        cutout: '70%'
+        cutout: '75%'
       }
     });
   }

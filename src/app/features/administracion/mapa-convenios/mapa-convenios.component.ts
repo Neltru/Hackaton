@@ -34,10 +34,10 @@ export class MapaConveniosComponent implements OnInit {
     title: {
       text: "Distribución de Convenios por Región",
       align: "center",
-      style: { color: "#eee", fontSize: "16px" }
+      style: { color: "var(--primary)", fontSize: "16px", fontWeight: "800" }
     },
     colors: [
-      "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4"
+      "#2d6a4f", "#40916c", "#52b788", "#74c69d", "#95d5b2", "#b7e4c7"
     ],
     plotOptions: {
       treemap: {
@@ -45,7 +45,7 @@ export class MapaConveniosComponent implements OnInit {
         enableShades: true
       }
     },
-    tooltip: { theme: 'dark' }
+    tooltip: { theme: 'light' }
   };
 
   constructor(private conveniosService: ConveniosService) {}

@@ -1,11 +1,12 @@
 .card-container {
-  background: #1a1a1a;
-  border: 1px solid #2e2e2e;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
   padding: 2rem;
   height: 100%;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-sm);
 }
 
 .card-section {
@@ -17,13 +18,13 @@
 .card-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-main);
   margin: 0 0 1.5rem 0;
 }
 
 .divider {
   height: 1px;
-  background: #2e2e2e;
+  background: var(--border-color);
   margin: 2rem 0;
 }
 

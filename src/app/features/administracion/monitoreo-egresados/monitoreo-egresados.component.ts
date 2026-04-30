@@ -37,47 +37,49 @@ export class MonitoreoEgresadosComponent implements OnInit {
       type: "line",
       stacked: false,
       toolbar: { show: false },
-      foreColor: '#888'
+      foreColor: 'var(--text-muted)'
     },
     stroke: {
-      width: [0, 3],
+      width: [0, 4],
       curve: "smooth"
     },
-    colors: ['#3b82f6', '#10b981'],
+    colors: ['#2d6a4f', '#ffb800'],
     plotOptions: {
       bar: {
-        columnWidth: "80%",
-        borderRadius: 4
+        columnWidth: "70%",
+        borderRadius: 6
       }
     },
     fill: {
-      opacity: [0.85, 1],
+      opacity: [0.8, 1],
       gradient: {
         inverseColors: false,
         shade: 'light',
         type: "vertical",
-        opacityFrom: 0.85,
-        opacityTo: 0.55,
-        stops: [0, 100, 100, 100]
+        opacityFrom: 0.8,
+        opacityTo: 0.4,
+        stops: [0, 100]
       }
     },
     labels: [],
     markers: { size: 0 },
     xaxis: {
-      title: { text: 'Puntaje Obtenido', style: { color: '#666' } }
+      title: { text: 'Puntaje Obtenido', style: { color: 'var(--text-muted)', fontWeight: 700 } },
+      labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } }
     },
     yaxis: [
       {
-        title: { text: "Número de Alumnos", style: { color: '#3b82f6' } },
+        title: { text: "Número de Alumnos", style: { color: '#2d6a4f', fontWeight: 700 } },
+        labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } }
       },
       {
         opposite: true,
-        title: { text: "Densidad de Probabilidad", style: { color: '#10b981' } },
+        title: { text: "Densidad de Probabilidad", style: { color: '#ffb800', fontWeight: 700 } },
         labels: { show: false }
       }
     ],
-    grid: { borderColor: '#333' },
-    tooltip: { shared: true, intersect: false, theme: 'dark' }
+    grid: { borderColor: 'rgba(45, 106, 79, 0.1)', strokeDashArray: 4 },
+    tooltip: { shared: true, intersect: false, theme: 'light' }
   };
 
   // Filters

@@ -3,9 +3,6 @@
   animation: fadeInUp 0.35s ease both;
   color: var(--text-main);
 
-  --border-color: #333;
-  --bg-card: #222;
-
 }
 
 // ─── Page Header ───────────────────────────────────────────────────────────────
@@ -118,17 +115,17 @@
 
 // ─── Chart Section (Apex) ──────────────────────────────────────────────────────
 .chart-section-apex {
-  background: #1a1a1a;
-  border: 1px solid #2e2e2e;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
   padding: 2.5rem;
   margin-bottom: 2.5rem;
 
   .section-title {
     margin: 0 0 2rem 0;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #eee;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary);
   }
 }
 

@@ -3,12 +3,12 @@
   animation: fadeInUp 0.35s ease both;
   color: var(--text-main);
 
-  --border-color: #333;
-  --bg-card: #222;
+  --border-color: var(--border-color);
+  --bg-card: var(--bg-card);
   --green-alta: var(--primary);
-  --green-media-alta: #40916c;
-  --green-media: #74c69d;
-  --green-baja: #d8f3dc;
+  --green-media-alta: var(--primary-light);
+  --green-media: var(--accent);
+  --green-baja: #f0f7f4;
 }
 
 // ─── Page Header ───────────────────────────────────────────────────────────────
@@ -120,8 +120,8 @@
 
 // ─── Map Visualization (Apex) ──────────────────────────────────────────────────
 .map-visualization-apex {
-  background: #1a1a1a;
-  border: 1px solid #2e2e2e;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
   padding: 2.5rem;
   margin-bottom: 2rem;
@@ -132,15 +132,16 @@
 
     .section-title {
       margin: 0;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #eee;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
     }
 
     .section-desc {
       margin: 0.4rem 0 0;
       font-size: 0.9rem;
-      color: #666;
+      color: var(--text-muted);
+      font-weight: 500;
     }
   }
 }

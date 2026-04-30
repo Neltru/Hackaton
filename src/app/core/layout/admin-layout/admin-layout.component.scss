@@ -1,23 +1,23 @@
 .layout-wrapper {
   display: flex;
   min-height: 100vh;
-  background-color: #0f1115;
-  color: #f8fafc;
+  background-color: var(--bg-body);
+  color: var(--text-main);
 }
 
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0; // Prevent flex item from overflowing
+  min-width: 0;
 }
 
 // ─── Topbar ─────────────────────────────────────────────────────────────────────
 .topbar {
   height: 70px;
-  background: rgba(26, 28, 32, 0.8);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #2e2e2e;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--border-color);
   padding: 0 2.5rem;
   display: flex;
   align-items: center;
@@ -25,34 +25,36 @@
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: var(--shadow-sm);
 }
 
 .search-bar {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #25282c;
-  border: 1px solid #333;
-  padding: 0.6rem 1.2rem;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  padding: 0.65rem 1.25rem;
   border-radius: 12px;
   width: 400px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 
   &:focus-within {
-    border-color: #3b82f6;
-    background: #2a2d32;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
   }
 
-  svg { color: #666; }
+  svg { color: var(--primary); opacity: 0.6; }
   input {
     background: transparent;
     border: none;
-    color: #eee;
-    font-size: 0.9rem;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 600;
     width: 100%;
     outline: none;
-    &::placeholder { color: #555; }
+    &::placeholder { color: var(--text-muted); opacity: 0.5; }
   }
 }
 

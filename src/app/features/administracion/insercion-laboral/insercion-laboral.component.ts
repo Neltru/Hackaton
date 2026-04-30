@@ -27,7 +27,7 @@ export class InsercionLaboralComponent implements OnInit {
       type: "bar",
       height: 350,
       toolbar: { show: false },
-      foreColor: '#888'
+      foreColor: 'var(--text-muted)'
     },
     plotOptions: {
       bar: {
@@ -36,7 +36,7 @@ export class InsercionLaboralComponent implements OnInit {
         barHeight: '60%'
       }
     },
-    colors: ['#3b82f6'],
+    colors: ['#2d6a4f'],
     dataLabels: {
       enabled: true,
       formatter: (val: number) => val + "%",
@@ -45,18 +45,18 @@ export class InsercionLaboralComponent implements OnInit {
     xaxis: {
       categories: [],
       max: 100,
-      labels: { style: { colors: '#888' } }
+      labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } }
     },
-    grid: { borderColor: '#333' },
-    tooltip: { theme: 'dark' },
+    grid: { borderColor: 'rgba(45, 106, 79, 0.1)' },
+    tooltip: { theme: 'light' },
     annotations: {
       xaxis: [
         {
           x: 70,
-          borderColor: '#f59e0b',
+          borderColor: '#ffb800',
           label: {
             text: 'Meta 70%',
-            style: { color: '#fff', background: '#f59e0b' }
+            style: { color: '#fff', background: '#ffb800' }
           }
         }
       ]

@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, registerables } from 'chart.js';
 import { TestsService, TestResult } from '../../../../../core/services/tests.service';
+import { Subscription } from 'rxjs';
 
 Chart.register(...registerables);
 
@@ -9,45 +10,26 @@ Chart.register(...registerables);
   selector: 'app-dimension-results',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="card dimension-card">
-      <div class="card-header">
-        <h3>Resultados por Dimensión</h3>
-        <p>Tu balance de competencias actuales</p>
-      </div>
-      <div class="chart-container">
-        <canvas #radarCanvas></canvas>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .dimension-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      height: 100%;
-    }
-    .card-header h3 { margin: 0; font-size: 1.1rem; }
-    .card-header p { margin: 0.25rem 0 1.5rem; font-size: 0.85rem; color: var(--text-muted); }
-    .chart-container {
-      position: relative;
-      height: 250px;
-      width: 100%;
-    }
-  `]
+  templateUrl: './dimension-results.component.html',
+  styleUrl: './dimension-results.component.scss'
 })
-export class DimensionResultsComponent implements OnInit, AfterViewInit {
+export class DimensionResultsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('radarCanvas') radarCanvas!: ElementRef;
   chart: any;
+  private testsSub?: Subscription;
 
-  constructor(private testsService: TestsService) {}
+  constructor(private testsService: TestsService) { }
 
   ngOnInit(): void {
-    // Escuchar cambios en las pruebas para actualizar el gráfico
-    this.testsService.getTests().subscribe(() => {
+    // Escuchar cambios para actualizar
+    this.testsSub = this.testsService.getTests().subscribe(() => {
       if (this.chart) this.updateChart();
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.testsSub) this.testsSub.unsubscribe();
+    if (this.chart) this.chart.destroy();
   }
 
   ngAfterViewInit(): void {
@@ -56,8 +38,8 @@ export class DimensionResultsComponent implements OnInit, AfterViewInit {
 
   private initChart(): void {
     const ctx = this.radarCanvas.nativeElement.getContext('2d');
-    
-    this.testsService.getTests().subscribe((tests: TestResult[]) => {
+
+    this.testsService.getTests().subscribe(tests => {
       const scores = [
         tests.find(t => t.id === 'psico')?.score || 0,
         tests.find(t => t.id === 'cogni')?.score || 0,
@@ -68,28 +50,65 @@ export class DimensionResultsComponent implements OnInit, AfterViewInit {
       this.chart = new Chart(ctx, {
         type: 'radar',
         data: {
-          labels: ['Psicométrica', 'Cognitiva', 'Técnica', 'Proyectiva'],
+          labels: ['PSICOMÉTRICA', 'COGNITIVA', 'TÉCNICA', 'PROYECTIVA'],
           datasets: [{
             label: 'Mi Perfil',
             data: scores,
-            backgroundColor: 'rgba(79, 140, 246, 0.2)',
-            borderColor: 'rgba(79, 140, 246, 1)',
-            pointBackgroundColor: 'rgba(79, 140, 246, 1)',
-            borderWidth: 2
+            backgroundColor: 'rgba(45, 106, 79, 0.15)',
+            borderColor: 'rgba(45, 106, 79, 1)',
+            pointBackgroundColor: 'rgba(45, 106, 79, 1)',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 3,
+            pointRadius: 7,
+            borderWidth: 4,
+            fill: true
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
+          layout: {
+            padding: 50
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(45, 106, 79, 0.9)',
+              titleFont: { size: 14, weight: 'bold' },
+              bodyFont: { size: 13 },
+              padding: 12,
+              cornerRadius: 10,
+              displayColors: false
+            }
+          },
           scales: {
             r: {
-              angleLines: { color: 'rgba(255,255,255,0.1)' },
-              grid: { color: 'rgba(255,255,255,0.1)' },
-              pointLabels: { color: 'rgba(255,255,255,0.6)', font: { size: 10 } },
-              ticks: { display: false, stepSize: 20 },
-              suggestedMin: 0,
-              suggestedMax: 100
+              min: 0,
+              max: 100,
+              angleLines: {
+                display: true,
+                color: '#edf2f0',
+                lineWidth: 1.5
+              },
+              grid: {
+                display: true,
+                color: '#edf2f0',
+                lineWidth: 1.5
+              },
+              pointLabels: {
+                display: true,
+                color: '#2d6a4f',
+                font: {
+                  size: 14,
+                  weight: 900,
+                  family: "'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+                },
+                padding: 25
+              },
+              ticks: {
+                display: false,
+                stepSize: 20
+              }
             }
           }
         }
