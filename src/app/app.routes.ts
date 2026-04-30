@@ -6,6 +6,8 @@ import { DashboardComponent as AlumniDashboardComponent } from './features/alumn
 import { VacantesComponent } from './features/alumni/vacantes/vacantes.component';
 import { CompanyLayoutComponent } from './core/layout/company-layout/company-layout.component';
 import { DashboardComponent as CompanyDashboardComponent } from './features/company/dashboard/dashboard.component';
+import { PerfilComponent } from './features/alumni/perfil/perfil.component';
+import { PruebasComponent } from './features/alumni/pruebas/pruebas.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,6 +18,8 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: AlumniDashboardComponent },
       { path: 'vacantes', component: VacantesComponent },
+      { path: 'perfil', component: PerfilComponent },
+      { path: 'pruebas', component: PruebasComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

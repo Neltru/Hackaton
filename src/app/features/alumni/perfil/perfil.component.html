@@ -1,0 +1,200 @@
+<section class="perfil-page">
+  <header class="perfil-header">
+    <h1>Configuración de perfil</h1>
+    <p>Gestiona tu información profesional y personal para mejorar tus oportunidades.</p>
+  </header>
+
+  @if (isLoading) {
+    <div class="state-card">
+      <div class="spinner"></div>
+      Cargando tu perfil...
+    </div>
+  } @else {
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="perfil-form">
+      <div class="card">
+        <h2>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Datos personales
+        </h2>
+        <div class="grid two-columns">
+          <label>
+            Nombre completo
+            <input type="text" formControlName="fullName" placeholder="Ej. Ana Ramirez" />
+          </label>
+          <label>
+            Correo institucional
+            <input type="email" formControlName="institutionalEmail" readonly placeholder="alXXXXXX@itech.edu.mx" />
+          </label>
+          <label>
+            Correo personal
+            <input type="email" formControlName="personalEmail" placeholder="tu@correo.com" />
+          </label>
+          <label>
+            Teléfono de contacto
+            <input type="text" formControlName="phone" placeholder="+52 311 ..." />
+          </label>
+        </div>
+        <label style="margin-top: 1.5rem;">
+          Resumen profesional
+          <textarea rows="4" formControlName="summary" placeholder="Cuéntanos sobre tus fortalezas y objetivos profesionales..."></textarea>
+        </label>
+
+        <div class="career-info">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            <span>Carrera detectada:</span>
+            <strong>{{ emailInfo.careerName }}</strong>
+          </div>
+          @if (emailInfo.entryYear) {
+            <span class="entry-badge">Generación {{ emailInfo.entryYear }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
+          Documentación
+        </h2>
+        <div class="file-grid">
+          <div class="file-block">
+            <h3>Foto de perfil</h3>
+            <input type="file" (change)="onPhotoSelected($event)" accept="image/png,image/jpeg,image/webp" />
+            <div class="file-status">
+              @if (photoUploadProgress > 0 && photoUploadProgress < 100) {
+                <span class="uploading">Subiendo: {{ photoUploadProgress }}%</span>
+              }
+              @if (uploadedPhoto) {
+                <a [href]="uploadedPhoto.viewUrl" target="_blank" rel="noopener">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  Ver foto actual
+                </a>
+              }
+            </div>
+          </div>
+
+          <div class="file-block">
+            <h3>Currículum Vitae (PDF)</h3>
+            <input type="file" (change)="onCvSelected($event)" accept="application/pdf" />
+            <div class="file-status">
+              @if (cvUploadProgress > 0 && cvUploadProgress < 100) {
+                <span class="uploading">Subiendo: {{ cvUploadProgress }}%</span>
+              }
+              @if (uploadedCv) {
+                <a [href]="uploadedCv.viewUrl" target="_blank" rel="noopener">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  Ver CV actual
+                </a>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            Experiencia laboral
+          </h2>
+          <button type="button" class="btn-secondary" (click)="addExperience()">+ Añadir</button>
+        </div>
+        <div formArrayName="experiences">
+          @for (experience of experiencesArray.controls; track $index) {
+            <div class="repeatable" [formGroupName]="$index">
+              <div class="grid two-columns">
+                <label>
+                  Empresa
+                  <input type="text" formControlName="company" placeholder="Nombre de la empresa" />
+                </label>
+                <label>
+                  Puesto
+                  <input type="text" formControlName="role" placeholder="Cargo desempeñado" />
+                </label>
+                <label>
+                  Fecha de Inicio
+                  <input type="date" formControlName="startDate" />
+                </label>
+                <label>
+                  Fecha de Fin
+                  <input type="date" formControlName="endDate" />
+                </label>
+              </div>
+              <label style="margin-top: 1rem;">
+                Descripción de actividades
+                <textarea rows="3" formControlName="description" placeholder="Describe tus responsabilidades y logros..."></textarea>
+              </label>
+              <button type="button" class="btn-link danger" (click)="removeExperience($index)">Eliminar esta entrada</button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <h2>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            Certificaciones y Cursos
+          </h2>
+          <button type="button" class="btn-secondary" (click)="addCertificate()">+ Añadir</button>
+        </div>
+        <div formArrayName="certificates">
+          @for (certificate of certificatesArray.controls; track $index) {
+            <div class="repeatable" [formGroupName]="$index">
+              <div class="grid two-columns">
+                <label>
+                  Título de certificación
+                  <input type="text" formControlName="title" placeholder="Ej. AWS Certified" />
+                </label>
+                <label>
+                  Institución emisora
+                  <input type="text" formControlName="institution" placeholder="Ej. Amazon Web Services" />
+                </label>
+                <label>
+                  Fecha de emisión
+                  <input type="date" formControlName="issueDate" />
+                </label>
+                <label>
+                  Expiración (Opcional)
+                  <input type="date" formControlName="expiresAt" />
+                </label>
+              </div>
+              <label style="margin-top: 1rem;">
+                ID de credencial / Enlace
+                <input type="text" formControlName="credentialId" placeholder="URL o código de validación" />
+              </label>
+
+              <div class="file-inline" style="margin-top: 1rem;">
+                <input type="file" (change)="onCertificateSelected($event, $index)" accept="application/pdf,image/png,image/jpeg,image/webp" />
+                @if (certificateUploadProgress[$index] > 0 && certificateUploadProgress[$index] < 100) {
+                  <span class="uploading">Subiendo: {{ certificateUploadProgress[$index] }}%</span>
+                }
+                @if (uploadedCertificates[$index]) {
+                  <a [href]="uploadedCertificates[$index].viewUrl" target="_blank" rel="noopener">Ver comprobante</a>
+                }
+              </div>
+
+              <button type="button" class="btn-link danger" (click)="removeCertificate($index)">Eliminar certificado</button>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (errorMessage) {
+        <div class="feedback error">{{ errorMessage }}</div>
+      }
+      @if (successMessage) {
+        <div class="feedback success">{{ successMessage }}</div>
+      }
+
+      <div class="actions">
+        <button type="submit" class="btn-primary" [disabled]="isSaving">
+          @if (isSaving) {
+            <span class="spinner-small"></span>
+          }
+          {{ isSaving ? 'Guardando...' : 'Guardar perfil profesional' }}
+        </button>
+      </div>
+    </form>
+  }
+</section>
