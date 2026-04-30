@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" [routerLink]="routerLink" [style.cursor]="routerLink ? 'pointer' : 'default'">
   <span class="title">{{ title }}</span>
   <div class="main-content">
     <span class="value">{{ value }}</span>

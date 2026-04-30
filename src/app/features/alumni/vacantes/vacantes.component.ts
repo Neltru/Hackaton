@@ -3,17 +3,21 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { VacantesService, Vacante, VacantesFiltros } from '../../../core/services/vacantes.service';
+import { TestsService } from '../../../core/services/tests.service';
+import { CompetenceRadarComponent } from './components/competence-radar/competence-radar.component';
 
 @Component({
   selector: 'app-vacantes',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, CompetenceRadarComponent],
   templateUrl: './vacantes.component.html',
   styleUrl: './vacantes.component.scss'
 })
 export class VacantesComponent implements OnInit {
   vacantes: Vacante[] = [];
   isLoading = true;
+  areTestsCompleted = false;
+  selectedVacanteId: string | null = null;
 
   // Filtros alineados con JSearch API
   searchQuery = '';
@@ -61,9 +65,15 @@ export class VacantesComponent implements OnInit {
     return pages;
   }
 
-  constructor(private vacantesService: VacantesService) {}
+  constructor(
+    private vacantesService: VacantesService,
+    private testsService: TestsService
+  ) {}
 
   ngOnInit(): void {
+    this.testsService.areAllTestsCompleted().subscribe(status => {
+      this.areTestsCompleted = status;
+    });
     this.fetchVacantes();
   }
 
@@ -134,5 +144,9 @@ export class VacantesComponent implements OnInit {
       div.textContent = this.getInitials(company);
       parent.insertBefore(div, img);
     }
+  }
+
+  toggleRadar(id: string): void {
+    this.selectedVacanteId = this.selectedVacanteId === id ? null : id;
   }
 }
