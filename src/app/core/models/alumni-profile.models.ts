@@ -28,22 +28,37 @@ export interface Certificate {
 }
 
 export interface AlumniProfile {
-  id?: string;
-  fullName: string;
-  institutionalEmail: string;
-  personalEmail?: string;
-  phone?: string;
-  summary?: string;
-  careerCode?: string;
-  careerName?: string;
-  entryYear?: number;
-  photo?: DriveFileRef;
-  cv?: DriveFileRef;
-  experiences: WorkExperience[];
-  certificates: Certificate[];
+  // Datos del SIEst 2.0 (Read-only)
+  alumno_id?: number;
+  cve_alumno: string;
+  matricula: string;
+  nombre: string;
+  apellido_paterno: string;
+  apellido_materno?: string;
+  carrera_id: number;
+  carrera_nombre?: string;
+  periodo_egreso: string;
+  foto_url?: string;
+  correo_institucional: string;
+
+  // Perfil adicional (Editable)
+  correo_alternativo?: string;
+  cv_drive_url?: string;
+  telefono?: string;
+  linkedin_url?: string;
+  disponibilidad: 'activo' | 'no_disponible' | 'contratado';
+  
+  // Transversal
+  resumen_profesional?: string;
+  experiencias?: WorkExperience[];
+  certificados?: Certificate[];
 }
 
-export type AlumniProfileUpdate = Omit<
-  AlumniProfile,
-  'id' | 'careerCode' | 'careerName' | 'entryYear'
->;
+export interface AlumniProfileUpdate {
+  correo_alternativo?: string;
+  cv_drive_url?: string;
+  telefono?: string;
+  linkedin_url?: string;
+  disponibilidad: 'activo' | 'no_disponible' | 'contratado';
+  resumen_profesional?: string;
+}

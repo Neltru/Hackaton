@@ -22,7 +22,7 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      matricula: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -36,7 +36,7 @@ export class LoginComponent {
         next: (response) => {
           this.isLoading = false;
           console.log('Login successful', response);
-          this.router.navigate(['/dashboard']); // Redirect to dashboard
+          this.router.navigate(['/alumni/dashboard']);
         },
         error: (err) => {
           this.isLoading = false;

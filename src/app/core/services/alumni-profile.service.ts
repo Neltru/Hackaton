@@ -9,7 +9,7 @@ import { AlumniProfile, AlumniProfileUpdate } from '../models/alumni-profile.mod
 export class AlumniProfileService {
   private readonly apiUrl = 'https://api.hackaton-project.com/alumni/profile';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) { }
 
   getProfile(): Observable<AlumniProfile> {
     return this.http.get<AlumniProfile>(this.apiUrl).pipe(
@@ -23,13 +23,21 @@ export class AlumniProfileService {
 
   private getFallbackProfile(): AlumniProfile {
     return {
-      fullName: 'Egresado Alumni',
-      institutionalEmail: '',
-      personalEmail: '',
-      phone: '',
-      summary: '',
-      experiences: [],
-      certificates: []
+      cve_alumno: '2021-0001',
+      matricula: '2021301234',
+      nombre: 'Nelson',
+      apellido_paterno: 'Rios',
+      apellido_materno: 'Patron',
+      correo_institucional: 'alumni@utdelacosta.edu.mx',
+      carrera_id: 1,
+      carrera_nombre: 'Ingeniería en Tecnologías de la Información',
+      periodo_egreso: '2024-08-01',
+      disponibilidad: 'activo',
+      correo_alternativo: '',
+      telefono: '',
+      resumen_profesional: 'Perfil de egresado enfocado en el desarrollo profesional.',
+      experiencias: [],
+      certificados: []
     };
   }
 }

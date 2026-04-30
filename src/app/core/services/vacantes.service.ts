@@ -52,6 +52,14 @@ export class VacantesService {
 
   constructor(private http: HttpClient) { }
 
+  postular(vacanteId: string, mensaje: string): Observable<{ success: boolean; message: string }> {
+    // Simulación de envío de postulación
+    return of({ 
+      success: true, 
+      message: 'Tu postulación ha sido enviada exitosamente a la empresa.' 
+    }).pipe(delay(1500));
+  }
+
   getVacantes(filtros: VacantesFiltros = {}): Observable<VacantesResult> {
     if (this.useMock) {
       return this.getMockVacantes(filtros);

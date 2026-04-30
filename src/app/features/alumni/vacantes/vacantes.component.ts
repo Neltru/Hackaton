@@ -18,6 +18,21 @@ export class VacantesComponent implements OnInit {
   isLoading = true;
   areTestsCompleted = false;
   selectedVacanteId: string | null = null;
+  
+  // Estado de Postulación
+  showApplyModal = false;
+  selectedVacante: Vacante | null = null;
+  postulacionMessage = '';
+  isSubmitting = false;
+  postulacionSuccess = false;
+  postulacionError = '';
+
+  // Estado de Contacto Directo
+  showContactModal = false;
+  contactMessage = '';
+  isSendingMessage = false;
+  contactSuccess = false;
+  contactError = '';
 
   // Filtros alineados con JSearch API
   searchQuery = '';
@@ -148,5 +163,69 @@ export class VacantesComponent implements OnInit {
 
   toggleRadar(id: string): void {
     this.selectedVacanteId = this.selectedVacanteId === id ? null : id;
+  }
+
+  openApplyModal(vacante: Vacante): void {
+    this.selectedVacante = vacante;
+    this.showApplyModal = true;
+    this.postulacionSuccess = false;
+    this.postulacionError = '';
+    this.postulacionMessage = '';
+  }
+
+  closeApplyModal(): void {
+    this.showApplyModal = false;
+    this.selectedVacante = null;
+  }
+
+  submitPostulacion(): void {
+    if (!this.selectedVacante || this.isSubmitting) return;
+
+    this.isSubmitting = true;
+    this.postulacionError = '';
+
+    this.vacantesService.postular(this.selectedVacante.id, this.postulacionMessage).subscribe({
+      next: (res) => {
+        this.isSubmitting = false;
+        this.postulacionSuccess = true;
+        // Marcar como postulada localmente
+        if (this.selectedVacante) {
+          this.selectedVacante.status = 'postulada';
+        }
+        setTimeout(() => this.closeApplyModal(), 2000);
+      },
+      error: () => {
+        this.isSubmitting = false;
+        this.postulacionError = 'Ocurrió un error al enviar tu postulación. Inténtalo de nuevo.';
+      }
+    });
+  }
+
+  // ── MÉTODOS DE CONTACTO ──────────────────────────────────────────────────
+  openContactModal(vacante: Vacante): void {
+    this.selectedVacante = vacante;
+    this.showContactModal = true;
+    this.contactSuccess = false;
+    this.contactError = '';
+    this.contactMessage = '';
+  }
+
+  closeContactModal(): void {
+    this.showContactModal = false;
+    this.selectedVacante = null;
+  }
+
+  sendMessage(): void {
+    if (!this.contactMessage.trim() || this.isSendingMessage) return;
+
+    this.isSendingMessage = true;
+    this.contactError = '';
+
+    // Simulación de envío de mensaje
+    setTimeout(() => {
+      this.isSendingMessage = false;
+      this.contactSuccess = true;
+      setTimeout(() => this.closeContactModal(), 2000);
+    }, 1500);
   }
 }
