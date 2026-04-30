@@ -1,0 +1,91 @@
+<section class="insercion-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Indicador de inserción laboral por carrera</h1>
+      <p class="page-subtitle">RF-26 · Admin UT · Gráfica de barras</p>
+    </div>
+    <div class="header-right filters">
+      <div class="filter-group">
+        <select class="form-select" [(ngModel)]="selectedAnio" (ngModelChange)="onFilterChange()">
+          <option>2025</option>
+          <option>2024</option>
+          <option>2023</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <select class="form-select" [(ngModel)]="selectedCarrera" (ngModelChange)="onFilterChange()">
+          <option>Todas las carreras</option>
+          <option>TI</option>
+          <option>Administración</option>
+          <option>Ing. Civil</option>
+          <option>Logística</option>
+          <option>Mecatrónica</option>
+          <option>Contaduría</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Cargando datos del indicador...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading && stats">
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-label">Total egresados</span>
+        <span class="stat-value">{{ stats.totalEgresados }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Contratados</span>
+        <span class="stat-value">{{ stats.contratados }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">% inserción global</span>
+        <span class="stat-value">{{ stats.porcentajeInsercion }}%</span>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="chart-section">
+      <h2 class="section-title">% inserción por carrera</h2>
+      
+      <div class="chart-container">
+        <!-- Target Line (Meta 70%) -->
+        <div class="target-line" [style.left.%]="metaInsercion"></div>
+
+        <div class="bar-row" *ngFor="let item of carreras; let i = index" [style.--delay]="i * 0.05 + 's'">
+          <div class="bar-label">{{ item.carrera }}</div>
+          <div class="bar-track-wrapper">
+            <div class="bar-track">
+              <!-- Actual progress bar -->
+              <div 
+                class="bar-fill" 
+                [style.width.%]="item.porcentaje"
+              ></div>
+            </div>
+            <div class="bar-value">{{ item.porcentaje }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="chart-legend">
+        <div class="legend-item">
+          <span class="legend-color fill-color"></span>
+          <span class="legend-text">% contratados</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color meta-color"></span>
+          <span class="legend-text">Meta ({{ metaInsercion }}%)</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</section>

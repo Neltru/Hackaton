@@ -1,0 +1,98 @@
+<section class="mapa-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">Mapa de calor de convenios</h1>
+      <p class="page-subtitle">RF-27 · Zona norte vs nacional · Filtrable</p>
+    </div>
+    <div class="header-right">
+      <select class="form-select outline" [(ngModel)]="filtroZona" (ngModelChange)="onFilterChange()">
+        <option>Zona norte Nayarit</option>
+        <option>Nacional</option>
+        <option>Todos</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Cargando mapa de calor...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading && stats">
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-label">Zona norte (automático)</span>
+        <span class="stat-value text-blue">{{ stats.zonaNorte }}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Nacional (contratación)</span>
+        <span class="stat-value text-green">{{ stats.nacional }}</span>
+      </div>
+    </div>
+
+    <!-- Map Visualization -->
+    <div class="map-visualization">
+      
+      <!-- Legend Left -->
+      <div class="map-legend-left">
+        <div class="legend-scale">
+          <div class="color-box alta"></div>
+          <div class="color-box media-alta"></div>
+          <div class="color-box media"></div>
+          <div class="color-box baja"></div>
+        </div>
+        <div class="legend-labels">
+          <span>Alta</span>
+          <span>Baja</span>
+        </div>
+      </div>
+
+      <!-- Map Area -->
+      <div class="map-area">
+        <div class="map-container">
+          
+          <!-- Nayarit (Large, automatico) -->
+          <div class="region region-large region-automatico">
+            <div class="region-content">
+              <strong>Nayarit</strong>
+              <span>31 convenios</span>
+            </div>
+          </div>
+
+          <!-- JAL (Medium, contratacion) -->
+          <div class="region region-medium region-contratacion-30">
+            <div class="region-content">
+              <strong>JAL · 5</strong>
+            </div>
+          </div>
+
+          <!-- CDMX (Medium, contratacion) -->
+          <div class="region region-medium region-contratacion-40 offset-top">
+            <div class="region-content">
+              <strong>CDMX · 7</strong>
+            </div>
+          </div>
+
+          <!-- NL (Small, contratacion) -->
+          <div class="region region-small region-contratacion-10 offset-bottom">
+            <div class="region-content">
+              <strong>NL · 5</strong>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges Bottom -->
+    <div class="badges-bottom">
+      <div class="badge badge-automatico">Nayarit: automático</div>
+      <div class="badge badge-contratacion">Nacional: por contratación</div>
+    </div>
+  </ng-container>
+
+</section>

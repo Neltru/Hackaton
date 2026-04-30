@@ -1,0 +1,115 @@
+<section class="analytics-container">
+  <div class="header">
+    <div class="title-area">
+      <h1>Analíticas e Indicadores en Tiempo Real</h1>
+      <p class="subtitle">RF-34 · Filtros Dinámicos Cruzados (Carrera, Fecha, Zona)</p>
+    </div>
+  </div>
+
+  <!-- Filters Bar -->
+  <div class="filters-bar card">
+    <div class="filter-item">
+      <label>Periodo</label>
+      <div class="date-inputs">
+        <input type="date" [(ngModel)]="filters.fechaInicio" (change)="onFilterChange()">
+        <span>a</span>
+        <input type="date" [(ngModel)]="filters.fechaFin" (change)="onFilterChange()">
+      </div>
+    </div>
+    
+    <div class="filter-item">
+      <label>Carrera</label>
+      <select [(ngModel)]="filters.carrera" (change)="onFilterChange()">
+        <option value="Todas">Todas las Carreras</option>
+        <option value="TI">Tecnologías de la Información</option>
+        <option value="ADM">Administración</option>
+        <option value="CIV">Ingeniería Civil</option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label>Zona Geográfica</label>
+      <select [(ngModel)]="filters.zona" (change)="onFilterChange()">
+        <option value="Todas">Nacional y Local</option>
+        <option value="Nayarit">Zona Norte Nayarit</option>
+        <option value="Nacional">Nacional (Resto del País)</option>
+      </select>
+    </div>
+
+    <div class="filter-status" [class.loading]="loading">
+      <span class="dot"></span> {{loading ? 'Sincronizando...' : 'Datos Actualizados'}}
+    </div>
+  </div>
+
+  <div class="metrics-grid" *ngIf="metrics">
+    <!-- Quick Stats -->
+    <div class="stats-row">
+      <div class="stat-mini card">
+        <span class="label">Inserción</span>
+        <span class="value">{{metrics.insercion}}%</span>
+      </div>
+      <div class="stat-mini card">
+        <span class="label">Convenios</span>
+        <span class="value">{{metrics.conveniosActivos}}</span>
+      </div>
+      <div class="stat-mini card">
+        <span class="label">Promedio Gral.</span>
+        <span class="value">{{metrics.promedioEvaluacion}}</span>
+      </div>
+      <div class="stat-mini card">
+        <span class="label">Total Alumnos</span>
+        <span class="value">{{metrics.totalAlumnos}}</span>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <!-- Trend Chart -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3>Tendencia de Inserción (Ene - Dic)</h3>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <svg viewBox="0 0 400 150" class="line-chart">
+              <path [attr.d]="getTrendPath()" fill="none" stroke="#3b82f6" stroke-width="3"></path>
+              <g class="points">
+                <circle *ngFor="let p of metrics.tendenciaHistorica; let i = index" 
+                        [attr.cx]="i * (400 / (metrics.tendenciaHistorica.length - 1))" 
+                        [attr.cy]="150 - p.valor" r="4" fill="#3b82f6"></circle>
+              </g>
+            </svg>
+            <div class="x-axis">
+              <span *ngFor="let p of metrics.tendenciaHistorica">{{p.label}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Distribution Chart -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3>Distribución por Carrera</h3>
+        </div>
+        <div class="card-body">
+          <div class="distribution-list">
+            <div *ngFor="let item of metrics.distribucionCarreras" class="dist-item">
+              <div class="dist-info">
+                <span class="name">{{item.label}}</span>
+                <span class="val">{{item.valor}}%</span>
+              </div>
+              <div class="dist-track">
+                <div class="dist-fill" [style.width.%]="item.valor"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading && !metrics" class="initial-loading">
+    <div class="spinner"></div>
+    <p>Cargando analíticas...</p>
+  </div>
+</section>
