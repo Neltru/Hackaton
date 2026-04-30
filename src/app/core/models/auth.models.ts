@@ -4,13 +4,14 @@ export interface LoginRequest {
 }
 
 export interface AuthResponse {
-  token: string;
-  role: string | number;
-  user: {
+  token?: string;
+  require_2fa?: boolean;
+  message?: string;
+  user?: {
     id: string | number;
+    rol_id: string | number;
     nombre_usuario: string;
     name?: string;
-    role?: string | number;
   };
 }
 

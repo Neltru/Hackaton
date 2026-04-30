@@ -42,6 +42,16 @@ export class EvaluacionesService {
     );
   }
 
+  /** Obtiene listado de evaluaciones para el administrador */
+  getAdminEvaluaciones(): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/admin/evaluaciones`,
+      { headers: this.getHeaders() }
+    ).pipe(
+      catchError(() => of([]))
+    );
+  }
+
   /** Datos mock para desarrollo */
   private getMockResultados(): ResultadoPrueba {
     return {

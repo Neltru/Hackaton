@@ -56,7 +56,12 @@ export class AuthService {
 
   private saveSession(response: AuthResponse): void {
     if (response.token) localStorage.setItem('auth_token', response.token);
-    if (response.role) localStorage.setItem('auth_role', response.role.toString());
+    
+    // El rol viene dentro del objeto user como rol_id
+    const role = response.user?.rol_id;
+    if (role) {
+      localStorage.setItem('auth_role', role.toString());
+    }
   }
 
   getRole(): string | null {

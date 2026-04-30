@@ -28,7 +28,7 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required]],
+      matricula: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
@@ -43,7 +43,7 @@ export class LoginComponent {
       this.errorMessage = null;
 
       const loginPayload = {
-        nombre_usuario: this.loginForm.get('email')?.value,
+        nombre_usuario: this.loginForm.get('matricula')?.value,
         password: this.loginForm.get('password')?.value
       };
 
@@ -51,13 +51,13 @@ export class LoginComponent {
         next: (response) => {
           this.isLoading = false;
           
-          // Asumimos que si no hay token pero el login fue exitoso, es porque requiere 2FA
-          // O si el backend envía un flag específico (ej. response.requires2fa)
-          if (!response.token) {
+          // El backend indica si se requiere 2FA con la propiedad require_2fa
+          if (response.require_2fa) {
             this.show2FA = true;
-            this.pendingEmail = response.user?.nombre_usuario || this.loginForm.get('email')?.value;
-          } else {
-            this.handleNavigation(response.role);
+            this.pendingEmail = this.loginForm.get('matricula')?.value;
+          } else if (response.token) {
+            const finalRole = response.user?.rol_id;
+            this.handleNavigation(finalRole);
           }
         },
         error: (err) => {
@@ -80,7 +80,8 @@ export class LoginComponent {
       }).subscribe({
         next: (response) => {
           this.isLoading = false;
-          this.handleNavigation(response.role);
+          const finalRole = response.user?.rol_id;
+          this.handleNavigation(finalRole);
         },
         error: (err) => {
           this.isLoading = false;
@@ -92,13 +93,22 @@ export class LoginComponent {
   }
 
   private handleNavigation(role: string | number | undefined) {
-    const userRole = role?.toString().toLowerCase() || String(this.authService.getRole()).toLowerCase();
+    // Obtenemos el rol de la respuesta o del almacenamiento local
+    const rawRole = role || this.authService.getRole();
+    const userRole = rawRole?.toString().toLowerCase() || '';
     
+    console.log('Navegando para el rol:', userRole);
+
+    // Mapeo: 1 -> Alumni, 2 -> Company, 3 -> Admin
     if (userRole === 'admin' || userRole === 'administrador_ut' || userRole === '3') {
       this.router.navigate(['/administracion/dashboard']);
     } else if (userRole === 'company' || userRole === 'empresa' || userRole === '2') {
       this.router.navigate(['/company/dashboard']);
+    } else if (userRole === 'alumni' || userRole === 'egresado' || userRole === '1') {
+      this.router.navigate(['/alumni/dashboard']);
     } else {
+      // Por defecto, si no hay rol claro, mandamos a login o a una página neutra
+      console.warn('Rol no reconocido:', userRole);
       this.router.navigate(['/alumni/dashboard']);
     }
   }

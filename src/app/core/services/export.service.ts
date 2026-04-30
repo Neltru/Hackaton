@@ -1,11 +1,38 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { API_CONFIG } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExportService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  /**
+   * Solicita al servidor generar un reporte y dispara la descarga.
+   * @param tipo 'alumnos', 'convenios' o 'vacantes'
+   */
+  exportFromServer(tipo: string): void {
+    const url = `${API_CONFIG.baseUrl}/admin/exportar/${tipo}`;
+    
+    // Usamos HttpClient para manejar posibles errores o autenticación si fuera necesario,
+    // pero para una descarga directa simple de archivo a veces basta con window.open o un link.
+    // Sin embargo, como requiere JWT (vía interceptor), HttpClient es mejor.
+    
+    this.http.get(url, { responseType: 'blob' }).subscribe({
+      next: (blob) => {
+        const filename = `reporte_${tipo}_${new Date().getTime()}`;
+        // Detectar si el blob es PDF o Excel (si el backend lo envía correctamente)
+        // Por ahora asumo PDF por defecto o dejo que el navegador lo maneje.
+        this.triggerDownload(blob, `${filename}.pdf`); 
+      },
+      error: (err) => {
+        console.error('Error al exportar reporte desde el servidor', err);
+      }
+    });
+  }
 
   /**
    * Exporta un arreglo de objetos a un archivo CSV (apertura nativa en Excel).

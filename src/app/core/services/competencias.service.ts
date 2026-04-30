@@ -1,33 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CompetenciasRanking } from '../models/competencias.models';
+import { API_CONFIG } from '../constants/api.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompetenciasService {
 
-  private mockRanking: CompetenciasRanking = {
-    tecnicas: [
-      { nombre: 'Excel avanzado', puntaje: 87 },
-      { nombre: 'Programación', puntaje: 74 },
-      { nombre: 'AutoCAD', puntaje: 62 },
-      { nombre: 'Contabilidad', puntaje: 55 },
-      { nombre: 'Redes', puntaje: 48 }
-    ],
-    blandas: [
-      { nombre: 'Trabajo en eq...', puntaje: 91 },
-      { nombre: 'Comunicación', puntaje: 83 },
-      { nombre: 'Liderazgo', puntaje: 71 },
-      { nombre: 'Resolución pr...', puntaje: 66 },
-      { nombre: 'Adaptabilidad', puntaje: 59 }
-    ]
-  };
+  private apiUrl = `${API_CONFIG.baseUrl}/admin/reportes/ranking-competencias`;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getRanking(carreraFiltro: string): Observable<CompetenciasRanking> {
-    return of(this.mockRanking).pipe(delay(300));
+    return this.http.get<CompetenciasRanking>(this.apiUrl);
   }
 }
