@@ -1,14 +1,16 @@
 export interface LoginRequest {
-  username: string;
+  matricula: string;
   password: string;
 }
 
 export interface AuthResponse {
   token: string;
+  role: 'alumni' | 'company' | 'admin';
   user: {
     id: string;
     email: string;
     name?: string;
+    role?: 'alumni' | 'company' | 'admin';
   };
 }
 

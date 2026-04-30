@@ -10,6 +10,7 @@ import { CompanyLayoutComponent } from './core/layout/company-layout/company-lay
 import { PerfilComponent } from './features/alumni/perfil/perfil.component';
 import { PruebasComponent } from './features/alumni/pruebas/pruebas.component';
 
+
 // ─── Administración ──────────────────────────────────────────────────────────────
 import { AdminLayoutComponent } from './core/layout/admin-layout/admin-layout.component';
 import { EvaluacionesComponent } from './features/administracion/evaluaciones/evaluaciones.component';
@@ -45,6 +46,7 @@ export const routes: Routes = [
       { path: 'vacantes', component: VacantesComponent },
       { path: 'perfil', component: PerfilComponent },
       { path: 'pruebas', component: PruebasComponent },
+      { path: 'mi-cv', loadComponent: () => import('./features/alumni/mi-cv/mi-cv.component').then(m => m.MiCvComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
@@ -87,6 +89,9 @@ export const routes: Routes = [
     ]
   },
 
+
   // ── Fallback ─────────────────────────────────────────────────────────────────
-  { path: '', redirectTo: 'login', pathMatch: 'full' }
+  { path: 'administrador', redirectTo: 'administracion', pathMatch: 'prefix' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' }
 ];
