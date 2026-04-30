@@ -1,0 +1,328 @@
+.exportar-page {
+  padding-bottom: 2rem;
+  animation: fadeInUp 0.35s ease both;
+  color: var(--text-main);
+}
+
+// ─── Page Header ───────────────────────────────────────────────────────────────
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.header-left {
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0 0 0.3rem 0;
+    color: var(--primary);
+  }
+
+  .page-subtitle {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+}
+
+.export-grid {
+  display: grid;
+  grid-template-columns: 1fr 450px;
+  gap: 2rem;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-md);
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0 0 2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    &::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: var(--secondary);
+      border-radius: 2px;
+    }
+  }
+}
+
+// ─── Configuration Side ────────────────────────────────────────────────────────
+.options-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: #f8faf9;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    background: #f0f7f4;
+    border-color: var(--primary);
+  }
+
+  .option-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+}
+
+.checkbox-wrapper {
+  position: relative;
+  width: 20px;
+  height: 20px;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    
+    &:checked ~ .checkbox-custom {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      
+      &::after {
+        display: block;
+      }
+    }
+  }
+
+  .checkbox-custom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #edf2f0;
+    border-radius: 6px;
+    transition: all 0.2s;
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 6px;
+      top: 2px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.date-range {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: #f0f7f4;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+
+  .input-label {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .range-inputs {
+    display: flex;
+    gap: 2rem;
+
+    .input-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+  }
+}
+
+.form-control {
+  width: 100%;
+  background: white;
+  border: 2px solid #edf2f0;
+  color: var(--text-main);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.3s;
+
+  &:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
+  }
+}
+
+.actions-row {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s;
+  
+  &.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    box-shadow: var(--shadow-md);
+    &:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  }
+
+  &.btn-outline {
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--border-color);
+    &:hover { background: #f8faf9; border-color: var(--primary); transform: translateY(-3px); }
+  }
+}
+
+// ─── Preview Side ──────────────────────────────────────────────────────────────
+.report-mock {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  padding: 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mock-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid var(--primary);
+  margin-bottom: 2rem;
+
+  .ut-logo-small {
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.2rem;
+  }
+
+  .mock-title-group {
+    .mock-inst { font-size: 1rem; font-weight: 800; color: #111827; }
+    .mock-rep { font-size: 0.85rem; font-weight: 600; color: #6b7280; }
+  }
+}
+
+.mock-body {
+  flex: 1;
+  .mock-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+  }
+}
+
+.mock-content-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .mock-line {
+    height: 12px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    width: 100%;
+    
+    &.short { width: 60%; }
+  }
+
+  .mock-stats-row {
+    display: flex;
+    gap: 1rem;
+    .mock-stat {
+      flex: 1;
+      height: 80px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 1px solid #f3f4f6;
+    }
+  }
+}
+
+.mock-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f3f4f6;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+// ─── Animations ─────────────────────────────────────────────────────────────────
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
