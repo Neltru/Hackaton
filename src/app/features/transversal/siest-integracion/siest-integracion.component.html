@@ -2,7 +2,6 @@
   <div class="header">
     <div class="title-area">
       <h1>Integración SIEst 2.0</h1>
-      <p class="subtitle">RF-31 · Módulo Transversal · Sincronización de Datos Académicos</p>
     </div>
     <div class="status-badge" [class.online]="true">
       <span class="dot"></span> SIEst 2.0 Endpoint Online
@@ -18,13 +17,15 @@
       </div>
       <div class="card-body">
         <div class="input-group">
-          <input type="text" [(ngModel)]="cveAlumnoInput" placeholder="Ej. CVE001, CVE002..." (keyup.enter)="consultar()">
+          <input type="text" [(ngModel)]="cveAlumnoInput" placeholder="Ej. CVE001, CVE002..."
+            (keyup.enter)="consultar()">
           <button (click)="consultar()" [disabled]="loading">
             <span *ngIf="!loading">Consultar SIEst</span>
             <span *ngIf="loading" class="spinner"></span>
           </button>
         </div>
-        <p class="help-text">Los datos obtenidos se almacenan localmente en la base de datos institucional para optimizar el rendimiento y evitar sobrecarga en los servidores del SIEst.</p>
+        <p class="help-text">Los datos obtenidos se almacenan localmente en la base de datos institucional para
+          optimizar el rendimiento y evitar sobrecarga en los servidores del SIEst.</p>
       </div>
     </div>
 
@@ -70,7 +71,12 @@
           </div>
 
           <div *ngIf="!response.ok" class="error-state">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
             <p>{{response.error}}</p>
           </div>
         </div>

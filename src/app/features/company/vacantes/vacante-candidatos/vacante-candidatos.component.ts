@@ -55,7 +55,7 @@ export class VacanteCandidatosComponent implements OnInit {
         this.filtroCarrera,
         this.filtroZona,
         this.filtroUmbral
-      ).subscribe(res => {
+      ).subscribe((res: CandidatoIdoneo[]) => {
         this.candidatos = res;
       });
     }

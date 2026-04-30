@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { Chart, registerables } from 'chart.js';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+Chart.register(...registerables);
 
 interface KpiCard {
   label: string;
@@ -28,12 +32,52 @@ interface ActivityItem {
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterLink, NgApexchartsModule],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.scss'
 })
 export class AdminDashboardComponent implements OnInit {
   currentDate = new Date();
+
+  // --- ApexCharts: Tendencia de Convenios ---
+  public apexChartOptions: any = {
+    series: [
+      {
+        name: "Convenios Firmados",
+        data: [12, 15, 14, 18, 22, 28, 35, 42, 48]
+      }
+    ],
+    chart: {
+      height: 300,
+      type: "area",
+      toolbar: { show: false },
+      foreColor: 'var(--text-muted)'
+    },
+    colors: ['#2d6a4f'],
+    dataLabels: { enabled: false },
+    stroke: { curve: "smooth", width: 3 },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.4,
+        opacityTo: 0.1,
+        stops: [0, 90, 100]
+      }
+    },
+    xaxis: {
+      categories: ["Ago", "Sep", "Oct", "Nov", "Dic", "Ene", "Feb", "Mar", "Abr"],
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } }
+    },
+    yaxis: { labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } } },
+    grid: { borderColor: 'rgba(45, 106, 79, 0.1)', strokeDashArray: 4 },
+    tooltip: { theme: 'light' }
+  };
+
+  // --- Chart.js: Distribución por Carrera ---
+  distributionChart: any;
 
   kpis: KpiCard[] = [
     {
@@ -89,6 +133,7 @@ export class AdminDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.sanitizeIcons();
+    this.initDistributionChart();
   }
 
   private sanitizeIcons(): void {
@@ -101,5 +146,45 @@ export class AdminDashboardComponent implements OnInit {
       ...link,
       icon: this.sanitizer.bypassSecurityTrustHtml(link.icon as string)
     }));
+  }
+
+  private initDistributionChart(): void {
+    const ctx = document.getElementById('distributionChart') as HTMLCanvasElement;
+    if (!ctx) return;
+
+    this.distributionChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['TI', 'Ing. Civil', 'Administración', 'Mercadotecnia', 'Otros'],
+        datasets: [{
+          data: [45, 25, 15, 10, 5],
+          backgroundColor: [
+            '#3b82f6',
+            '#10b981',
+            '#f59e0b',
+            '#8b5cf6',
+            '#ef4444'
+          ],
+          borderWidth: 0,
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#40916c',
+              padding: 20,
+              usePointStyle: true,
+              font: { size: 12, weight: '700' }
+            }
+          }
+        },
+        cutout: '75%'
+      }
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CompanyCandidatosService, CandidatoIdoneo } from '../services/company-candidatos.service';
-import { CompanyVacantesService, CompanyVacante } from '../services/company-vacantes.service';
+import { CompanyCandidatosService, CandidatoIdoneo } from './company-candidatos.service';
+import { CompanyVacantesService, CompanyVacante } from './company-vacantes.service';
 
 export interface ChatMessage {
   id: string;

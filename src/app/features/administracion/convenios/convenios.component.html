@@ -4,7 +4,6 @@
   <div class="page-header">
     <div class="header-left">
       <h1 class="page-title">Gestión de convenios institucionales</h1>
-      <p class="page-subtitle">RF-24 · Admin UT</p>
     </div>
     <div class="header-right">
       <button class="btn-primary">
@@ -39,13 +38,8 @@
     <!-- Filters Row -->
     <div class="filters-row">
       <div class="filter-group search-group">
-        <input 
-          type="text" 
-          class="form-control" 
-          placeholder="Buscar empresa..." 
-          [(ngModel)]="searchQuery" 
-          (ngModelChange)="applyFilters()"
-        >
+        <input type="text" class="form-control" placeholder="Buscar empresa..." [(ngModel)]="searchQuery"
+          (ngModelChange)="applyFilters()">
       </div>
       <div class="filter-group">
         <select class="form-select" [(ngModel)]="selectedEstado" (ngModelChange)="applyFilters()">

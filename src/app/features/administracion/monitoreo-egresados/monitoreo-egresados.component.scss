@@ -2,11 +2,10 @@
   padding-bottom: 2rem;
   animation: fadeInUp 0.35s ease both;
   color: var(--text-main);
-  
+
   --border-color: var(--border-color);
   --bg-card: var(--bg-card);
-  --green-color: var(--primary);
-  --mint-color: var(--primary-light);
+
 }
 
 // ─── Page Header ───────────────────────────────────────────────────────────────
@@ -57,16 +56,15 @@
   background-size: 1.2em;
   transition: all 0.3s;
 
-  &:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
+  &:hover {
+    border-color: #777;
   }
 
   option {
-    background: #fff;
-    color: var(--text-main);
+    background: #222;
+    color: #fff;
   }
+
 }
 
 // ─── Stats Row ──────────────────────────────────────────────────────────────────
@@ -118,121 +116,26 @@
   }
 }
 
-// ─── Chart Section (Histogram + Gauss) ──────────────────────────────────────────
-.chart-section {
-  margin-bottom: 3.5rem;
-  background: white;
-  padding: 2.5rem;
-  border-radius: 20px;
+// ─── Chart Section (Apex) ──────────────────────────────────────────────────────
+.chart-section-apex {
+  background: var(--bg-surface);
   border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-md);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
 
   .section-title {
-    font-size: 1.2rem;
-    font-weight: 800;
     margin: 0 0 2rem 0;
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    
-    &::before {
-      content: '';
-      width: 4px;
-      height: 18px;
-      background: var(--secondary);
-      border-radius: 2px;
-    }
-  }
-}
-
-.histogram-container {
-  background: #f8faf9;
-  border-radius: 16px;
-  border: 1px solid #edf2f0;
-  height: 350px;
-  position: relative;
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
-.gauss-curve {
-  position: absolute;
-  top: 3rem;
-  left: 3rem;
-  right: 3rem;
-  bottom: 4rem;
-  width: calc(100% - 6rem);
-  height: calc(100% - 7rem);
-  z-index: 2;
-  pointer-events: none;
-  
-  path {
-    animation: drawLine 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    stroke-dasharray: 2000;
-    stroke-dashoffset: 2000;
-    stroke-width: 3;
-    stroke: var(--primary);
-  }
-  
-  text {
-    opacity: 0;
-    animation: fadeIn 0.5s ease 2s forwards;
-    fill: var(--primary);
+    font-size: 1.25rem;
     font-weight: 800;
-    font-size: 14px;
+    color: var(--primary);
   }
 }
 
-.bars-container {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  width: 100%;
-  height: calc(100% - 2rem);
-  gap: 4px;
-  z-index: 1;
+.mixed-chart-container {
+  min-height: 400px;
 }
 
-.histogram-bar {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  .bar-fill {
-    width: 100%;
-    background: var(--primary-light);
-    opacity: 0.4;
-    border-radius: 4px 4px 0 0;
-    transform-origin: bottom;
-    animation: growUp 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    transition: all 0.3s;
-    
-    &:hover {
-      opacity: 0.8;
-      background: var(--primary);
-    }
-  }
-}
-
-.x-axis-labels {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 1rem;
-  
-  span {
-    flex: 1;
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    font-weight: 700;
-  }
-}
 
 // ─── Data Table Section ─────────────────────────────────────────────────────────
 .table-section {
@@ -284,13 +187,17 @@
   }
 
   tr:hover td {
-    background: #f0f7f4;
+    background: rgba(255, 255, 255, 0.02);
   }
 
   .font-bold {
-    font-weight: 800;
-    color: var(--primary);
+    font-weight: 700;
   }
+
+  .text-white {
+    color: #fff;
+  }
+
 }
 
 // ─── Loading ────────────────────────────────────────────────────────────────────
@@ -313,34 +220,29 @@
   }
 }
 
-// ─── Animations ─────────────────────────────────────────────────────────────────
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 
-@keyframes growUp {
-  from { transform: scaleY(0); }
-  to   { transform: scaleY(1); }
-}
-
-@keyframes drawLine {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 900px) {
   .stats-row {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .header-right.filters {
     flex-direction: column;
     gap: 0.5rem;

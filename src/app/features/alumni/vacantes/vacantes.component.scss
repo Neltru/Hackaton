@@ -445,7 +445,7 @@
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(27, 67, 50, 0.4);
   backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
@@ -462,8 +462,10 @@
   overflow-y: auto;
   position: relative;
   padding: 2.5rem;
-  background: #121212;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
+  box-shadow: var(--shadow-lg);
 
   .close-btn {
     position: absolute;
@@ -493,8 +495,8 @@
     }
 
     .header-text {
-      h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; color: #fff; }
-      p { color: #94a3b8; font-size: 0.95rem; }
+      h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--primary); }
+      p { color: var(--text-muted); font-size: 0.95rem; font-weight: 600; }
     }
   }
 }
@@ -508,11 +510,11 @@
 
   .analysis-header {
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;
-    h3 { font-size: 1rem; font-weight: 700; color: #fff; }
+    h3 { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
     .match-percentage {
-      padding: 0.4rem 0.8rem; border-radius: 2rem; font-size: 0.85rem; font-weight: 800;
-      background: rgba(239, 68, 68, 0.1); color: #ef4444;
-      &.high { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+      padding: 0.4rem 1rem; border-radius: 2rem; font-size: 0.85rem; font-weight: 800;
+      background: var(--badge-bg-warning); color: var(--badge-text-warning);
+      &.high { background: var(--badge-bg-success); color: var(--badge-text-success); }
     }
   }
 
@@ -530,11 +532,11 @@
 .apply-form {
   .form-group {
     margin-bottom: 1.5rem;
-    label { display: block; font-size: 0.9rem; font-weight: 600; color: #94a3b8; margin-bottom: 0.75rem; }
+    label { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.75rem; }
     textarea {
-      width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 0.75rem; padding: 1rem; color: #fff; font-size: 0.95rem;
-      &:focus { border-color: var(--primary); outline: none; }
+      width: 100%; background: #f8faf9; border: 2px solid #edf2f0;
+      border-radius: 0.75rem; padding: 1rem; color: var(--text-main); font-size: 0.95rem;
+      &:focus { border-color: var(--primary); outline: none; background: #fff; }
     }
   }
 
@@ -577,8 +579,10 @@
   max-width: 500px;
   position: relative;
   padding: 2.5rem;
-  background: #121212;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
+  box-shadow: var(--shadow-lg);
 
   .chat-intro {
     background: rgba(79, 140, 246, 0.1);

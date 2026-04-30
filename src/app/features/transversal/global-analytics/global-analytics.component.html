@@ -2,7 +2,6 @@
   <div class="header">
     <div class="title-area">
       <h1>Analíticas e Indicadores en Tiempo Real</h1>
-      <p class="subtitle">RF-34 · Filtros Dinámicos Cruzados (Carrera, Fecha, Zona)</p>
     </div>
   </div>
 
@@ -16,7 +15,7 @@
         <input type="date" [(ngModel)]="filters.fechaFin" (change)="onFilterChange()">
       </div>
     </div>
-    
+
     <div class="filter-item">
       <label>Carrera</label>
       <select [(ngModel)]="filters.carrera" (change)="onFilterChange()">
@@ -70,18 +69,11 @@
           <h3>Tendencia de Inserción (Ene - Dic)</h3>
         </div>
         <div class="card-body">
-          <div class="chart-container">
-            <svg viewBox="0 0 400 150" class="line-chart">
-              <path [attr.d]="getTrendPath()" fill="none" stroke="#3b82f6" stroke-width="3"></path>
-              <g class="points">
-                <circle *ngFor="let p of metrics.tendenciaHistorica; let i = index" 
-                        [attr.cx]="i * (400 / (metrics.tendenciaHistorica.length - 1))" 
-                        [attr.cy]="150 - p.valor" r="4" fill="#3b82f6"></circle>
-              </g>
-            </svg>
-            <div class="x-axis">
-              <span *ngFor="let p of metrics.tendenciaHistorica">{{p.label}}</span>
-            </div>
+          <div class="apex-chart-container">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
+              [stroke]="chartOptions.stroke" [colors]="chartOptions.colors" [fill]="chartOptions.fill"
+              [grid]="chartOptions.grid" [tooltip]="chartOptions.tooltip">
+            </apx-chart>
           </div>
         </div>
       </div>

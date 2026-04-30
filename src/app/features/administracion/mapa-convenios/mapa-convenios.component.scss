@@ -2,13 +2,13 @@
   padding-bottom: 2rem;
   animation: fadeInUp 0.35s ease both;
   color: var(--text-main);
-  
+
   --border-color: var(--border-color);
   --bg-card: var(--bg-card);
   --green-alta: var(--primary);
-  --green-media-alta: #40916c;
-  --green-media: #74c69d;
-  --green-baja: #d8f3dc;
+  --green-media-alta: var(--primary-light);
+  --green-media: var(--accent);
+  --green-baja: #f0f7f4;
 }
 
 // ─── Page Header ───────────────────────────────────────────────────────────────
@@ -53,6 +53,10 @@
   background-position: right 1rem center;
   background-size: 1.2em;
   transition: all 0.3s;
+
+  &:hover {
+    border-color: #777;
+  }
 
   &:focus {
     outline: none;
@@ -105,14 +109,62 @@
     line-height: 1;
 
     &.text-blue {
-      color: var(--primary);
+      color: #3b82f6;
     }
 
     &.text-green {
-      color: var(--primary-light);
+      color: #10b981;
     }
   }
 }
+
+// ─── Map Visualization (Apex) ──────────────────────────────────────────────────
+.map-visualization-apex {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+
+  .chart-header {
+    margin-bottom: 2rem;
+    text-align: center;
+
+    .section-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .section-desc {
+      margin: 0.4rem 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+  }
+}
+
+.treemap-container {
+  min-height: 450px;
+}
+
+.badges-bottom {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+
+  &.text-blue {
+    color: var(--primary);
+  }
+
+  &.text-green {
+    color: var(--primary-light);
+  }
+}
+
 
 // ─── Map Visualization ──────────────────────────────────────────────────────────
 .map-visualization {
@@ -141,14 +193,25 @@
     border-radius: 4px;
     overflow: hidden;
     border: 1px solid var(--border-color);
-    
+
     .color-box {
       flex: 1;
-      
-      &.alta { background: var(--green-alta); }
-      &.media-alta { background: var(--green-media-alta); }
-      &.media { background: var(--green-media); }
-      &.baja { background: var(--green-baja); }
+
+      &.alta {
+        background: var(--green-alta);
+      }
+
+      &.media-alta {
+        background: var(--green-media-alta);
+      }
+
+      &.media {
+        background: var(--green-media);
+      }
+
+      &.baja {
+        background: var(--green-baja);
+      }
     }
   }
 
@@ -189,7 +252,7 @@
   box-shadow: 0 10px 25px rgba(27, 67, 50, 0.15);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
-  
+
   &:hover {
     transform: translateY(-8px) scale(1.05);
     z-index: 10;
@@ -224,15 +287,19 @@
   &.region-medium {
     width: 130px;
     height: 100px;
-    
-    strong { font-size: 1rem; }
+
+    strong {
+      font-size: 1rem;
+    }
   }
 
   &.region-small {
     width: 90px;
     height: 90px;
-    
-    strong { font-size: 0.9rem; }
+
+    strong {
+      font-size: 0.9rem;
+    }
   }
 
   // Colors
@@ -255,16 +322,22 @@
     background: var(--green-baja);
     color: var(--primary);
   }
-  
+
   // Offsets to make it look schematic
   &.offset-top {
     transform: translateY(-20px);
-    &:hover { transform: translateY(-28px) scale(1.05); }
+
+    &:hover {
+      transform: translateY(-28px) scale(1.05);
+    }
   }
-  
+
   &.offset-bottom {
     transform: translateY(25px);
-    &:hover { transform: translateY(17px) scale(1.05); }
+
+    &:hover {
+      transform: translateY(17px) scale(1.05);
+    }
   }
 }
 
@@ -284,8 +357,9 @@
   box-shadow: var(--shadow-sm);
 
   &.badge-automatico {
-    background: var(--badge-bg-success);
-    color: var(--badge-text-success);
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
   }
 
   &.badge-contratacion {
@@ -314,21 +388,29 @@
   }
 }
 
-// ─── Animations ─────────────────────────────────────────────────────────────────
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
   .stats-row {
     grid-template-columns: 1fr;
   }
-  
+
   .map-visualization {
     flex-direction: column;
     align-items: stretch;
@@ -340,14 +422,14 @@
     margin-left: 0;
     flex-direction: row;
     height: auto;
-    
+
     .legend-scale {
       flex-direction: row;
       width: auto;
       height: 20px;
       flex: 1;
     }
-    
+
     .legend-labels {
       flex-direction: row;
       width: 100%;
@@ -357,8 +439,9 @@
 
   .map-container {
     flex-direction: column;
-    
-    .region.offset-top, .region.offset-bottom {
+
+    .region.offset-top,
+    .region.offset-bottom {
       transform: none;
     }
   }

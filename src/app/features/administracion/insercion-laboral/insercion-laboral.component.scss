@@ -113,12 +113,11 @@
 
 // ─── Chart Section ──────────────────────────────────────────────────────────────
 .chart-section {
-  background: white;
-  padding: 2rem;
-  border-radius: 20px;
+  background: var(--bg-surface);
   border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-md);
-
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  
   .section-title {
     font-size: 1.2rem;
     font-weight: 800;
@@ -138,7 +137,23 @@
   }
 }
 
-.chart-container {
+.chart-container-apex {
+  margin-bottom: 3rem;
+  min-height: 350px;
+}
+
+.section-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.details-list {
+  border-top: 1px solid var(--border-color);
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

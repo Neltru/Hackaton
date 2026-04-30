@@ -210,6 +210,76 @@
   }
 }
 
+// ─── Charts Grid (RF-34) ────────────────────────────────────────────────────────
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+
+  .chart-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: border-color 0.3s;
+
+    &:hover {
+      border-color: var(--primary-light);
+    }
+
+    .chart-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      .header-icon {
+        font-size: 1.4rem;
+        background: #f0f7f4;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        color: var(--primary);
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--primary);
+      }
+
+      p {
+        margin: 0.2rem 0 0;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+    }
+
+    .chart-body {
+      flex: 1;
+      min-height: 250px;
+      position: relative;
+    }
+
+    &.side-chart {
+      .chart-body {
+        height: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+}
+
 // ─── Main Grid ──────────────────────────────────────────────────────────────────
 .main-grid {
   display: grid;

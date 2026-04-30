@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MonitoreoService } from '../../../core/services/monitoreo.service';
 import { MonitoreoStats, MonitoreoPromedioCarrera, HistogramaDataPoint } from '../../../core/models/monitoreo.models';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @Component({
   selector: 'app-monitoreo-egresados',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgApexchartsModule],
   templateUrl: './monitoreo-egresados.component.html',
   styleUrl: './monitoreo-egresados.component.scss'
 })
@@ -16,6 +17,70 @@ export class MonitoreoEgresadosComponent implements OnInit {
   stats: MonitoreoStats | null = null;
   promedios: MonitoreoPromedioCarrera[] = [];
   histograma: HistogramaDataPoint[] = [];
+
+  // --- ApexCharts: Histograma + Campana de Gauss ---
+  public mixedChartOptions: any = {
+    series: [
+      {
+        name: "Frecuencia (Alumnos)",
+        type: "column",
+        data: []
+      },
+      {
+        name: "Distribución Normal (Gauss)",
+        type: "line",
+        data: []
+      }
+    ],
+    chart: {
+      height: 400,
+      type: "line",
+      stacked: false,
+      toolbar: { show: false },
+      foreColor: 'var(--text-muted)'
+    },
+    stroke: {
+      width: [0, 4],
+      curve: "smooth"
+    },
+    colors: ['#2d6a4f', '#ffb800'],
+    plotOptions: {
+      bar: {
+        columnWidth: "70%",
+        borderRadius: 6
+      }
+    },
+    fill: {
+      opacity: [0.8, 1],
+      gradient: {
+        inverseColors: false,
+        shade: 'light',
+        type: "vertical",
+        opacityFrom: 0.8,
+        opacityTo: 0.4,
+        stops: [0, 100]
+      }
+    },
+    labels: [],
+    markers: { size: 0 },
+    xaxis: {
+      title: { text: 'Puntaje Obtenido', style: { color: 'var(--text-muted)', fontWeight: 700 } },
+      labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } }
+    },
+    yaxis: [
+      {
+        title: { text: "Número de Alumnos", style: { color: '#2d6a4f', fontWeight: 700 } },
+        labels: { style: { colors: 'var(--text-muted)', fontWeight: 600 } }
+      },
+      {
+        opposite: true,
+        title: { text: "Densidad de Probabilidad", style: { color: '#ffb800', fontWeight: 700 } },
+        labels: { show: false }
+      }
+    ],
+    grid: { borderColor: 'rgba(45, 106, 79, 0.1)', strokeDashArray: 4 },
+    tooltip: { shared: true, intersect: false, theme: 'light' }
+  };
 
   // Filters
   selectedCarrera = 'Todas las carreras';
@@ -45,6 +110,12 @@ export class MonitoreoEgresadosComponent implements OnInit {
 
     this.monitoreoService.getHistograma(this.selectedCarrera, this.selectedAnio).subscribe(data => {
       this.histograma = data;
+      
+      // Actualizar gráfica mixta
+      this.mixedChartOptions.series[0].data = data.map(p => p.frecuencia);
+      this.mixedChartOptions.series[1].data = data.map(p => p.gaussCurva);
+      this.mixedChartOptions.labels = data.map(p => p.rango);
+
       pendingRequests--;
       if (pendingRequests === 0) this.isLoading = false;
     });
@@ -52,41 +123,5 @@ export class MonitoreoEgresadosComponent implements OnInit {
 
   onFilterChange(): void {
     this.loadData();
-  }
-
-  // Calculate SVG path for the Gauss curve based on histogram data
-  getGaussPath(): string {
-    if (!this.histograma || this.histograma.length === 0) return '';
-    
-    const width = 800; // SVG viewBox width
-    const height = 200; // SVG viewBox height
-    const pointsCount = this.histograma.length;
-    const stepX = width / pointsCount;
-    
-    // We normalize the gaussCurva to the height (assuming max curve is 100)
-    // and draw a smooth path. In the SVG Y=0 is top, so we invert.
-    let path = '';
-    
-    this.histograma.forEach((point, index) => {
-      const x = (index * stepX) + (stepX / 2); // Center of the bar
-      const y = height - (point.gaussCurva * (height / 100)); // Normalized Y
-
-      if (index === 0) {
-        path += `M${x},${y} `;
-      } else {
-        // Simple curve approximation using bezier
-        const prevX = ((index - 1) * stepX) + (stepX / 2);
-        const prevY = height - (this.histograma[index - 1].gaussCurva * (height / 100));
-        
-        const cp1x = prevX + (x - prevX) / 2;
-        const cp1y = prevY;
-        const cp2x = prevX + (x - prevX) / 2;
-        const cp2y = y;
-
-        path += `C${cp1x},${cp1y} ${cp2x},${cp2y} ${x},${y} `;
-      }
-    });
-
-    return path;
   }
 }

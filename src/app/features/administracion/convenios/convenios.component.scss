@@ -1,11 +1,13 @@
 .convenios-page {
   padding-bottom: 2rem;
   animation: fadeInUp 0.35s ease both;
-  color: var(--text-main);
-  
-  --border-color: var(--border-color);
-  --bg-card: var(--bg-card);
-  --bg-hover: var(--sidebar-hover);
+  color: #f8fafc;
+
+  // Base component variables
+  --border-color: #333;
+  --bg-card: #222;
+  --bg-hover: #2a2a2a;
+
 }
 
 // ─── Page Header ───────────────────────────────────────────────────────────────
@@ -48,8 +50,9 @@
   box-shadow: var(--shadow-md);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    background: #f8fafc;
+    border-color: #777;
+
   }
 }
 
@@ -108,7 +111,8 @@
   }
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
   width: 100%;
   background: #ffffff;
   border: 2px solid #edf2f0;
@@ -116,10 +120,8 @@
   padding: 0.75rem 1.25rem;
   border-radius: 12px;
   font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: all 0.3s;
-  
+  font-size: 0.9rem;
+
   &:focus {
     outline: none;
     border-color: var(--primary);
@@ -193,10 +195,8 @@
   padding: 0.4rem 1rem;
   border-radius: 50px;
   font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  
+  font-weight: 600;
+
   &.badge-activo {
     background: var(--badge-bg-success);
     color: var(--badge-text-success);
@@ -235,22 +235,31 @@
 
 // ─── Animations ─────────────────────────────────────────────────────────────────
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
   .stats-row {
     grid-template-columns: 1fr;
   }
-  
+
   .filters-row {
     flex-direction: column;
-    
+
     .filter-group.search-group {
       max-width: none;
     }
