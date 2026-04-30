@@ -1,0 +1,29 @@
+<div class="card">
+  <div class="card-header">
+    <h3>RESULTADOS POR DIMENSIÓN</h3>
+  </div>
+
+  <div class="results-list">
+    @for (item of dimensions; track item.label) {
+    <div class="result-item">
+      <div class="label-row">
+        <span class="label">{{ item.label }}</span>
+        <div class="value-group">
+          <span class="value">{{ item.value || '-' }}</span>
+          <span class="badge" [ngClass]="'badge-' + item.type">{{ item.status }}</span>
+        </div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-bg">
+          <div class="bar-fill" [style.width.%]="item.value" [style.background-color]="item.color"></div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="actions">
+    <button class="btn-outline">Ver radar de competencias ↗</button>
+    <button class="btn-outline">Aplicar prueba proyectiva ↗</button>
+  </div>
+</div>

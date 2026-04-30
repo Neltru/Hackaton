@@ -1,0 +1,163 @@
+<div class="vacantes-container">
+  <header class="view-header">
+    <div class="header-left">
+      <a routerLink="/alumni/dashboard" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Volver
+      </a>
+      <span class="divider">|</span>
+      <h1>Catálogo de vacantes</h1>
+    </div>
+    @if (!isLoading) {
+      <span class="available-count">{{ totalResults }}+ vacantes disponibles</span>
+    }
+  </header>
+
+  <!-- Filtros alineados con la API de JSearch -->
+  <section class="filters-section">
+    <div class="filter-row">
+      <!-- BUSCAR: query libre a la API -->
+      <div class="filter-group search">
+        <label>BUSCAR</label>
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Puesto, empresa, tecnología...">
+        </div>
+      </div>
+
+      <!-- TIPO DE CONTRATO: employment_types de JSearch -->
+      <div class="filter-group">
+        <label>TIPO DE CONTRATO</label>
+        <select [(ngModel)]="selectedType" (change)="applyFilters()">
+          @for (t of types; track t.value) {
+            <option [value]="t.value">{{ t.label }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- MODALIDAD: remote_jobs_only de JSearch -->
+      <div class="filter-group">
+        <label>MODALIDAD</label>
+        <select [(ngModel)]="selectedModality" (change)="applyFilters()">
+          @for (m of modalities; track m.value) {
+            <option [value]="m.value">{{ m.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="filter-row secondary">
+      <!-- FECHA: date_posted de JSearch -->
+      <div class="filter-group">
+        <label>PUBLICADO</label>
+        <select [(ngModel)]="selectedDatePosted" (change)="applyFilters()">
+          @for (d of datesPosted; track d.value) {
+            <option [value]="d.value">{{ d.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group"></div>
+
+      <button class="btn-clear" (click)="clearFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.87"/></svg>
+        Limpiar filtros
+      </button>
+    </div>
+  </section>
+
+  <!-- Cabecera de resultados -->
+  <div class="results-header">
+    <span class="showing-text">
+      @if (isLoading) { Cargando... }
+      @else { Página {{ currentPage }} · {{ vacantes.length }} resultados }
+    </span>
+  </div>
+
+  <!-- Grid de vacantes -->
+  <div class="jobs-grid">
+    @if (isLoading) {
+      @for (i of [1,2,3,4,5,6]; track i) {
+        <div class="skeleton-card"></div>
+      }
+    } @else if (vacantes.length === 0) {
+      <div class="empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <p>No se encontraron vacantes para tu búsqueda.</p>
+        <button class="btn-clear" (click)="clearFilters()">Ver todas las vacantes</button>
+      </div>
+    } @else {
+      @for (v of vacantes; track v.id) {
+        <div class="job-card" [class.recommended]="v.recommended">
+          @if (v.recommended) {
+            <div class="recommended-banner">⭐ Recomendada para tu perfil</div>
+          }
+
+          <div class="card-body">
+            <div class="card-header-row">
+              @if (v.employer_logo) {
+                <img class="company-logo-img" [src]="v.employer_logo" [alt]="v.company" (error)="imgFallback($event, v.company)">
+              } @else {
+                <div class="company-logo">{{ getInitials(v.company) }}</div>
+              }
+              <div class="title-group">
+                <div class="title-row">
+                  <h2 class="job-title">{{ v.title }}</h2>
+                  <span class="match-badge">{{ v.match }}% match</span>
+                </div>
+                <div class="company-meta">
+                  <span class="company-name">{{ v.company }}</span>
+                  @if (v.publisher) {
+                    <span class="publisher-badge">via {{ v.publisher }}</span>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div class="badges-row">
+              <span class="badge location">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {{ v.location }}
+              </span>
+              <span class="badge type">{{ v.type }}</span>
+              <span class="badge modality" [class.remote]="v.modality === 'Remoto'">{{ v.modality }}</span>
+            </div>
+
+            <p class="description">{{ v.description }}</p>
+
+            <div class="card-footer">
+              <span class="publish-date">{{ v.published_at }}</span>
+              @if (v.status === 'postulada') {
+                <span class="status-applied">Postulada ✓</span>
+              } @else {
+                <a [href]="v.apply_link" target="_blank" class="btn-apply">
+                  Postularme
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                </a>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- Paginación funcional -->
+  @if (!isLoading && vacantes.length > 0) {
+    <div class="pagination">
+      <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+
+      @for (page of pageNumbers; track page) {
+        <button class="page-btn" [class.active]="page === currentPage" (click)="goToPage(page)">
+          {{ page }}
+        </button>
+      }
+
+      <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  }
+</div>

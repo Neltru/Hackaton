@@ -1,0 +1,27 @@
+<div class="layout-container">
+  <header class="topbar">
+    <div class="topbar-top">
+      <div class="logo">
+        <span class="dot"></span>
+        <span class="title">Bolsa de trabajo — <span class="highlight">iTech Nayarit</span></span>
+      </div>
+      <div class="user-profile">
+        <div class="avatar">AR</div>
+        <div class="user-info">
+          <span class="name">Ana Ramirez</span> - <span class="role">Ing. Sistemas - Gen. 2021</span>
+        </div>
+      </div>
+    </div>
+    <nav class="topbar-nav">
+      <a routerLink="/alumni/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
+      <a routerLink="/alumni/vacantes" routerLinkActive="active">Vacantes</a>
+      <a href="#">Mis pruebas</a>
+      <a href="#">Mi CV</a>
+      <a href="#">Mi perfil</a>
+    </nav>
+  </header>
+  
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

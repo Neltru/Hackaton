@@ -1,0 +1,57 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-primary"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+      </div>
+      <h1>Bienvenido de nuevo</h1>
+      <p>Ingresa tus credenciales para acceder</p>
+    </div>
+
+    @if (errorMessage) {
+      <div class="alert alert-error">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span>{{ errorMessage }}</span>
+      </div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="email">Correo Electrónico</label>
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="input-icon"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <input type="email" id="email" formControlName="email" placeholder="ejemplo@correo.com" [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        </div>
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <span class="error-text">Email inválido</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <div class="label-row">
+          <label for="password">Contraseña</label>
+          <a routerLink="/forgot-password" class="forgot-link">¿Olvidaste tu contraseña?</a>
+        </div>
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="input-icon"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input type="password" id="password" formControlName="password" placeholder="••••••••" [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        </div>
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <span class="error-text">Contraseña requerida (mín. 6 caracteres)</span>
+        }
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || isLoading">
+        @if (isLoading) {
+          <span class="loader"></span>
+        } @else {
+          Iniciar Sesión
+        }
+      </button>
+
+      <div class="auth-footer">
+        <p>¿No tienes una cuenta? <a routerLink="/register">Regístrate</a></p>
+      </div>
+    </form>
+  </div>
+</div>

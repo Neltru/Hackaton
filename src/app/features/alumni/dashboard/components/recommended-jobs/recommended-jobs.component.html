@@ -1,0 +1,19 @@
+<div class="card">
+  <div class="card-header">
+    <h3>VACANTES RECOMENDADAS</h3>
+  </div>
+
+  <div class="job-list">
+    @for (job of jobs; track job.title) {
+    <div class="job-item">
+      <div class="job-info">
+        <span class="job-title">{{ job.title }}</span>
+        <span class="job-meta">{{ job.company }} - {{ job.location }} - {{ job.type }}</span>
+      </div>
+      <span class="match-badge" [class.high]="job.match >= 85">{{ job.match }}% match</span>
+    </div>
+    }
+  </div>
+
+  <button class="btn-full-width">Ver todas las vacantes ↗</button>
+</div>
