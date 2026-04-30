@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface KpiCard {
   label: string;
   value: string | number;
   desc: string;
-  icon: string;
+  icon: string | SafeHtml;
   color: string;
 }
 
@@ -14,7 +15,7 @@ interface QuickLink {
   label: string;
   desc: string;
   route: string;
-  icon: string;
+  icon: string | SafeHtml;
 }
 
 interface ActivityItem {
@@ -84,5 +85,21 @@ export class AdminDashboardComponent implements OnInit {
     { icon: '📄', text: 'Reporte mensual de inserción generado (PDF)', time: '25 abr, 16:00', type: 'convenio' },
   ];
 
-  ngOnInit(): void {}
+  constructor(private sanitizer: DomSanitizer) {}
+
+  ngOnInit(): void {
+    this.sanitizeIcons();
+  }
+
+  private sanitizeIcons(): void {
+    this.kpis = this.kpis.map(kpi => ({
+      ...kpi,
+      icon: this.sanitizer.bypassSecurityTrustHtml(kpi.icon as string)
+    }));
+
+    this.quickLinks = this.quickLinks.map(link => ({
+      ...link,
+      icon: this.sanitizer.bypassSecurityTrustHtml(link.icon as string)
+    }));
+  }
 }

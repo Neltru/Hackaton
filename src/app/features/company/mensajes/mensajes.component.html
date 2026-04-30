@@ -24,7 +24,7 @@
             <span class="time">{{ conv.lastMessageAt | date:'shortTime' }}</span>
           </div>
           <p class="vacante-name">Vacante: {{ conv.vacante?.title }}</p>
-          <p class="preview-text">{{ conv.messages[conv.messages.length - 1]?.text }}</p>
+          <p class="preview-text">{{ conv.messages.length ? conv.messages[conv.messages.length - 1].text : '' }}</p>
         </div>
       </div>
     </div>

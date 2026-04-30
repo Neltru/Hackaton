@@ -1,0 +1,290 @@
+<div class="mi-cv-page" *ngIf="!isLoading; else loadingTpl">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Mi Currículum Vitae</h1>
+      <p class="subtitle">Gestiona tu perfil profesional y documentos para reclutadores</p>
+    </div>
+    <div class="completeness-pill">
+      <span class="comp-label">Perfil completo</span>
+      <div class="comp-bar"><div class="comp-fill" [style.width.%]="profileCompleteness"></div></div>
+      <span class="comp-pct">{{ profileCompleteness }}%</span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button id="tab-preview" class="tab-btn" [class.active]="activeTab==='preview'" (click)="setTab('preview')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      Vista Previa
+    </button>
+    <button id="tab-experiencia" class="tab-btn" [class.active]="activeTab==='experiencia'" (click)="setTab('experiencia')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      Experiencia
+    </button>
+    <button id="tab-certificados" class="tab-btn" [class.active]="activeTab==='certificados'" (click)="setTab('certificados')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+      Certificados
+    </button>
+    <button id="tab-cv-link" class="tab-btn" [class.active]="activeTab==='cv-link'" (click)="setTab('cv-link')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      CV Digital
+    </button>
+  </div>
+
+  <div class="alert success" *ngIf="successMessage">✅ {{ successMessage }}</div>
+  <div class="alert error" *ngIf="errorMessage">⚠️ {{ errorMessage }}</div>
+
+  <!-- TAB: VISTA PREVIA -->
+  <div class="tab-content" *ngIf="activeTab === 'preview'">
+    <div class="cv-preview-card">
+      <div class="cv-header">
+        <div class="cv-avatar">
+          <span class="avatar-initials">{{ (profile?.nombre || 'N')[0] }}{{ (profile?.apellido_paterno || 'R')[0] }}</span>
+        </div>
+        <div class="cv-identity">
+          <h2>{{ profile?.nombre }} {{ profile?.apellido_paterno }} {{ profile?.apellido_materno }}</h2>
+          <p class="cv-career">{{ profile?.carrera_nombre }}</p>
+          <div class="cv-badges">
+            <span class="avail-badge" [ngClass]="getAvailabilityClass(profile?.disponibilidad)">{{ getDisponibilidadLabel(profile?.disponibilidad) }}</span>
+            <span class="egreso-badge">Egreso {{ formatDate(profile?.periodo_egreso) }}</span>
+          </div>
+          <div class="cv-contacts">
+            <span *ngIf="profile?.correo_institucional">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              {{ profile?.correo_institucional }}
+            </span>
+            <span *ngIf="profile?.telefono">📞 {{ profile?.telefono }}</span>
+          </div>
+        </div>
+        <button class="btn-outline-sm" (click)="openCvLink()" *ngIf="profile?.cv_drive_url">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Ver CV
+        </button>
+      </div>
+
+      <div class="cv-section" *ngIf="profile?.resumen_profesional">
+        <h4 class="section-heading">Resumen Profesional</h4>
+        <p class="resumen-text">{{ profile?.resumen_profesional }}</p>
+      </div>
+
+      <div class="cv-section">
+        <h4 class="section-heading">Experiencia Laboral</h4>
+        <div class="timeline">
+          <div class="timeline-item" *ngFor="let exp of experiencias">
+            <div class="tl-dot" [class.current]="exp.currentlyWorking"></div>
+            <div class="tl-body">
+              <div class="tl-head">
+                <span class="tl-role">{{ exp.role }}</span>
+                <span class="tl-period">{{ formatDate(exp.startDate) }} — {{ exp.currentlyWorking ? 'Presente' : formatDate(exp.endDate) }}</span>
+              </div>
+              <span class="tl-company">{{ exp.company }}</span>
+              <p class="tl-desc" *ngIf="exp.description">{{ exp.description }}</p>
+            </div>
+          </div>
+          <div class="empty-state" *ngIf="experiencias.length === 0">
+            <p>Sin experiencia registrada.</p>
+            <button class="btn-link-action" (click)="setTab('experiencia')">Agregar ahora →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <h4 class="section-heading">Certificaciones</h4>
+        <div class="cert-grid-preview">
+          <div class="cert-item-preview" *ngFor="let cert of certificados">
+            <span class="cert-icon">🏆</span>
+            <div class="cert-info">
+              <span class="cert-title">{{ cert.title }}</span>
+              <span class="cert-inst">{{ cert.institution }}</span>
+              <span class="cert-date" *ngIf="cert.issueDate">{{ formatDate(cert.issueDate) }}</span>
+            </div>
+          </div>
+          <div class="empty-state" *ngIf="certificados.length === 0"><p>Sin certificaciones registradas.</p></div>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <h4 class="section-heading">Formación Académica</h4>
+        <div class="academic-block">
+          <span class="acad-icon">🎓</span>
+          <div class="acad-info">
+            <span class="acad-title">{{ profile?.carrera_nombre }}</span>
+            <span class="acad-inst">Universidad Tecnológica de la Costa</span>
+            <span class="acad-date">Egreso: {{ formatDate(profile?.periodo_egreso) }}</span>
+            <span class="acad-badge">Evaluación SOT 2.0 · Nivel Avanzado (8.4)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: EXPERIENCIA -->
+  <div class="tab-content" *ngIf="activeTab === 'experiencia'">
+    <div class="section-card">
+      <div class="card-header-row">
+        <h3>Experiencia Laboral</h3>
+        <button id="btn-toggle-exp" class="btn-primary-sm" (click)="showExpForm = !showExpForm">
+          {{ showExpForm ? '✕ Cancelar' : '+ Agregar' }}
+        </button>
+      </div>
+
+      <div class="inline-form" *ngIf="showExpForm" [formGroup]="expForm">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Empresa *</label>
+            <input type="text" formControlName="company" placeholder="Nombre de la empresa">
+          </div>
+          <div class="form-group">
+            <label>Puesto / Rol *</label>
+            <input type="text" formControlName="role" placeholder="Ej. Desarrollador Full Stack">
+          </div>
+          <div class="form-group">
+            <label>Fecha inicio *</label>
+            <input type="date" formControlName="startDate">
+          </div>
+          <div class="form-group">
+            <label>Fecha fin</label>
+            <input type="date" formControlName="endDate">
+          </div>
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="currentlyWorking"> Trabajo aquí actualmente
+          </label>
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea formControlName="description" rows="3" placeholder="Describe tus responsabilidades y logros..."></textarea>
+        </div>
+        <button id="btn-save-exp" class="btn-save" (click)="addExperiencia()" [disabled]="expForm.invalid">Guardar Experiencia</button>
+      </div>
+
+      <div class="exp-list">
+        <div class="exp-card" *ngFor="let exp of experiencias">
+          <div class="exp-left"><div class="exp-dot" [class.active]="exp.currentlyWorking"></div></div>
+          <div class="exp-body">
+            <div class="exp-top">
+              <div>
+                <p class="exp-role">{{ exp.role }}</p>
+                <p class="exp-company">{{ exp.company }}</p>
+                <p class="exp-period">{{ formatDate(exp.startDate) }} — {{ exp.currentlyWorking ? 'Presente' : formatDate(exp.endDate) }}</p>
+              </div>
+              <button class="btn-delete" (click)="removeExperiencia(exp.id)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+              </button>
+            </div>
+            <p class="exp-desc" *ngIf="exp.description">{{ exp.description }}</p>
+          </div>
+        </div>
+        <div class="empty-card" *ngIf="experiencias.length === 0"><p>Sin experiencia registrada.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CERTIFICADOS -->
+  <div class="tab-content" *ngIf="activeTab === 'certificados'">
+    <div class="section-card">
+      <div class="card-header-row">
+        <h3>Certificaciones y Cursos</h3>
+        <button id="btn-toggle-cert" class="btn-primary-sm" (click)="showCertForm = !showCertForm">
+          {{ showCertForm ? '✕ Cancelar' : '+ Agregar' }}
+        </button>
+      </div>
+
+      <div class="inline-form" *ngIf="showCertForm" [formGroup]="certForm">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Nombre del certificado *</label>
+            <input type="text" formControlName="title" placeholder="Ej. AWS Cloud Practitioner">
+          </div>
+          <div class="form-group">
+            <label>Institución *</label>
+            <input type="text" formControlName="institution" placeholder="Ej. Amazon Web Services">
+          </div>
+          <div class="form-group">
+            <label>Fecha de emisión</label>
+            <input type="date" formControlName="issueDate">
+          </div>
+          <div class="form-group">
+            <label>ID de credencial</label>
+            <input type="text" formControlName="credentialId" placeholder="Opcional">
+          </div>
+        </div>
+        <button id="btn-save-cert" class="btn-save" (click)="addCertificado()" [disabled]="certForm.invalid">Guardar Certificado</button>
+      </div>
+
+      <div class="cert-grid">
+        <div class="cert-card" *ngFor="let cert of certificados">
+          <span class="cert-card-icon">🏆</span>
+          <div class="cert-card-body">
+            <p class="cert-card-title">{{ cert.title }}</p>
+            <p class="cert-card-inst">{{ cert.institution }}</p>
+            <p class="cert-card-meta" *ngIf="cert.issueDate">📅 {{ formatDate(cert.issueDate) }}</p>
+            <p class="cert-card-meta" *ngIf="cert.credentialId">🆔 {{ cert.credentialId }}</p>
+          </div>
+          <button class="btn-delete" (click)="removeCertificado(cert.id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          </button>
+        </div>
+        <div class="empty-card" *ngIf="certificados.length === 0"><p>Sin certificaciones registradas.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CV DIGITAL -->
+  <div class="tab-content" *ngIf="activeTab === 'cv-link'">
+    <div class="section-card">
+      <div class="cv-link-section">
+        <div class="cv-link-info">
+          <div class="cv-link-icon">📄</div>
+          <h3>CV Digital (Google Drive)</h3>
+          <p>Sube tu CV a Google Drive y pega el enlace compartido aquí. Se enviará automáticamente a los reclutadores al postular.</p>
+        </div>
+
+        <div class="cv-current" *ngIf="profile?.cv_drive_url">
+          <span class="cv-current-status ok">✅ CV enlazado</span>
+          <div class="cv-current-url">
+            <span>{{ profile?.cv_drive_url }}</span>
+            <button class="btn-link-open" (click)="openCvLink()">Abrir →</button>
+          </div>
+        </div>
+        <div class="cv-current missing" *ngIf="!profile?.cv_drive_url">
+          <span class="cv-current-status warn">⚠️ Sin CV enlazado</span>
+          <p>Los reclutadores no pueden ver tu CV actualmente.</p>
+        </div>
+
+        <form [formGroup]="cvLinkForm" (ngSubmit)="saveCvLink()" class="cv-link-form">
+          <div class="form-group">
+            <label>Enlace de Google Drive</label>
+            <div class="input-with-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <input type="url" formControlName="cv_drive_url" placeholder="https://drive.google.com/file/d/...">
+            </div>
+          </div>
+          <div class="cv-tips">
+            <h5>💡 ¿Cómo compartir tu CV desde Google Drive?</h5>
+            <ol>
+              <li>Abre el archivo en Google Drive</li>
+              <li>Haz clic en <strong>Compartir</strong> → <strong>Copiar enlace</strong></li>
+              <li>Asegúrate de que el acceso sea <strong>"Cualquier persona con el enlace"</strong></li>
+              <li>Pega el enlace aquí y guarda</li>
+            </ol>
+          </div>
+          <button id="btn-save-cv-link" type="submit" class="btn-save" [disabled]="cvLinkForm.invalid || isSaving">
+            {{ isSaving ? 'Guardando...' : 'Actualizar enlace del CV' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading-screen">
+    <div class="spinner"></div>
+    <p>Cargando tu perfil...</p>
+  </div>
+</ng-template>
